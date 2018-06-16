@@ -1,0 +1,71 @@
+<div id="container">
+  <div id="grid">
+    <div class="category" v-for="category in categories">
+      <span class="category-header">
+        <span class="category-icon" v-html="fa(category.icon)"></span>
+        {{ category.name }}
+      </span>
+      <a :href="link.url" v-for="link in category.links" class="link">{{ link.text }}</a>
+    </div>
+  </div>
+  <div id="customize">
+    <span 
+      class="close-customize pointer" 
+      v-html="fa({ prefix:'fas', iconName:'times' }, { classes: ['fa-2x'] })"
+      v-if="customize.isOpen"
+      @click="customize.isOpen = false"></span>
+    <span 
+      class="open-customize pointer" 
+      v-html="fa({ prefix:'fas', iconName:'wrench' }, { classes: ['fa-2x'] })"
+      v-if="!customize.isOpen"
+      @click="customize.isOpen = true"></span>
+    <div class="customize-container" v-else>
+      <div class="custom-category">
+        <select id="ddl-category" v-model="customize.selectedCategory">
+          <option value="" disabled>select a category</option>
+          <option :value="id" v-for="(category, id) in categories">{{ category.name }}</option>
+        </select>
+        <span
+          class="pointer"
+          v-if="selected"
+          v-html="fa({ prefix:'fas', iconName:'trash' })"
+          @click="removeCategory"></span>
+        <br>
+        <span v-if="selected">
+          Name
+          <input 
+            type="text" 
+            v-model="selected.name"><br>
+        </span>
+        <span v-if="selected">
+          Icon
+          <input 
+            type="text" 
+            v-model="selected.icon.iconName"><br>
+        </span>
+        <span 
+            class="pointer" 
+            v-html="fa({ prefix:'fas', iconName:'plus-circle' }, { classes:['fa-2x'] })"
+            @click="addCategory"></span>
+      </div>
+      <div class="custom-links">
+        <div v-if="selected">
+          <span v-for="(link, id) in selected.links">
+            <input type="text" v-model="link.text">
+            <input type="text" v-model="link.url">
+            <span
+              class="pointer" 
+              v-html="fa({ prefix:'fas', iconName:'trash' })"
+              @click="removeLink(id)"></span>
+            <br>
+          </span>
+          <span 
+            class="pointer" 
+            v-html="fa({ prefix:'fas', iconName:'plus-circle' }, { classes:['fa-2x'] })"
+            @click="addLink"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="new_tab.js"></script>

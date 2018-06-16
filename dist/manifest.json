@@ -1,0 +1,35 @@
+{
+    "applications": {
+        "gecko": {
+            "id": "hestia@codegalley.io",
+            "strict_min_version": "42.0"
+        }
+    },
+    "author": "CodeGalley",
+    "manifest_version": 2,
+    "name": "Project Hestia",
+    "version": "0.1.0",
+    "description": "A modular new tab extension",
+    "icons": {
+        "32": "resources/icon.png"
+    },
+    "content_security_policy":"script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "chrome_url_overrides": {
+        "newtab": "new_tab/new_tab.html"
+    },
+    "background": {
+        "scripts": [
+            "lib/browser-polyfill.min.js",
+            "background/background.js"
+        ]
+    },
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": true
+    },
+    "web_accessible_resources": [
+        "new_tab/index.html",
+        "new_tab/bundle.js"
+    ],
+    "permissions": ["storage"]
+}
