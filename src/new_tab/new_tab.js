@@ -1,8 +1,10 @@
-require('./new_tab.scss')
-const Vue = require('../../node_modules/vue/dist/vue.js')
-const fontawesome = require('@fortawesome/fontawesome')
-const solid = require('@fortawesome/fontawesome-free-solid')
-const uuid = require('uuidv4')
+import '../lib/webextension-polyfill.min.js'
+import interact from 'interactjs'
+import './new_tab.scss'
+import Vue from 'vue/dist/vue'
+import fontawesome from '@fortawesome/fontawesome'
+import solid from '@fortawesome/fontawesome-free-solid'
+import uuid from 'uuidv4'
 
 fontawesome.library.add(solid.faUser)
 
@@ -16,12 +18,17 @@ browser.storage.sync.get()
         categories,
         customize: {
           isOpen: false,
-          selectedCategory: null
+          selectedCategory: Object.keys(categories)[0],
+          x: innerWidth / 4,
+          y: innerHeight / 2
         }
       },
       computed: {
         selected () {
           return this.categories[this.customize.selectedCategory]
+        },
+        openCloseIcon () {
+          return this.customize.isOpen ? 'times' : 'list'
         }
       },
       methods: {
@@ -41,7 +48,9 @@ browser.storage.sync.get()
           this.$set(this.categories, uuid(), {
             icon: { prefix: 'fas', iconName: 'link' },
             name: 'New category',
-            links: []
+            links: [],
+            width: 1,
+            height: 1
           })
         },
         removeCategory () {
@@ -55,4 +64,13 @@ browser.storage.sync.get()
     window.addEventListener('beforeunload', function (event) {
       browser.storage.sync.set({ categories: app.categories })
     })
+
+    interact('#customize')
+      .draggable({
+        onmove: e => {
+          app.customize.x += e.dx
+          app.customize.y += e.dy
+        },
+        allowFrom: '.drag-handle'
+      })
   })

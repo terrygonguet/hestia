@@ -7,15 +7,25 @@
   align-items: center;
 
   .category {
-    background: #555;
-    border: #000;
+    background: #222;
+    border: 1px solid #000;
     border-radius: 3px;
     padding: 6px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .category-header {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin: 5px;
   }
 
   .link {
     text-decoration: none;
     color: #F62217;
+    display: table-row;
   }
   
   #grid {
@@ -29,34 +39,57 @@
 
   #customize {
     position: relative;
-    width: 50%;
-    text-align: center;
+    background: #222;
+    display: grid;
+    grid-template-rows: 15px minmax(200px, 50%);
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    grid-template-areas: "handle handle" "categories links";
+    align-items: center;
+    border: 1px solid #000;
+
+    .drag-handle {
+      grid-area: handle;
+      background: #F62217;
+      align-self: stretch;
+    }
+
+    .custom-category {
+      grid-area: categories;
+      padding: 10px;
+    }
+
+    .custom-links {
+      grid-area: links;
+      padding: 10px;
+    }
+
+    %input-style {
+      background: transparent;
+      border: none;
+      color: #EEE;
+    }
+
+    input[type=number],
+    input[type=text] {
+      @extend %input-style;
+    }
+
+    input[type=number] {
+      width: 100px;
+    }
+
+    select {
+      @extend %input-style;
+      border: 1px solid #000;
+      background: #222;
+    }
   }
 
-  .close-customize {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-
-  .category-header {
-    font-weight: bold;
-    font-size: 1.2em;
-  }
-
-  .link {
-    display: block;
-  }
-
-  .customize-container {
-    display: flex;
-    justify-content: space-around;
-  }
 }
 
 body {
   background: #111;
-  color: #EEE;
+  color: #999;
   font-family: Verdana;
   margin: 0;
   padding: 0;

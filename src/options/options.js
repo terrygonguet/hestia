@@ -1,1 +1,1 @@
-require('./options.scss')
+import './options.scss'

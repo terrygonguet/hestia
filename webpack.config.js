@@ -25,6 +25,11 @@ module.exports = {
       }
     ]
   },
+  devtool: 'eval-source-map',
+  mode: 'development',
+  performance: {
+    maxAssetSize: 2500000
+  },
   watch: true,
   watchOptions: {
     ignored: [/node_modules/, /dist/]

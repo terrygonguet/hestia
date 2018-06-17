@@ -7,29 +7,21 @@
     },
     "author": "CodeGalley",
     "manifest_version": 2,
-    "name": "Project Hestia",
+    "name": "Living Room Tab",
     "version": "0.1.0",
-    "description": "A modular new tab extension",
+    "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and custom CSS (WIP).",
     "icons": {
-        "32": "resources/icon.png"
+        "32": "resources/icon-32.png",
+        "64": "resources/icon-64.png",
+        "128": "resources/icon-128.png"
     },
     "content_security_policy":"script-src 'self' 'unsafe-eval'; object-src 'self'",
     "chrome_url_overrides": {
         "newtab": "new_tab/new_tab.html"
     },
-    "background": {
-        "scripts": [
-            "lib/browser-polyfill.min.js",
-            "background/background.js"
-        ]
-    },
     "options_ui": {
         "page": "options/options.html",
         "open_in_tab": true
     },
-    "web_accessible_resources": [
-        "new_tab/index.html",
-        "new_tab/bundle.js"
-    ],
     "permissions": ["storage"]
 }
