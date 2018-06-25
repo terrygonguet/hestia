@@ -70,6 +70,7 @@
     "interactjs": "^1.3.4",
     "lodash": "^4.17.10",
     "uuidv4": "^1.0.1",
-    "vue": "^2.5.16"
+    "vue": "^2.5.16",
+    "webextension-polyfill": "^0.2.1"
   }
 }

@@ -8,7 +8,7 @@
     "author": "CodeGalley",
     "manifest_version": 2,
     "name": "Living Room Tab",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and custom CSS (WIP).",
     "icons": {
         "32": "resources/icon-32.png",

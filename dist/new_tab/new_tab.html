@@ -1,8 +1,10 @@
 <body>
-  <div id="container">
+  <div id="container" style="visibility: hidden;">
+
+    <h1>Welcome back</h1>
     
     <div id="grid">
-      <div class="category" v-for="category in categories" :style="{ gridColumnEnd: 'span '+category.width, gridRowEnd: 'span '+category.height }">
+      <div class="category" v-for="category in sortedCategories" :style="{ gridColumnEnd: 'span '+category.width, gridRowEnd: 'span '+category.height }">
         <h3 class="category-header">
           <span class="category-icon" v-html="fa(category.icon)"></span>
           {{ category.name }}
@@ -51,6 +53,10 @@
             <td>Height</td>
             <td><input type="number" v-model="selected.height" min=1></td>
           </tr>
+          <tr>
+            <td>Order</td>
+            <td><input type="number" v-model="selected.order" min=1></td>
+          </tr>
         </table>
       </div>
       <div class="custom-links">
@@ -75,5 +81,6 @@
     </div>
   
   </div>
+  <script src="../lib/browser-polyfill.min.js"></script>
   <script src="new_tab.js"></script>
 </body>

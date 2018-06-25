@@ -1,10 +1,11 @@
-import '../lib/webextension-polyfill.min.js'
 import interact from 'interactjs'
 import './new_tab.scss'
 import Vue from 'vue/dist/vue'
 import fontawesome from '@fortawesome/fontawesome'
 import solid from '@fortawesome/fontawesome-free-solid'
 import uuid from 'uuidv4'
+import _values from 'lodash/values'
+import _sortBy from 'lodash/sortBy'
 
 fontawesome.library.add(solid.faUser)
 
@@ -23,12 +24,18 @@ browser.storage.sync.get()
           y: innerHeight / 2
         }
       },
+      mounted () {
+        this.$el.style.visibility = 'visible'
+      },
       computed: {
         selected () {
           return this.categories[this.customize.selectedCategory]
         },
         openCloseIcon () {
           return this.customize.isOpen ? 'times' : 'list'
+        },
+        sortedCategories () {
+          return _sortBy(_values(this.categories), 'order')
         }
       },
       methods: {
@@ -45,12 +52,15 @@ browser.storage.sync.get()
           this.selected.links.splice(id, 1)
         },
         addCategory () {
-          this.$set(this.categories, uuid(), {
+          let id = uuid()
+          this.$set(this.categories, id, {
+            id,
             icon: { prefix: 'fas', iconName: 'link' },
             name: 'New category',
             links: [],
             width: 1,
-            height: 1
+            height: 1,
+            order: Object.keys(this.categories).length + 1
           })
         },
         removeCategory () {
