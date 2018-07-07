@@ -9,7 +9,10 @@
           <span class="category-icon" v-html="fa(category.icon)"></span>
           {{ category.name }}
         </h3>
-        <a :href="link.url" v-for="link in category.links" class="link">{{ link.text }}</a>
+        <a :href="link.url" v-for="link in category.links" class="link">
+          {{ link.text }}
+          <span class="shortcut" v-if="link.shortcut">{{ link.shortcut }}</span>
+        </a>
       </div>
     </div>
   
@@ -47,15 +50,15 @@
           </tr>
           <tr>
             <td>Width</td>
-            <td><input type="number" v-model="selected.width" min=1></td>
+            <td><input type="number" v-model.number="selected.width" min=1></td>
           </tr>
           <tr>
             <td>Height</td>
-            <td><input type="number" v-model="selected.height" min=1></td>
+            <td><input type="number" v-model.number="selected.height" min=1></td>
           </tr>
           <tr>
             <td>Order</td>
-            <td><input type="number" v-model="selected.order" min=1></td>
+            <td><input type="number" v-model.number="selected.order" min=1></td>
           </tr>
         </table>
       </div>
@@ -71,12 +74,22 @@
           <tr v-for="(link, id) in selected.links">
             <td><input type="text" v-model="link.text" placeholder="Text"></td>
             <td><input type="text" v-model="link.url" placeholder="URL"></td>
+            <td><input type="text" v-model="link.shortcut" placeholder="shortcut (like e or F)"></td>
             <td><span
               class="pointer" 
               v-html="fa({ prefix:'fas', iconName:'trash' })"
               @click="removeLink(id)"></span></td>
           </tr>
         </table>
+      </div>
+
+      <div class="custom-css">
+        <h3>
+          CSS
+          <span class="pointer" v-html="fa({ prefix:'fas', iconName:css.icon })" @click="toggleCSS"></span>
+        </h3>
+        <textarea v-if="css.isOpen" v-model="css.data"></textarea>
+        <div v-html="style" v-show="false"></div>
       </div>
     </div>
   

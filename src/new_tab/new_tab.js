@@ -11,7 +11,8 @@ fontawesome.library.add(solid.faUser)
 
 browser.storage.sync.get()
   .then(data => {
-    let categories = data.categories || {}
+    let categories = data.categories
+    let css = data.css
 
     let app = new Vue({
       el: '#container',
@@ -22,6 +23,11 @@ browser.storage.sync.get()
           selectedCategory: Object.keys(categories)[0],
           x: innerWidth / 4,
           y: innerHeight / 2
+        },
+        css: {
+          isOpen: false,
+          icon: 'eye',
+          data: css
         }
       },
       mounted () {
@@ -36,6 +42,14 @@ browser.storage.sync.get()
         },
         sortedCategories () {
           return _sortBy(_values(this.categories), 'order')
+        },
+        allLinks () {
+          let links = []
+          _values(app.categories).forEach(c => links.push(...c.links))
+          return links
+        },
+        style () {
+          return `<style>${this.css.data}</style>`
         }
       },
       methods: {
@@ -45,7 +59,7 @@ browser.storage.sync.get()
         },
         addLink () {
           this.selected.links.push({
-            text: 'New item', url: ''
+            text: 'New item', url: '', shortcut: ''
           })
         },
         removeLink (id) {
@@ -67,12 +81,23 @@ browser.storage.sync.get()
           if (confirm('You sure ?')) {
             this.$delete(this.categories, this.customize.selectedCategory)
           }
+        },
+        toggleCSS () {
+          this.css.isOpen = !this.css.isOpen
+          this.css.icon = this.css.isOpen ? 'eye-slash' : 'eye'
         }
       }
     })
 
     window.addEventListener('beforeunload', function (event) {
-      browser.storage.sync.set({ categories: app.categories })
+      browser.storage.sync.set({ categories: app.categories, css: app.css.data })
+    })
+
+    window.addEventListener('keydown', function (event) {
+      if (!app.customize.isOpen) {
+        let link = app.allLinks.find(l => l.shortcut === event.key)
+        if (link) location.replace(link.url)
+      }
     })
 
     interact('#customize')
