@@ -1,10 +1,10 @@
-(async function () {
-  let data = await browser.storage.sync.get()
-  if (!data.categories) {
-    await browser.storage.sync.set({ categories: {} })
-  }
-  if (!data.css) {
-    await browser.storage.sync.set({ css: `body {
+browser.runtime.onInstalled.addListener(async function({ reason, temporary }) {
+  switch (reason) {
+    case "install":
+      await browser.storage.sync.clear();
+      await browser.storage.sync.set({
+        categories: {},
+        css: `body {
   background: #111;
   color: #999;
   font-family: Verdana;
@@ -43,6 +43,7 @@
   font-size: 80%;
   border-radius: 3px;
 }`
-    })
+      });
+      break;
   }
-})()
+});
