@@ -1,0 +1,103 @@
+import Vue from "vue"
+import { ThisTypedComponentOptionsWithRecordProps } from "vue/types/options"
+
+const template = `
+<div 
+  class="rounded border border-main p-2 bg-block flex flex-col"
+  :style="gridSpan"
+>
+  <h2 class="text-accent text-2xl">
+    <object 
+      type="image/svg+xml" 
+      :data="'../resources/svg/' + icon + '.svg'"
+      class="inline"
+    >📁</object>
+    {{ title }}
+  </h2>
+  <a
+    v-for="link in links"
+    :href="link.href"
+  >{{ link.title }}</a>
+  <div 
+    v-if="!links.length" 
+    class="flex-grow flex justify-center items-center text-gray-500"
+  >
+    Double click to edit
+  </div>
+</div>`
+
+export interface Category {
+  type: "Category"
+  id: string
+  title: string
+  icon: string
+  links: Link[]
+  width: number
+  height: number
+}
+
+export interface Link {
+  href: string
+  title: string
+}
+
+type Props = {
+  id: string
+  title: string
+  links: Link[]
+  icon: string
+  width: number
+  height: number
+}
+type Data = {}
+type Methods = {}
+type Computed = {
+  gridSpan: object
+}
+
+const component: ThisTypedComponentOptionsWithRecordProps<
+  Vue,
+  Data,
+  Methods,
+  Computed,
+  Props
+> = {
+  name: "Category",
+  props: {
+    id: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      default: "Untitled",
+    },
+    links: {
+      type: Array,
+      default: [],
+    },
+    icon: {
+      type: String,
+      default: "anchor",
+    },
+    width: {
+      type: Number,
+      default: 1,
+    },
+    height: {
+      type: Number,
+      default: 1,
+    },
+  },
+  template,
+  computed: {
+    gridSpan() {
+      return {
+        "grid-column": "span " + this.width,
+        "grid-row": "span " + this.height,
+      }
+    },
+  },
+}
+
+export default component

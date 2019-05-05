@@ -1,0 +1,50 @@
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+:root {
+  --nb-columns: 6;
+  --nb-rows: 4;
+  --bg: #000;
+  --block-bg: #111;
+  --color-main: #e1e;
+  --color-accent: #1ee;
+  --border: #1ee;
+}
+
+#categories {
+  display: grid;
+  grid-gap: 0.5rem;
+  grid-template-columns: repeat(var(--nb-columns), 1fr);
+  grid-template-rows: repeat(var(--nb-rows), 1fr);
+}
+
+.text-main {
+  color: var(--color-main);
+}
+
+.text-accent {
+  color: var(--color-accent);
+}
+
+.bg {
+  background-color: var(--bg);
+}
+
+.bg-block {
+  background-color: var(--block-bg);
+}
+
+.border-main {
+  border-color: var(--border);
+}
+
+.bg-transparent-black {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pointer-none {
+  pointer-events: none;
+}
