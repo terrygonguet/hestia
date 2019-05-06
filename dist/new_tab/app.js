@@ -1,48 +1,66 @@
 import Category from "./category.js";
 import CategoryEditor from "./categoryEditor.js";
+import ConfigEditor from "./configEditor.js";
 import ClickableSVG from "./clickableSVG.js";
 const template = `
 <div class="p-24 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
+
   <h1 class="text-4xl font-bold mb-4 text-accent">Welcome back!</h1>
+
   <div id="categories" class="flex-grow w-full">
     <component
       v-for="w in widgets"
       :key="w.id"
       :is="w.type"
       v-bind="w"
-      @dblclick.native.prevent="openEditor(w)"/>
-    <div class="rounded border border-main p-2 bg-block flex justify-center items-center">
+      @dblclick.native.prevent="openWidgetEditor(w)"/>
+
+    <div
+      class="rounded border border-main p-2 bg-block cursor-pointer flex justify-center items-center opacity-25 hover:opacity-100"
+      @click="addWidget"
+    >
       <ClickableSVG
         :width="10"
         icon="add"
-        placeholder="+"
-        @click.native="addWidget"/>
+        placeholder="+"/>
     </div>
+
   </div>
+
   <div
-    v-if="editable" 
+    v-if="showEditor"
     class="absolute inset-0 h-screen flex justify-center items-center bg-transparent-black"
     @click.self="closeEditor"
   >
-    <component 
-      :is="editable.type + 'Editor'" 
+    <component
+      :is="editorType"
       :object="editable"
       class="opacity-100"
       @delete="deleteWidget(editable.id)"
       @reorder="reorderWidget(editable.id, $event)"/>
   </div>
+
+  <ClickableSVG
+    :width="8"
+    icon="settings"
+    placeholder="Settings"
+    @click.native="openConfigEditor"
+    class="absolute top-0 right-0 m-4"/>
+
 </div>`;
 const component = {
     name: "App",
     components: {
         Category,
         CategoryEditor,
+        ConfigEditor,
         ClickableSVG,
     },
     template,
     data() {
         return {
             editable: undefined,
+            showConfigEditor: false,
         };
     },
     computed: {
@@ -63,16 +81,30 @@ const component = {
         widgets() {
             return this.$store.state.widgets;
         },
+        editorType() {
+            if (this.showConfigEditor)
+                return "ConfigEditor";
+            else
+                return this.editable ? this.editable.type + "Editor" : "";
+        },
+        showEditor() {
+            return !!this.editable || this.showConfigEditor;
+        },
     },
     methods: {
-        openEditor(widget) {
+        openWidgetEditor(widget) {
             this.editable = widget;
+        },
+        openConfigEditor() {
+            this.showConfigEditor = true;
         },
         closeEditor() {
             this.editable = undefined;
+            this.showConfigEditor = false;
         },
         addWidget() {
             this.$store.commit("addWidget");
+            this.openWidgetEditor(this.widgets[this.widgets.length - 1]);
         },
         deleteWidget(id) {
             this.$store.commit("deleteWidget", id);

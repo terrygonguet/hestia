@@ -11,4 +11,3 @@ store.dispatch("restore");
 window.addEventListener("beforeunload", async (e) => {
     await store.dispatch("persist");
 });
-console.log("app :", app);

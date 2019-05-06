@@ -1,11 +1,10 @@
 const template = `
-<div class="cursor-pointer inline-flex">
-  <object 
-    type="image/svg+xml"
-    :data="'../resources/svg/' + icon + '.svg'"
-    :class="['pointer-none', 'w-' + width]"
-  >{{ placeholder }}</object>
-</div>`;
+<img
+  :src="'../resources/svg/' + icon + '.svg'"
+  :class="['w-' + width]"
+  class="cursor-pointer inline-flex stroke-current"
+  :alt="placeholder"
+/>`;
 const component = {
     name: "ClickableSVG",
     props: {

@@ -4,11 +4,11 @@ const template = `
   :style="gridSpan"
 >
   <h2 class="text-accent text-2xl">
-    <object 
-      type="image/svg+xml" 
-      :data="'../resources/svg/' + icon + '.svg'"
+    <img
+      alt="📁"
+      :src="'../resources/svg/' + icon + '.svg'"
       class="inline"
-    >📁</object>
+    />
     {{ title }}
   </h2>
   <a

@@ -5101,6 +5101,26 @@ video {
   opacity: 1;
 }
 
+.hover\:opacity-0:hover {
+  opacity: 0;
+}
+
+.hover\:opacity-25:hover {
+  opacity: 0.25;
+}
+
+.hover\:opacity-50:hover {
+  opacity: 0.5;
+}
+
+.hover\:opacity-75:hover {
+  opacity: 0.75;
+}
+
+.hover\:opacity-100:hover {
+  opacity: 1;
+}
+
 .outline-none {
   outline: 0;
 }
@@ -12021,26 +12041,6 @@ video {
        object-position: top;
   }
 
-  .sm\:opacity-0 {
-    opacity: 0;
-  }
-
-  .sm\:opacity-25 {
-    opacity: 0.25;
-  }
-
-  .sm\:opacity-50 {
-    opacity: 0.5;
-  }
-
-  .sm\:opacity-75 {
-    opacity: 0.75;
-  }
-
-  .sm\:opacity-100 {
-    opacity: 1;
-  }
-
   .sm\:overflow-auto {
     overflow: auto;
   }
@@ -18899,26 +18899,6 @@ video {
   .md\:object-top {
     -o-object-position: top;
        object-position: top;
-  }
-
-  .md\:opacity-0 {
-    opacity: 0;
-  }
-
-  .md\:opacity-25 {
-    opacity: 0.25;
-  }
-
-  .md\:opacity-50 {
-    opacity: 0.5;
-  }
-
-  .md\:opacity-75 {
-    opacity: 0.75;
-  }
-
-  .md\:opacity-100 {
-    opacity: 1;
   }
 
   .md\:overflow-auto {
@@ -25781,26 +25761,6 @@ video {
        object-position: top;
   }
 
-  .lg\:opacity-0 {
-    opacity: 0;
-  }
-
-  .lg\:opacity-25 {
-    opacity: 0.25;
-  }
-
-  .lg\:opacity-50 {
-    opacity: 0.5;
-  }
-
-  .lg\:opacity-75 {
-    opacity: 0.75;
-  }
-
-  .lg\:opacity-100 {
-    opacity: 1;
-  }
-
   .lg\:overflow-auto {
     overflow: auto;
   }
@@ -32659,26 +32619,6 @@ video {
   .xl\:object-top {
     -o-object-position: top;
        object-position: top;
-  }
-
-  .xl\:opacity-0 {
-    opacity: 0;
-  }
-
-  .xl\:opacity-25 {
-    opacity: 0.25;
-  }
-
-  .xl\:opacity-50 {
-    opacity: 0.5;
-  }
-
-  .xl\:opacity-75 {
-    opacity: 0.75;
-  }
-
-  .xl\:opacity-100 {
-    opacity: 1;
   }
 
   .xl\:overflow-auto {

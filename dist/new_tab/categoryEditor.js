@@ -1,5 +1,6 @@
 import LinkEditor from "./linkEditor.js";
 import ClickableSVG from "./clickableSVG.js";
+import svgs from "../resources/svgs.js";
 const template = `
 <div class="p-4 w-1/4 bg-block border border-main rounded flex flex-col justify-center">
   <div class="flex flex-row justify-around">
@@ -26,13 +27,19 @@ const template = `
     Title <input v-model="object.title" class="bg-transparent text-right"/>
   </label>
   <label class="flex justify-between">
-    Icon <input v-model="object.icon" class="bg-transparent text-right"/>
+    Icon
+    <select v-model="object.icon" class="bg-transparent text-right">
+      <option
+        v-for="svg in svgs"
+        :value="svg"
+      >{{ svg }}</option>
+    </select>
   </label>
   <label class="flex justify-between">
-    Width <input v-model.number="object.width" type="number" min=1 class="w-12 bg-transparent"/>
+    Width <input v-model.number="object.width" type="number" min="1" class="w-12 bg-transparent"/>
   </label>
   <label class="flex justify-between">
-    Height <input v-model.number="object.height" type="number" min=1 class="w-12 bg-transparent"/>
+    Height <input v-model.number="object.height" type="number" min="1" class="w-12 bg-transparent"/>
   </label>
 
   <h2 class="text-center">Links</h2>
@@ -60,6 +67,11 @@ const component = {
         },
     },
     template,
+    data() {
+        return {
+            svgs,
+        };
+    },
     methods: {
         addLink() {
             this.object.links.push({

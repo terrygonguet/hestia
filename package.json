@@ -5,7 +5,7 @@
   "scripts": {
     "build": "npm run build:ts && npm run build:css",
     "build:ts": "tsc",
-    "build:css": "tailwind build ./src/new_tab/styles.css -o ./dist/new_tab/styles.css"
+    "build:css": "tailwind build ./src/new_tab/styles.css -o ./dist/new_tab/styles.css -c tailwind.config.js"
   },
   "repository": {
     "type": "git",
