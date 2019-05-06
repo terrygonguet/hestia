@@ -6,6 +6,9 @@
     }
   },
   "author": "CodeGalley",
+  "background": {
+    "scripts": ["background/background.js"]
+  },
   "manifest_version": 2,
   "name": "Living Room Tab",
   "version": "0.4.1",
