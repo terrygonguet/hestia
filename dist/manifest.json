@@ -2,14 +2,14 @@
   "applications": {
     "gecko": {
       "id": "hestia@codegalley.io",
-      "strict_min_version": "42.0"
+      "strict_min_version": "57.0"
     }
   },
   "author": "CodeGalley",
   "manifest_version": 2,
   "name": "Living Room Tab",
-  "version": "0.3.1",
-  "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and custom CSS (WIP).",
+  "version": "0.4.1",
+  "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and editable colors.",
   "icons": {
     "32": "resources/icon-32.png",
     "64": "resources/icon-64.png",
