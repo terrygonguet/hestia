@@ -66,5 +66,23 @@ const component = {
             };
         },
     },
+    methods: {
+        hotkeyHandler(e) {
+            if (e.target != document.body)
+                return;
+            for (const link of this.links) {
+                if (link.hotkey == e.key) {
+                    location.replace(link.href);
+                    return;
+                }
+            }
+        },
+    },
+    mounted() {
+        window.addEventListener("keydown", this.hotkeyHandler);
+    },
+    destroyed() {
+        window.removeEventListener("keydown", this.hotkeyHandler);
+    },
 };
 export default component;

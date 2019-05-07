@@ -58,7 +58,9 @@ type Props = {
   height: number
 }
 type Data = {}
-type Methods = {}
+type Methods = {
+  hotkeyHandler(e: KeyboardEvent): void
+}
 type Computed = {
   gridSpan: object
 }
@@ -105,6 +107,23 @@ const component: ThisTypedComponentOptionsWithRecordProps<
         "grid-row": "span " + this.height,
       }
     },
+  },
+  methods: {
+    hotkeyHandler(e) {
+      if (e.target != document.body) return
+      for (const link of this.links) {
+        if (link.hotkey == e.key) {
+          location.replace(link.href)
+          return
+        }
+      }
+    },
+  },
+  mounted() {
+    window.addEventListener("keydown", this.hotkeyHandler)
+  },
+  destroyed() {
+    window.removeEventListener("keydown", this.hotkeyHandler)
   },
 }
 

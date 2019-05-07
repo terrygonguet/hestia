@@ -20,7 +20,8 @@ const template = `
       @dblclick.native.prevent="openWidgetEditor(widget)"/>
 
     <div
-      class="rounded border border-main p-2 bg-block cursor-pointer flex justify-center items-center opacity-25 hover:opacity-100"
+      class="rounded border border-main p-2 bg-block cursor-pointer flex justify-center items-center hover:opacity-100"
+      :class="[widgets.length >= 2 ? 'opacity-0' : '']"
       @click="addWidget"
     >
       <ClickableSVG
@@ -143,20 +144,6 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     reorderWidget(id: string, delta: number) {
       this.$store.commit("reorderWidget", { id, delta })
     },
-  },
-  mounted() {
-    window.addEventListener("keydown", e => {
-      for (const widget of this.widgets) {
-        if (widget.type == "Category") {
-          for (const link of widget.links) {
-            if (link.hotkey == e.key) {
-              location.replace(link.href)
-              return
-            }
-          }
-        }
-      }
-    })
   },
 }
 
