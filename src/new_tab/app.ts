@@ -6,13 +6,15 @@ import Title from "./title.js"
 import TitleWidgetEditor from "./titleEditor.js"
 import TextZone from "./textZone.js"
 import TextZoneEditor from "./textZoneEditor.js"
+import Quotes from "./quotes.js"
+import QuotesEditor from "./quotesEditor.js"
 import ClickableSVG from "./clickableSVG.js"
 import NewWidget from "./newWidget.js"
 import { ThisTypedComponentOptionsWithRecordProps } from "vue/types/options"
 import Vue from "vue"
 
 const template = `
-<div class="p-24 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
+<div class="p-20 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
 
   <Title v-bind="titleWidget" @dblclick.native.prevent="openTitleEditor"/>
 
@@ -84,6 +86,8 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     TitleWidgetEditor,
     TextZone,
     TextZoneEditor,
+    Quotes,
+    QuotesEditor,
     ConfigEditor,
     ClickableSVG,
     NewWidget,

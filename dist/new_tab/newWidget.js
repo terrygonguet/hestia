@@ -1,8 +1,10 @@
 import { create as createCategory } from "./category.js";
 import { create as createTextZone } from "./textZone.js";
+import { create as createQuotes } from "./quotes.js";
 const creators = {
     Category: createCategory,
     TextZone: createTextZone,
+    Quotes: createQuotes,
 };
 const template = `
 <div
@@ -12,6 +14,7 @@ const template = `
   <h1 class="text-accent text-2xl">Create new</h1>
   <button @click="addWidget('Category')" class="border border-main rounded px-2 py-1 m-1">Category</button>
   <button @click="addWidget('TextZone')" class="border border-main rounded px-2 py-1 m-1">TextZone</button>
+  <button @click="addWidget('Quotes')" class="border border-main rounded px-2 py-1 m-1">Quotes</button>
 </div>`;
 const component = {
     name: "NewWidget",
