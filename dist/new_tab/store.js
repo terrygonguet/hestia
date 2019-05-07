@@ -12,7 +12,7 @@ export default new Vuex.Store({
         widgets: [],
         titleWidget: {
             type: "Message",
-            message: "Where to?",
+            message: "Double click me!",
             messages: ["Enter to add"],
         },
     },

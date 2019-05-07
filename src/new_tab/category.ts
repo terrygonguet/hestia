@@ -17,7 +17,6 @@ const template = `
   <a
     v-for="link in links"
     :href="link.href"
-    class="hover:underline"
   >
     {{ link.title }}
     <span

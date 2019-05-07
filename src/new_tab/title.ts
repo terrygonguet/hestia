@@ -2,9 +2,9 @@ import Vue from "vue"
 import { ThisTypedComponentOptionsWithRecordProps } from "vue/types/options"
 
 const template = `
-<h1 class="text-4xl font-bold mb-4 text-accent" v-html="content || 'empty'"></h1>`
+<h1 class="text-4xl font-bold mb-4 text-accent" v-html="content || '-'"></h1>`
 
-export type TitleWidget = Message | List | Quote | Clock
+export type TitleWidget = Message | List | Clock
 
 interface Message {
   type: "Message"
@@ -16,22 +16,21 @@ interface List {
   messages: string[]
 }
 
-interface Quote {
-  type: "Quote"
-}
-
 interface Clock {
   type: "Clock"
+  hour12: boolean
+  locale: string
 }
 
 type Props = {
   type: string
   message: string
   messages: string[]
+  hour12?: boolean
+  locale?: string
 }
 type Data = {
   time: number
-  quote: string
 }
 type Methods = {}
 type Computed = {
@@ -59,12 +58,17 @@ const component: ThisTypedComponentOptionsWithRecordProps<
       type: Array,
       default: ["Double click me", "Edit me"],
     },
+    hour12: {
+      type: Boolean,
+    },
+    locale: {
+      type: String,
+    },
   },
   template,
   data() {
     return {
       time: Date.now(),
-      quote: "Loading...",
     }
   },
   computed: {
@@ -75,15 +79,25 @@ const component: ThisTypedComponentOptionsWithRecordProps<
         case "List":
           return this.messages[Math.floor(Math.random() * this.messages.length)]
         case "Clock":
-          return new Intl.DateTimeFormat().format(this.time)
-        case "Quote":
-          return this.quote
+          return new Intl.DateTimeFormat(this.locale || "default", {
+            hour12: this.hour12,
+            weekday: "long",
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          }).format(this.time)
         default:
           return "Wat"
       }
     },
   },
   methods: {},
+  mounted() {
+    setInterval(() => (this.time = Date.now()), 1000)
+  },
 }
 
 export default component

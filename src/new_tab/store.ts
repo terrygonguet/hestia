@@ -36,7 +36,7 @@ export default new Vuex.Store<State>({
     widgets: [],
     titleWidget: {
       type: "Message",
-      message: "Where to?",
+      message: "Double click me!",
       messages: ["Enter to add"],
     },
   },

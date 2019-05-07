@@ -1,5 +1,5 @@
 const template = `
-<h1 class="text-4xl font-bold mb-4 text-accent" v-html="content || 'empty'"></h1>`;
+<h1 class="text-4xl font-bold mb-4 text-accent" v-html="content || '-'"></h1>`;
 const component = {
     name: "TitleWidget",
     props: {
@@ -15,12 +15,17 @@ const component = {
             type: Array,
             default: ["Double click me", "Edit me"],
         },
+        hour12: {
+            type: Boolean,
+        },
+        locale: {
+            type: String,
+        },
     },
     template,
     data() {
         return {
             time: Date.now(),
-            quote: "Loading...",
         };
     },
     computed: {
@@ -31,14 +36,24 @@ const component = {
                 case "List":
                     return this.messages[Math.floor(Math.random() * this.messages.length)];
                 case "Clock":
-                    return new Intl.DateTimeFormat().format(this.time);
-                case "Quote":
-                    return this.quote;
+                    return new Intl.DateTimeFormat(this.locale || "default", {
+                        hour12: this.hour12,
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit",
+                    }).format(this.time);
                 default:
                     return "Wat";
             }
         },
     },
     methods: {},
+    mounted() {
+        setInterval(() => (this.time = Date.now()), 1000);
+    },
 };
 export default component;

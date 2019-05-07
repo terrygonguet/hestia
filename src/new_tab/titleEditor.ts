@@ -10,7 +10,6 @@ const template = `
     <select v-model="widget.type" class="bg-transparent text-right text-main">
       <option value="Message">Message</option>
       <option value="List">List</option>
-      <option value="Quote">Quote</option>
       <option value="Clock">Clock</option>
     </select>
   </label>
@@ -31,7 +30,17 @@ const template = `
       @keydown.backspace="removeMessage(i)"
       ref="messages"/>
   </div>
-</div>`
+
+  <div v-if="widget.type == 'Clock'" class="flex flex-col">
+    <label class="flex justify-between text-accent">
+      12 hour time
+      <input type="checkbox" v-model="widget.hour12" />
+    </label>
+    <label class="flex justify-between text-accent">
+      Locale (de, fr...)
+      <input placeholder="default" v-model="widget.locale" class="bg-transparent text-right text-main"/>
+    </label>
+  </div>`
 
 type Props = {}
 type Data = {}
