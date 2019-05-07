@@ -1,9 +1,15 @@
-import Category from "./category.js";
+import Category, { create as createCategory } from "./category.js";
 import CategoryEditor from "./categoryEditor.js";
 import ConfigEditor from "./configEditor.js";
 import Title from "./title.js";
 import TitleWidgetEditor from "./titleEditor.js";
+import TextZone, { create as createTextZone } from "./textZone.js";
+import TextZoneEditor from "./textZoneEditor.js";
 import ClickableSVG from "./clickableSVG.js";
+const creators = {
+    Category: createCategory,
+    TextZone: createTextZone,
+};
 const template = `
 <div class="p-24 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
 
@@ -18,14 +24,12 @@ const template = `
       @dblclick.native.prevent="openWidgetEditor(widget)"/>
 
     <div
-      class="rounded border border-main p-2 bg-block cursor-pointer flex justify-center items-center hover:opacity-100"
+      class="rounded border border-main p-2 bg-block cursor-pointer flex flex-col justify-evenly items-center hover:opacity-100"
       :class="[widgets.length >= 2 ? 'opacity-0' : '']"
-      @click="addWidget"
     >
-      <ClickableSVG
-        :width="10"
-        icon="add"
-        placeholder="+"/>
+      <h1 class="text-accent text-2xl">Create</h1>
+      <button @click="addWidget('Category')" class="border border-main rounded px-2 py-1 m-1">Category</button>
+      <button @click="addWidget('TextZone')" class="border border-main rounded px-2 py-1 m-1">TextZone</button>
     </div>
 
   </div>
@@ -56,9 +60,11 @@ const component = {
     components: {
         Category,
         CategoryEditor,
-        ConfigEditor,
         Title,
         TitleWidgetEditor,
+        TextZone,
+        TextZoneEditor,
+        ConfigEditor,
         ClickableSVG,
     },
     template,
@@ -108,8 +114,8 @@ const component = {
             this.editable = undefined;
             this.editorType = "";
         },
-        addWidget() {
-            this.$store.commit("addWidget");
+        addWidget(name) {
+            this.$store.commit("addWidget", creators[name]);
             this.openWidgetEditor(this.widgets[this.widgets.length - 1]);
         },
         deleteWidget(id) {

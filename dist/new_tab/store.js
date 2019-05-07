@@ -17,18 +17,8 @@ export default new Vuex.Store({
         },
     },
     mutations: {
-        addWidget(state) {
-            state.widgets.push({
-                type: "Category",
-                icon: "aperture",
-                id: Date.now()
-                    .toString(36)
-                    .substr(2),
-                links: [],
-                title: "Untitled",
-                height: 1,
-                width: 1,
-            });
+        addWidget(state, create) {
+            state.widgets.push(create());
         },
         deleteWidget(state, id) {
             state.widgets.splice(state.widgets.findIndex(w => w.id == id), 1);

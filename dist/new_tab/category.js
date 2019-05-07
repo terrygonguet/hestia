@@ -85,3 +85,16 @@ const component = {
     },
 };
 export default component;
+export function create() {
+    return {
+        type: "Category",
+        icon: "aperture",
+        id: Date.now()
+            .toString(36)
+            .substr(2),
+        links: [],
+        title: "Untitled",
+        height: 1,
+        width: 1,
+    };
+}

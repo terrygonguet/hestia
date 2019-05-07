@@ -127,3 +127,17 @@ const component: ThisTypedComponentOptionsWithRecordProps<
 }
 
 export default component
+
+export function create(): Category {
+  return {
+    type: "Category",
+    icon: "aperture",
+    id: Date.now()
+      .toString(36)
+      .substr(2),
+    links: [],
+    title: "Untitled",
+    height: 1,
+    width: 1,
+  }
+}
