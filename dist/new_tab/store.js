@@ -43,4 +43,12 @@ export default new Vuex.Store({
             await browser.storage.local.set(clone(state));
         },
     },
+    getters: {
+        totalSpace(state) {
+            return state.config.cols * state.config.rows;
+        },
+        usedSpace(state) {
+            return state.widgets.reduce((acc, cur) => acc + cur.width * cur.height, 0);
+        },
+    },
 });

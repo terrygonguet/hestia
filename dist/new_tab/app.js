@@ -19,7 +19,7 @@ const template = `
       :is="widget.type"
       v-bind="widget"
       @dblclick.native.prevent="openWidgetEditor(widget)"/>
-    <NewWidget/>
+    <NewWidget v-if="!isFull"/>
   </div>
 
   <div
@@ -86,6 +86,9 @@ const component = {
         },
         showEditor() {
             return !!this.editorType;
+        },
+        isFull() {
+            return this.$store.getters.usedSpace >= this.$store.getters.totalSpace;
         },
     },
     methods: {
