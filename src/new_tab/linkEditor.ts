@@ -9,7 +9,15 @@ const template = `
     <input v-model="link.title" class="bg-transparent" placeholder="Title"/>
     <input v-model="link.href" class="bg-transparent" placeholder="URL"/>
   </div>
-  <div class="flex flex-col justify-center">
+
+  <button
+    class="m-2 border border-main px-2 rounded"
+    @keydown.prevent="setHotkey"
+  >
+    {{ link.hotkey ? link.hotkey : "Set hotkey" }}
+  </button>
+
+  <div class="flex flex-col justify-center w-4">
     <ClickableSVG
       :width="4"
       icon="chevron-up"
@@ -21,6 +29,7 @@ const template = `
       placeholder="v"
       @click.native="$emit('reorder', 1)"/>
   </div>
+
   <ClickableSVG
     :width="6"
     icon="bin"
@@ -32,7 +41,9 @@ type Props = {
   link: Link
 }
 type Data = {}
-type Methods = {}
+type Methods = {
+  setHotkey(e: KeyboardEvent): void
+}
 type Computed = {}
 
 const component: ThisTypedComponentOptionsWithRecordProps<
@@ -51,6 +62,12 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     },
   },
   template,
+  methods: {
+    setHotkey(e: KeyboardEvent) {
+      if (e.key == "Delete") this.$delete(this.link, "hotkey")
+      else this.$set(this.link, "hotkey", e.key)
+    },
+  },
 }
 
 export default component

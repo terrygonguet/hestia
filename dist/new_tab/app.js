@@ -9,11 +9,11 @@ const template = `
 
   <div id="categories" class="flex-grow w-full">
     <component
-      v-for="w in widgets"
-      :key="w.id"
-      :is="w.type"
-      v-bind="w"
-      @dblclick.native.prevent="openWidgetEditor(w)"/>
+      v-for="widget in widgets"
+      :key="widget.id"
+      :is="widget.type"
+      v-bind="widget"
+      @dblclick.native.prevent="openWidgetEditor(widget)"/>
 
     <div
       class="rounded border border-main p-2 bg-block cursor-pointer flex justify-center items-center opacity-25 hover:opacity-100"
@@ -113,6 +113,20 @@ const component = {
         reorderWidget(id, delta) {
             this.$store.commit("reorderWidget", { id, delta });
         },
+    },
+    mounted() {
+        window.addEventListener("keydown", e => {
+            for (const widget of this.widgets) {
+                if (widget.type == "Category") {
+                    for (const link of widget.links) {
+                        if (link.hotkey == e.key) {
+                            location.replace(link.href);
+                            return;
+                        }
+                    }
+                }
+            }
+        });
     },
 };
 export default component;

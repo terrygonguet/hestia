@@ -14,7 +14,14 @@ const template = `
   <a
     v-for="link in links"
     :href="link.href"
-  >{{ link.title }}</a>
+    class="hover:underline"
+  >
+    {{ link.title }}
+    <span
+      v-if="link.hotkey"
+      class="text-sm border rounded border-gray-500 text-accent px-1"
+    >{{ link.hotkey }}</span>
+  </a>
   <div 
     v-if="!links.length" 
     class="flex-grow flex justify-center items-center text-gray-500"

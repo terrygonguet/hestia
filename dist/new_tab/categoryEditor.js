@@ -2,7 +2,7 @@ import LinkEditor from "./linkEditor.js";
 import ClickableSVG from "./clickableSVG.js";
 import svgs from "../resources/svgs.js";
 const template = `
-<div class="p-4 w-1/4 bg-block border border-main rounded flex flex-col justify-center">
+<div class="p-4 w-1/2 bg-block border border-main rounded flex flex-col justify-center">
   <div class="flex flex-row justify-around">
     <div>
       <ClickableSVG
@@ -23,26 +23,28 @@ const template = `
       @click.native="$emit('delete')"/>
   </div>
 
-  <label class="flex justify-between">
-    Title <input v-model="object.title" class="bg-transparent text-right"/>
+  <h2 class="text-center text-accent text-2xl">Category</h2>
+
+  <label class="flex justify-between text-accent">
+    Title <input v-model="object.title" class="bg-transparent text-right text-main"/>
   </label>
-  <label class="flex justify-between">
+  <label class="flex justify-between text-accent">
     Icon
-    <select v-model="object.icon" class="bg-transparent text-right">
+    <select v-model="object.icon" class="bg-transparent text-right text-main">
       <option
         v-for="svg in svgs"
         :value="svg"
       >{{ svg }}</option>
     </select>
   </label>
-  <label class="flex justify-between">
-    Width <input v-model.number="object.width" type="number" min="1" class="w-12 bg-transparent"/>
+  <label class="flex justify-between text-accent">
+    Width <input v-model.number="object.width" type="number" min="1" class="w-12 bg-transparent text-main"/>
   </label>
-  <label class="flex justify-between">
-    Height <input v-model.number="object.height" type="number" min="1" class="w-12 bg-transparent"/>
+  <label class="flex justify-between text-accent">
+    Height <input v-model.number="object.height" type="number" min="1" class="w-12 bg-transparent text-main"/>
   </label>
 
-  <h2 class="text-center">Links</h2>
+  <h3 class="text-center text-accent text-xl">Links</h3>
 
   <LinkEditor 
     v-for="(link, i) in object.links"
