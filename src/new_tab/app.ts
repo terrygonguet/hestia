@@ -2,6 +2,8 @@ import { Config, Widget } from "./store.js"
 import Category from "./category.js"
 import CategoryEditor from "./categoryEditor.js"
 import ConfigEditor from "./configEditor.js"
+import Title from "./title.js"
+import TitleWidgetEditor from "./titleEditor.js"
 import ClickableSVG from "./clickableSVG.js"
 import { ThisTypedComponentOptionsWithRecordProps } from "vue/types/options"
 import Vue from "vue"
@@ -9,7 +11,7 @@ import Vue from "vue"
 const template = `
 <div class="p-24 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
 
-  <h1 class="text-4xl font-bold mb-4 text-accent">Welcome back!</h1>
+  <Title v-bind="titleWidget" @dblclick.native.prevent="openTitleEditor"/>
 
   <div id="categories" class="flex-grow w-full">
     <component
@@ -57,11 +59,12 @@ const template = `
 type Props = {}
 type Data = {
   editable?: Widget
-  showConfigEditor: boolean
+  editorType: string
 }
 type Methods = {
   openWidgetEditor(widget: Widget): void
   openConfigEditor(): void
+  openTitleEditor(): void
   closeEditor(): void
   addWidget(): void
   deleteWidget(id: string): void
@@ -71,7 +74,6 @@ type Computed = {
   cssVars: object
   config: Config
   widgets: Widget[]
-  editorType: string
   showEditor: boolean
 }
 
@@ -87,13 +89,15 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     Category,
     CategoryEditor,
     ConfigEditor,
+    Title,
+    TitleWidgetEditor,
     ClickableSVG,
   },
   template,
   data() {
     return {
       editable: undefined,
-      showConfigEditor: false,
+      editorType: "",
     }
   },
   computed: {
@@ -114,24 +118,27 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     widgets() {
       return this.$store.state.widgets
     },
-    editorType() {
-      if (this.showConfigEditor) return "ConfigEditor"
-      else return this.editable ? this.editable.type + "Editor" : ""
+    titleWidget() {
+      return this.$store.state.titleWidget
     },
     showEditor() {
-      return !!this.editable || this.showConfigEditor
+      return !!this.editorType
     },
   },
   methods: {
     openWidgetEditor(widget: Widget) {
       this.editable = widget
+      this.editorType = widget.type + "Editor"
     },
     openConfigEditor() {
-      this.showConfigEditor = true
+      this.editorType = "ConfigEditor"
+    },
+    openTitleEditor() {
+      this.editorType = "TitleWidgetEditor"
     },
     closeEditor() {
       this.editable = undefined
-      this.showConfigEditor = false
+      this.editorType = ""
     },
     addWidget() {
       this.$store.commit("addWidget")

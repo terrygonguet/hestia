@@ -10,6 +10,11 @@ export default new Vuex.Store({
             colorBorder: "#454545",
         },
         widgets: [],
+        titleWidget: {
+            type: "Message",
+            message: "Where to?",
+            messages: ["Enter to add"],
+        },
     },
     mutations: {
         addWidget(state) {
@@ -39,8 +44,9 @@ export default new Vuex.Store({
     },
     actions: {
         async restore({ state }) {
-            let data = await browser.storage.local.get(["config", "widgets"]);
+            let data = await browser.storage.local.get(undefined);
             Object.assign(state.config, data.config);
+            Object.assign(state.titleWidget, data.titleWidget);
             state.widgets = data.widgets || [];
         },
         async persist({ state }) {

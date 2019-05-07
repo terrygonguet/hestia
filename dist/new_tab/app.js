@@ -1,11 +1,13 @@
 import Category from "./category.js";
 import CategoryEditor from "./categoryEditor.js";
 import ConfigEditor from "./configEditor.js";
+import Title from "./title.js";
+import TitleWidgetEditor from "./titleEditor.js";
 import ClickableSVG from "./clickableSVG.js";
 const template = `
 <div class="p-24 h-screen flex flex-col items-center font-sans bg text-main" :style="cssVars">
 
-  <h1 class="text-4xl font-bold mb-4 text-accent">Welcome back!</h1>
+  <Title v-bind="titleWidget" @dblclick.native.prevent="openTitleEditor"/>
 
   <div id="categories" class="flex-grow w-full">
     <component
@@ -55,13 +57,15 @@ const component = {
         Category,
         CategoryEditor,
         ConfigEditor,
+        Title,
+        TitleWidgetEditor,
         ClickableSVG,
     },
     template,
     data() {
         return {
             editable: undefined,
-            showConfigEditor: false,
+            editorType: "",
         };
     },
     computed: {
@@ -82,26 +86,27 @@ const component = {
         widgets() {
             return this.$store.state.widgets;
         },
-        editorType() {
-            if (this.showConfigEditor)
-                return "ConfigEditor";
-            else
-                return this.editable ? this.editable.type + "Editor" : "";
+        titleWidget() {
+            return this.$store.state.titleWidget;
         },
         showEditor() {
-            return !!this.editable || this.showConfigEditor;
+            return !!this.editorType;
         },
     },
     methods: {
         openWidgetEditor(widget) {
             this.editable = widget;
+            this.editorType = widget.type + "Editor";
         },
         openConfigEditor() {
-            this.showConfigEditor = true;
+            this.editorType = "ConfigEditor";
+        },
+        openTitleEditor() {
+            this.editorType = "TitleWidgetEditor";
         },
         closeEditor() {
             this.editable = undefined;
-            this.showConfigEditor = false;
+            this.editorType = "";
         },
         addWidget() {
             this.$store.commit("addWidget");

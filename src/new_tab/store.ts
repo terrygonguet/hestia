@@ -1,11 +1,13 @@
 import { Store } from "vuex"
 import { Category } from "./category"
+import { TitleWidget } from "./title"
 declare const Vuex: { Store: typeof Store }
 declare function clone<T>(value: T): T
 
 export interface State {
   config: Config
   widgets: Widget[]
+  titleWidget: TitleWidget
 }
 
 export interface Config {
@@ -32,6 +34,11 @@ export default new Vuex.Store<State>({
       colorBorder: "#454545",
     },
     widgets: [],
+    titleWidget: {
+      type: "Message",
+      message: "Where to?",
+      messages: ["Enter to add"],
+    },
   },
   mutations: {
     addWidget(state) {
@@ -61,8 +68,9 @@ export default new Vuex.Store<State>({
   },
   actions: {
     async restore({ state }) {
-      let data = await browser.storage.local.get(["config", "widgets"])
+      let data = await browser.storage.local.get(undefined)
       Object.assign(state.config, data.config)
+      Object.assign(state.titleWidget, data.titleWidget)
       state.widgets = data.widgets || []
     },
 
