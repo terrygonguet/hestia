@@ -7,7 +7,7 @@ const template = `
   class="rounded border border-main p-2 bg-block flex flex-col resize-none"
   :style="gridSpan"
   v-model="widget.text"
-  placeholder="Double click to edit"
+  placeholder="Double click to edit, type to store some text"
 ></textarea>`
 
 export interface TextZone {

@@ -1,6 +1,7 @@
 import { Store } from "vuex"
 import { Category } from "./category"
 import { TitleWidget } from "./title"
+import { TextZone } from "./textZone"
 declare const Vuex: { Store: typeof Store }
 declare function clone<T>(value: T): T
 
@@ -20,7 +21,7 @@ export interface Config {
   colorBorder: string
 }
 
-export type Widget = Category
+export type Widget = Category | TextZone
 
 export default new Vuex.Store<State>({
   state: {
