@@ -26,6 +26,13 @@ const template = `
   </div>
 
   <h2 class="text-center text-accent text-2xl">Quotes</h2>
+  
+  <label class="flex justify-between text-accent">
+    Width <input v-model.number="object.width" type="number" min="1" class="w-12 bg-transparent text-main"/>
+  </label>
+  <label class="flex justify-between text-accent">
+    Height <input v-model.number="object.height" type="number" min="1" class="w-12 bg-transparent text-main"/>
+  </label>
 </div>`
 
 type Props = {
