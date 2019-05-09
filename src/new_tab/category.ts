@@ -109,7 +109,13 @@ const component: ThisTypedComponentOptionsWithRecordProps<
   },
   methods: {
     hotkeyHandler(e) {
-      if (e.target != document.body) return
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLSelectElement ||
+        e.target instanceof HTMLTextAreaElement ||
+        e.target instanceof HTMLButtonElement
+      )
+        return
       for (const link of this.links) {
         if (link.hotkey == e.key) {
           location.replace(link.href)

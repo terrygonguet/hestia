@@ -67,7 +67,10 @@ const component = {
     },
     methods: {
         hotkeyHandler(e) {
-            if (e.target != document.body)
+            if (e.target instanceof HTMLInputElement ||
+                e.target instanceof HTMLSelectElement ||
+                e.target instanceof HTMLTextAreaElement ||
+                e.target instanceof HTMLButtonElement)
                 return;
             for (const link of this.links) {
                 if (link.hotkey == e.key) {
