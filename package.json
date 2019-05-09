@@ -3,9 +3,11 @@
   "version": "0.4.0",
   "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and custom CSS (WIP).",
   "scripts": {
-    "build": "npm run build:ts && npm run build:css",
+    "dev": "tsc -w",
+    "build": "npm run build:ts && npm run build:css && npm run pack",
     "build:ts": "tsc",
-    "build:css": "tailwind build ./src/new_tab/styles.css -o ./dist/new_tab/styles.css -c tailwind.config.js"
+    "build:css": "tailwind build ./src/new_tab/styles.css -o ./dist/new_tab/styles.css -c tailwind.config.js",
+    "pack": "web-ext build -s ./dist/"
   },
   "repository": {
     "type": "git",
