@@ -41,7 +41,7 @@ const template = `
     :width="8"
     icon="settings"
     placeholder="Settings"
-    @click.native="openConfigEditor"
+    @click.native="toggleConfigEditor"
     class="absolute top-0 right-0 m-4"/>
 
 </div>`;
@@ -99,6 +99,12 @@ const component = {
         openWidgetEditor(widget) {
             this.editable = widget;
             this.editorType = widget.type + "Editor";
+        },
+        toggleConfigEditor() {
+            if (this.editorType == "ConfigEditor")
+                this.closeEditor();
+            else
+                this.openConfigEditor();
         },
         openConfigEditor() {
             this.editorType = "ConfigEditor";
