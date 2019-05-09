@@ -5,7 +5,6 @@ const template = `
 >
   <h2 class="text-accent text-2xl">
     <img
-      alt="📁"
       :src="'../resources/svg/' + icon + '.svg'"
       class="inline"
     />

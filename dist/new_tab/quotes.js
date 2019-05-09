@@ -24,13 +24,20 @@ const component = {
             type: Number,
             default: 1,
         },
+        cache: {
+            type: Object,
+            default: () => ({ date: 0 }),
+        },
     },
     template,
     data() {
+        let hasCache = Boolean(this.cache.quote &&
+            this.cache.author &&
+            Date.now() - this.cache.date < 3 * 60 * 1000);
         return {
-            quote: "",
-            author: "",
-            loaded: false,
+            quote: this.cache.quote || "",
+            author: this.cache.author || "",
+            loaded: hasCache,
         };
     },
     computed: {
@@ -42,6 +49,8 @@ const component = {
         },
     },
     async mounted() {
+        if (this.loaded)
+            return;
         let res = await fetch("http://quotes.rest/qod", {
             headers: { Accept: "application/json" },
         });
@@ -49,6 +58,9 @@ const component = {
         this.quote = json.contents.quotes[0].quote;
         this.author = json.contents.quotes[0].author;
         this.loaded = true;
+        this.cache.quote = this.quote;
+        this.cache.author = this.author;
+        this.cache.date = Date.now();
     },
 };
 export default component;
@@ -60,5 +72,8 @@ export function create() {
             .substr(2),
         height: 1,
         width: 1,
+        cache: {
+            date: 0,
+        },
     };
 }

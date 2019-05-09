@@ -7564,6 +7564,7 @@ video {
   grid-gap: 0.5rem;
   grid-template-columns: repeat(var(--nb-columns), 1fr);
   grid-template-rows: repeat(var(--nb-rows), 1fr);
+  grid-auto-flow: dense;
 }
 
 .text-main {
