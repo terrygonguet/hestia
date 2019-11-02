@@ -31,11 +31,11 @@ type Props = {
 }
 type Data = {
   time: number
-  dateFormatter: Intl.DateTimeFormat
 }
 type Methods = {}
 type Computed = {
   content: string
+  dateFormatter: Intl.DateTimeFormat
 }
 
 const component: ThisTypedComponentOptionsWithRecordProps<
@@ -70,16 +70,6 @@ const component: ThisTypedComponentOptionsWithRecordProps<
   data() {
     return {
       time: Date.now(),
-      dateFormatter: new Intl.DateTimeFormat(this.locale || "default", {
-        hour12: this.hour12,
-        weekday: "long",
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
     }
   },
   computed: {
@@ -95,8 +85,19 @@ const component: ThisTypedComponentOptionsWithRecordProps<
           return "Wat"
       }
     },
+    dateFormatter() {
+      return new Intl.DateTimeFormat(this.locale || "default", {
+        hour12: this.hour12,
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      })
+    },
   },
-  methods: {},
   mounted() {
     setInterval(() => (this.time = Date.now()), 1000)
   },
