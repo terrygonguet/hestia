@@ -2,6 +2,7 @@ import { Store } from "vuex"
 import { Category } from "./category"
 import { TitleWidget } from "./title"
 import { TextZone } from "./textZone"
+import { Quotes } from "./quotes"
 declare const Vuex: { Store: typeof Store }
 declare function clone<T>(value: T): T
 
@@ -21,7 +22,7 @@ export interface Config {
   colorBorder: string
 }
 
-export type Widget = Category | TextZone
+export type Widget = Category | TextZone | Quotes
 
 export default new Vuex.Store<State>({
   state: {
@@ -46,7 +47,7 @@ export default new Vuex.Store<State>({
       state.widgets.push(create())
     },
     deleteWidget(state, id: string) {
-      state.widgets.splice(state.widgets.findIndex(w => w.id == id), 1)
+      state.widgets = state.widgets.filter(w => w.id != id)
     },
     reorderWidget(state, { id, delta }: { id: string; delta: number }) {
       let l = state.widgets.length

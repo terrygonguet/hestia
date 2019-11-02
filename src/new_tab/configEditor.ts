@@ -28,11 +28,21 @@ const template = `
   <label class="flex justify-between text-accent">
     Border color <input v-model.number="config.colorBorder" type="color" class="bg-transparent"/>
   </label>
+  <div class="flex justify-evenly p-2">
+    <button class="px-4 py-2 rounded border border-main" @click="exportData">Export</button>
+    <button class="px-4 py-2 rounded border border-main" @click="importData">Import</button>
+  </div>
+  <textarea v-model="data" v-show="data" class="border border-main p-2 bg-block resize-none"></textarea>
 </div>`
 
 type Props = {}
-type Data = {}
-type Methods = {}
+type Data = {
+  data: string
+}
+type Methods = {
+  importData(): void
+  exportData(): void
+}
 type Computed = {
   config: Config
 }
@@ -47,9 +57,35 @@ const component: ThisTypedComponentOptionsWithRecordProps<
   name: "ConfigEditor",
   components: { ClickableSVG },
   template,
+  data() {
+    return {
+      data: "",
+    }
+  },
   computed: {
     config() {
       return this.$store.state.config
+    },
+  },
+  methods: {
+    importData() {
+      if (this.data) {
+        try {
+          let newData = JSON.parse(this.data)
+          browser.storage.local.set(newData).then(_ => {
+            this.data = ""
+            this.$store.dispatch("restore")
+          })
+        } catch (err) {
+          this.data = "Invalid data"
+        }
+      } else {
+        // show the text box
+        this.data = "paste the data here"
+      }
+    },
+    exportData() {
+      this.data = JSON.stringify(this.$store.state, null, 2)
     },
   },
 }

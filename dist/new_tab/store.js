@@ -21,7 +21,7 @@ export default new Vuex.Store({
             state.widgets.push(create());
         },
         deleteWidget(state, id) {
-            state.widgets.splice(state.widgets.findIndex(w => w.id == id), 1);
+            state.widgets = state.widgets.filter(w => w.id != id);
         },
         reorderWidget(state, { id, delta }) {
             let l = state.widgets.length;

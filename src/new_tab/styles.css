@@ -49,3 +49,7 @@
 .pointer-none {
   pointer-events: none;
 }
+
+.justify-evenly {
+  justify-content: space-evenly;
+}
