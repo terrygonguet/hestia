@@ -31,6 +31,20 @@ export default new Vuex.Store({
             i = i < 0 ? 0 : i >= l ? l - 1 : i;
             state.widgets.splice(i, 0, widget);
         },
+        newtab(state) {
+            for (const widget of state.widgets) {
+                if (widget.type != "TabCounter")
+                    continue;
+                let then = new Date(widget.lastAdd), now = new Date();
+                // if it's a new day reset day counter
+                if (then.getDate() != now.getDate())
+                    widget.counters.today = 1;
+                else
+                    widget.counters.today++;
+                widget.counters.allTime++;
+                widget.lastAdd = Date.now();
+            }
+        },
     },
     actions: {
         async restore({ state }) {

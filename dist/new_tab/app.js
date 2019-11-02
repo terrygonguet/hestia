@@ -7,6 +7,8 @@ import TextZone from "./textZone.js";
 import TextZoneEditor from "./textZoneEditor.js";
 import Quotes from "./quotes.js";
 import QuotesEditor from "./quotesEditor.js";
+import TabCounter from "./tabCounter.js";
+import TabCounterEditor from "./tabCounterEditor.js";
 import ClickableSVG from "./clickableSVG.js";
 import NewWidget from "./newWidget.js";
 const template = `
@@ -56,6 +58,8 @@ const component = {
         TextZoneEditor,
         Quotes,
         QuotesEditor,
+        TabCounter,
+        TabCounterEditor,
         ConfigEditor,
         ClickableSVG,
         NewWidget,

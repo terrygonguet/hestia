@@ -7,7 +7,7 @@ const app = new Vue({
     components: { App },
     store,
 });
-store.dispatch("restore");
+store.dispatch("restore").then(_ => store.commit("newtab"));
 window.addEventListener("beforeunload", async (e) => {
     await store.dispatch("persist");
 });

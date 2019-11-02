@@ -31,6 +31,7 @@ type Props = {
 }
 type Data = {
   time: number
+  dateFormatter: Intl.DateTimeFormat
 }
 type Methods = {}
 type Computed = {
@@ -69,6 +70,16 @@ const component: ThisTypedComponentOptionsWithRecordProps<
   data() {
     return {
       time: Date.now(),
+      dateFormatter: new Intl.DateTimeFormat(this.locale || "default", {
+        hour12: this.hour12,
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
     }
   },
   computed: {
@@ -79,16 +90,7 @@ const component: ThisTypedComponentOptionsWithRecordProps<
         case "List":
           return this.messages[Math.floor(Math.random() * this.messages.length)]
         case "Clock":
-          return new Intl.DateTimeFormat(this.locale || "default", {
-            hour12: this.hour12,
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          }).format(this.time)
+          return this.dateFormatter.format(this.time)
         default:
           return "Wat"
       }
