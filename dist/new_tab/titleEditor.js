@@ -22,8 +22,8 @@ const template = `
       class="bg-transparent w-full"
       placeholder="Backspace to remove"
       :autofocus="i == widget.messages.length - 1"
-      @keydown.enter="addMessage"
-      @keydown.backspace="removeMessage(i)"
+      @keyup.enter="addMessage"
+      @keyup.backspace="removeMessage(i)"
       ref="messages"/>
   </div>
 
@@ -64,7 +64,7 @@ const component = {
             if (messages[i].length != 0)
                 return;
             if (messages.length != 1)
-                messages.splice(i, 1);
+                widget.messages = messages.filter((m, ii) => ii !== i);
             this.focusLast(true);
         },
         async focusLast(focus = false) {
