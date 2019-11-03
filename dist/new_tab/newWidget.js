@@ -2,22 +2,26 @@ import { create as createCategory } from "./category.js";
 import { create as createTextZone } from "./textZone.js";
 import { create as createQuotes } from "./quotes.js";
 import { create as createTabCounter } from "./tabCounter.js";
+import { create as createClock } from "./clock.js";
 const creators = {
     Category: createCategory,
     TextZone: createTextZone,
     Quotes: createQuotes,
     TabCounter: createTabCounter,
+    Clock: createClock,
 };
 const template = `
 <div
-  class="rounded border border-main p-2 bg-block cursor-pointer flex flex-col justify-evenly items-center hover:opacity-100"
+  class="rounded border border-main p-2 bg-block cursor-pointer hover:opacity-100"
   :class="[nbWidgets >= 2 ? 'opacity-0' : '']"
+  :style="gridStyles"
 >
-  <h1 class="text-accent text-2xl">Create new</h1>
-  <button @click="addWidget('Category')" class="border border-main rounded px-2 py-1 m-1">Category</button>
-  <button @click="addWidget('TextZone')" class="border border-main rounded px-2 py-1 m-1">Text Zone</button>
-  <button @click="addWidget('TabCounter')" class="border border-main rounded px-2 py-1 m-1">Tab Counter</button>
-  <button @click="addWidget('Quotes')" class="border border-main rounded px-2 py-1 m-1">Quotes</button>
+  <h1 class="text-accent text-xl text-center" style="grid-column:span 2">Create new</h1>
+  <button @click="addWidget('Category')" class="border border-main rounded">Category</button>
+  <button @click="addWidget('Clock')" class="border border-main rounded">Clock</button>
+  <button @click="addWidget('TextZone')" class="border border-main rounded">Text Zone</button>
+  <button @click="addWidget('TabCounter')" class="border border-main rounded">Tab Counter</button>
+  <button @click="addWidget('Quotes')" class="border border-main rounded">Quotes</button>
 </div>`;
 const component = {
     name: "NewWidget",
@@ -25,6 +29,13 @@ const component = {
     computed: {
         nbWidgets() {
             return this.$store.state.widgets.length;
+        },
+        gridStyles() {
+            return {
+                display: "grid",
+                "grid-template-columns": "1fr 1fr",
+                "grid-gap": "0.5rem",
+            };
         },
     },
     methods: {

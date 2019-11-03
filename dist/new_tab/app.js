@@ -9,6 +9,8 @@ import Quotes from "./quotes.js";
 import QuotesEditor from "./quotesEditor.js";
 import TabCounter from "./tabCounter.js";
 import TabCounterEditor from "./tabCounterEditor.js";
+import Clock from "./clock.js";
+import ClockEditor from "./clockEditor.js";
 import ClickableSVG from "./clickableSVG.js";
 import NewWidget from "./newWidget.js";
 const template = `
@@ -60,6 +62,8 @@ const component = {
         QuotesEditor,
         TabCounter,
         TabCounterEditor,
+        Clock,
+        ClockEditor,
         ConfigEditor,
         ClickableSVG,
         NewWidget,
