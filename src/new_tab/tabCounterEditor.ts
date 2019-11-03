@@ -60,7 +60,7 @@ const component: ThisTypedComponentOptionsWithRecordProps<
   Computed,
   Props
 > = {
-  name: "CategoryEditor",
+  name: "TabCounterEditor",
   components: { ClickableSVG },
   props: {
     object: {

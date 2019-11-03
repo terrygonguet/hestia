@@ -40,7 +40,7 @@ const template = `
   </div>
 </div>`;
 const component = {
-    name: "CategoryEditor",
+    name: "TabCounterEditor",
     components: { ClickableSVG },
     props: {
         object: {
