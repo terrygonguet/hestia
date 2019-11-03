@@ -17,6 +17,7 @@ export interface Clock {
   id: string
   width: number
   height: number
+  custom: boolean
   code: string
 }
 
@@ -24,6 +25,7 @@ type Props = {
   id: string
   width: number
   height: number
+  custom: boolean
   code: string
 }
 type Data = {
@@ -58,6 +60,10 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     height: {
       type: Number,
       default: 1,
+    },
+    custom: {
+      type: Boolean,
+      default: false,
     },
     code: {
       type: String,
@@ -112,7 +118,12 @@ const component: ThisTypedComponentOptionsWithRecordProps<
     this.setCanvasDimentions()
     await this.$nextTick()
     try {
-      let fn = new Function("canvas", "ctx", "colors", this.code)
+      let fn = new Function(
+        "canvas",
+        "ctx",
+        "colors",
+        this.custom ? this.code : defaultClockCode,
+      )
       let config: Config = this.$store.state.config
       let colors: { [name: string]: string } = {
         main: config.colorMain,
@@ -138,7 +149,12 @@ export function create(): Clock {
       .substr(2),
     height: 1,
     width: 1,
-    code: `/*
+    custom: false,
+    code: "",
+  }
+}
+
+export const defaultClockCode = `/*
   available globals :
   - canvas - the canvas element
   - ctx    - the CanvasRenderingContext2D
@@ -207,7 +223,4 @@ function draw() {
 }
 
 // start the RAF loop
-draw()
-`,
-  }
-}
+draw()`

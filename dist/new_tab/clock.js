@@ -22,6 +22,10 @@ const component = {
             type: Number,
             default: 1,
         },
+        custom: {
+            type: Boolean,
+            default: false,
+        },
         code: {
             type: String,
             default: "",
@@ -75,7 +79,7 @@ const component = {
         this.setCanvasDimentions();
         await this.$nextTick();
         try {
-            let fn = new Function("canvas", "ctx", "colors", this.code);
+            let fn = new Function("canvas", "ctx", "colors", this.custom ? this.code : defaultClockCode);
             let config = this.$store.state.config;
             let colors = {
                 main: config.colorMain,
@@ -100,7 +104,11 @@ export function create() {
             .substr(2),
         height: 1,
         width: 1,
-        code: `/*
+        custom: false,
+        code: "",
+    };
+}
+export const defaultClockCode = `/*
   available globals :
   - canvas - the canvas element
   - ctx    - the CanvasRenderingContext2D
@@ -169,7 +177,4 @@ function draw() {
 }
 
 // start the RAF loop
-draw()
-`,
-    };
-}
+draw()`;
