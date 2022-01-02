@@ -1,0 +1,30 @@
+{
+  "applications": {
+    "gecko": {
+      "id": "hestia@codegalley.io",
+      "strict_min_version": "57.0"
+    }
+  },
+  "author": "CodeGalley",
+  "background": {
+    "scripts": ["background/background.js"]
+  },
+  "manifest_version": 2,
+  "name": "Living Room Tab",
+  "version": "1.0.0",
+  "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and editable colors.",
+  "icons": {
+    "32": "resources/icon-32.png",
+    "64": "resources/icon-64.png",
+    "128": "resources/icon-128.png"
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": ["storage"]
+}
