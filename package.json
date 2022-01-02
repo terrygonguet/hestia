@@ -18,7 +18,9 @@
   },
   "homepage": "https://github.com/terrygonguet/hestia#readme",
   "dependencies": {
-    "@types/firefox-webext-browser": "^67.0.1"
+    "@types/firefox-webext-browser": "^67.0.1",
+    "lit-html": "^2.0.2",
+    "nanoid": "^3.1.30"
   },
   "devDependencies": {
     "typescript": "^4.4.4",

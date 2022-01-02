@@ -1,14 +1,11 @@
 {
   "applications": {
     "gecko": {
-      "id": "hestia@codegalley.io",
+      "id": "hestia@gonguet.com",
       "strict_min_version": "57.0"
     }
   },
-  "author": "CodeGalley",
-  "background": {
-    "scripts": ["background/background.js"]
-  },
+  "author": "Terry Gonguet",
   "manifest_version": 2,
   "name": "Living Room Tab",
   "version": "1.0.0",

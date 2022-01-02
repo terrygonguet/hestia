@@ -1,0 +1,41 @@
+body {
+	display: flex;
+	height: 100%;
+	padding: 1rem;
+}
+
+#tree {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+#components {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+#components label {
+	padding-left: calc(var(--depth, 0) * 0.5rem);
+}
+#components input[type="radio"] {
+	display: none;
+}
+#components .selected {
+	background-color: coral;
+}
+#tree-commands {
+	display: flex;
+	padding: 0.3rem;
+	gap: 0.3rem;
+}
+#tree-commands > button {
+	flex-grow: 1;
+	border: none;
+}
+
+#props {
+	flex-grow: 3;
+}
+#props > fieldset {
+	height: 100%;
+}
