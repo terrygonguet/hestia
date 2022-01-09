@@ -1,4 +1,4 @@
-import { asyncMap } from "./utils"
+import { asyncMap } from "../utils"
 import { Divider, DefaultDisplay, TestDiv } from "./builtins"
 
 const builtins = {

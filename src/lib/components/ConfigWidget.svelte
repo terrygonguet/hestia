@@ -1,6 +1,17 @@
+<script lang="ts">
+	export let current: "edit" | "options" | "home"
+</script>
+
 <aside>
-	<a href="/edit.html" title="Edit">✏</a>
-	<a href="/options.html" title="Config">⚙</a>
+	{#if current != "home"}
+		<a href="/index.html" title="Home">⌂</a>
+	{/if}
+	{#if current != "edit"}
+		<a href="/edit.html" title="Edit">✏</a>
+	{/if}
+	{#if current != "options"}
+		<a href="/options.html" title="Config">⚙</a>
+	{/if}
 </aside>
 
 <style>

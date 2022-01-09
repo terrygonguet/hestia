@@ -15,7 +15,7 @@
 	})
 </script>
 
-<ConfigWidget />
+<ConfigWidget current="home" />
 <div id="container" bind:this={container} />
 
 <style>

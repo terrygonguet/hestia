@@ -20,7 +20,8 @@
 
 <style>
 	label {
-		padding-left: calc(var(--depth, 0) * 0.5rem);
+		padding-left: calc(var(--depth, 0) * 0.7rem);
+		cursor: pointer;
 	}
 	input[type="radio"] {
 		appearance: none;
