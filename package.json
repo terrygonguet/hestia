@@ -1,36 +1,33 @@
 {
-  "name": "hestia",
-  "version": "0.4.0",
-  "description": "A customizable new tab extension. You can choose what links to show and how it looks with resizable categories and custom CSS (WIP).",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
-    "preview": "vite preview"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/terrygonguet/hestia.git"
-  },
-  "author": "Terry Gonguet",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/terrygonguet/hestia/issues"
-  },
-  "homepage": "https://github.com/terrygonguet/hestia#readme",
-  "dependencies": {
-    "@types/firefox-webext-browser": "^67.0.1",
-    "lit-html": "^2.0.2",
-    "nanoid": "^3.1.30"
-  },
-  "devDependencies": {
-    "typescript": "^4.4.4",
-    "vite": "^2.7.2"
-  },
-  "prettier": {
-    "semi": false,
-    "trailingComma": "all",
-    "arrowParens": "avoid",
-    "tabWidth": 4,
-    "useTabs": true
-  }
+	"name": "hestia_",
+	"version": "0.0.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "vite build",
+		"preview": "vite preview",
+		"check": "svelte-check --tsconfig ./tsconfig.json"
+	},
+	"dependencies": {
+		"@types/firefox-webext-browser": "^67.0.1",
+		"nanoid": "^3.1.30",
+		"svelte-fsm": "^1.1.2"
+	},
+	"devDependencies": {
+		"@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+		"@tsconfig/svelte": "^2.0.1",
+		"svelte": "^3.44.0",
+		"svelte-check": "^2.2.7",
+		"svelte-preprocess": "^4.9.8",
+		"tslib": "^2.3.1",
+		"typescript": "^4.4.4",
+		"vite": "^2.7.2"
+	},
+	"prettier": {
+		"semi": false,
+		"trailingComma": "all",
+		"arrowParens": "avoid",
+		"tabWidth": 4,
+		"useTabs": true
+	}
 }
