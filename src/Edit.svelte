@@ -11,9 +11,12 @@
 		findParentOfId,
 	} from "./utils/compdef"
 	import { nanoid } from "nanoid"
-	import { Divider, TestDiv } from "./lib/builtins"
+	import { builtins } from "./lib/builtins"
 
-	const builtins = { Divider, TestDiv, Custom: { name: "Custom" } }
+	const availableComponents = {
+		...builtins,
+		Custom: { name: "Custom" },
+	}
 	const selected = writable<string>()
 	const state = fsm("loading", {
 		loading: {
@@ -80,9 +83,10 @@
 	let editorValues: { [prop: string]: any } = {}
 
 	$: selectedDef = root && findById(root, $selected)
-	$: updateEditor($selected)
+	$: selectedType = selectedDef?.type ?? "none"
+	$: updateEditor($selected, selectedType)
 	$: selectedComponent = (selectedDef &&
-		(builtins as any)[selectedDef.type]) as Component | undefined
+		(availableComponents as any)[selectedDef.type]) as Component | undefined
 	$: placeholder = selectedComponent?.name ?? ""
 
 	function save() {
@@ -99,8 +103,11 @@
 	async function updateEditor(...dependencies: any[]) {
 		if (!selectedDef) return
 		const stored = await browser.storage.local.get(selectedDef.id)
-		if (stored[selectedDef.id]) editorValues = stored[selectedDef.id]
-		else editorValues = selectedComponent?.initState() ?? {}
+		const defaultValues = selectedComponent?.initState() ?? {}
+		editorValues = Object.assign(
+			defaultValues,
+			stored[selectedDef.id] ?? {},
+		)
 	}
 
 	onMount(async () => {
@@ -166,7 +173,7 @@
 				<p id="id">ID: {selectedDef.id}</p>
 				<label for="ddl-type"> Type: </label>
 				<select id="ddl-type" name="type" bind:value={selectedDef.type}>
-					{#each Object.entries(builtins) as [type, { name }]}
+					{#each Object.entries(availableComponents) as [type, { name }]}
 						<option value={type}>{name}</option>
 					{/each}
 				</select>
@@ -193,12 +200,14 @@
 					<label for="field-{i}">{field.label}</label>
 					{#if field.type == "text"}
 						<input
+							id="field-{i}"
 							type="text"
 							style="grid-column: span 3"
 							bind:value={editorValues[field.prop]}
 						/>
 					{:else if field.type == "select"}
 						<select
+							id="field-{i}"
 							style="grid-column: span 3"
 							bind:value={editorValues[field.prop]}
 						>
@@ -208,6 +217,7 @@
 						</select>
 					{:else if field.type == "number"}
 						<input
+							id="field-{i}"
 							type="number"
 							style="grid-column: span 3"
 							min={field.min}
@@ -216,11 +226,13 @@
 							bind:value={editorValues[field.prop]}
 						/>
 					{:else if field.type == "boolean"}
-						<input
-							type="checkbox"
-							style="grid-column: span 3"
-							bind:value={editorValues[field.prop]}
-						/>
+						<div style="grid-column: span 3">
+							<input
+								id="field-{i}"
+								type="checkbox"
+								bind:checked={editorValues[field.prop]}
+							/>
+						</div>
 					{/if}
 				{:else}
 					<p id="no-editorconfig">This component can't be edited.</p>

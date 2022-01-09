@@ -14,7 +14,7 @@ type ComponentDefinition =
 	| {
 			id: string
 			name?: string
-			type: "Divider" | "TestDiv" | "DefaultDisplay"
+			type: "Divider" | "TestDiv"
 			children?: ComponentDefinition[]
 	  }
 	| {
