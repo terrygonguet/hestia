@@ -103,7 +103,7 @@
 	async function updateEditor(...dependencies: any[]) {
 		if (!selectedDef) return
 		const stored = await browser.storage.local.get(selectedDef.id)
-		const defaultValues = selectedComponent?.initState() ?? {}
+		const defaultValues = selectedComponent?.initState?.() ?? {}
 		editorValues = Object.assign(
 			defaultValues,
 			stored[selectedDef.id] ?? {},
