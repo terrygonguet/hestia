@@ -12,6 +12,7 @@
 	} from "./utils/compdef"
 	import { nanoid } from "nanoid"
 	import { builtins } from "./lib/builtins"
+	import { getCustomComponent } from "./utils"
 
 	const availableComponents = {
 		...builtins,
@@ -79,14 +80,13 @@
 
 	let root: ComponentDefinition
 	let error: Error
+	let selectedComponent: Component
 
 	let editorValues: { [prop: string]: any } = {}
 
 	$: selectedDef = root && findById(root, $selected)
 	$: selectedType = selectedDef?.type ?? "none"
 	$: updateEditor($selected, selectedType)
-	$: selectedComponent = (selectedDef &&
-		(availableComponents as any)[selectedDef.type]) as Component | undefined
 	$: placeholder = selectedComponent?.name ?? ""
 
 	function save() {
@@ -102,6 +102,10 @@
 
 	async function updateEditor(...dependencies: any[]) {
 		if (!selectedDef) return
+		if (selectedDef.type == "Custom")
+			selectedComponent = await getCustomComponent(selectedDef.url)
+		else selectedComponent = availableComponents[selectedDef.type]
+
 		const stored = await browser.storage.local.get(selectedDef.id)
 		const defaultValues = selectedComponent?.initState?.() ?? {}
 		editorValues = Object.assign(

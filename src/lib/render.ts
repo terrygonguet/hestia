@@ -1,16 +1,5 @@
-import { asyncMap } from "../utils"
+import { asyncMap, getCustomComponent } from "../utils"
 import { builtins } from "./builtins"
-
-async function getCustomComponent(url: string): Promise<Component> {
-	const res = await fetch(url)
-	const code = await res.text()
-	const fn = new Function("module", code)
-	const module = { exports: {} as any }
-
-	fn(module)
-
-	return module.exports
-}
 
 export async function render(definition: ComponentDefinition): Promise<Node> {
 	const component: Component =
