@@ -21,3 +21,5 @@ export async function render() {
 
 	return el
 }
+
+export const name = "Default display"

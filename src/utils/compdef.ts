@@ -26,15 +26,6 @@ export function deleteById(component: ComponentDefinition, id: string) {
 	}
 }
 
-// export function getParentOfId(
-// 	component: ComponentDefinition,
-// 	id: string,
-// ): ComponentDefinition | undefined {
-// 	if (component.id == id) return
-// 	if (component.children?.find(c => c.id == id)) return component
-// 	for (const child of component.children ?? []) {
-// 		const descendant = getParentOfId(child, id)
-// 		if (descendant) return descendant
-// 	}
-// 	return
-// }
+export function findParentOfId(component: ComponentDefinition, id: string) {
+	return flatten(component).find(c => c.children?.find(cc => cc.id == id))
+}

@@ -1,9 +1,20 @@
 <script lang="ts">
 	import type { Writable } from "svelte/store"
+	import { Divider, DefaultDisplay, TestDiv } from "../builtins"
+
+	const builtins = {
+		Divider,
+		TestDiv,
+		DefaultDisplay,
+	}
 
 	export let depth = 0
 	export let definition: ComponentDefinition
 	export let selected: Writable<string>
+
+	$: builtinName =
+		definition.type == "Custom" ? "Custom" : builtins[definition.type].name
+	$: name = (definition.name || builtinName) ?? definition.type
 </script>
 
 <label style="--depth:{depth}" class:selected={$selected == definition.id}>
@@ -12,7 +23,7 @@
 		value={definition.id}
 		name="component"
 		on:change={() => ($selected = definition.id)}
-	/>{definition.type}
+	/>{name}
 </label>
 {#each definition.children ?? [] as child}
 	<svelte:self depth={depth + 1} definition={child} {selected} />

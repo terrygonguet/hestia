@@ -9,3 +9,5 @@ export async function render(state: ReturnType<typeof initState>, _: Context) {
 
 	return el
 }
+
+export const name = "Test div"

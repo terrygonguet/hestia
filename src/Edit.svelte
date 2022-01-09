@@ -4,15 +4,22 @@
 	import fsm from "svelte-fsm"
 	import ComponentDefinitionTree from "./lib/components/ComponentDefinitionTree.svelte"
 	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
-	import { addChild, deleteById, findById } from "./utils/compdef"
+	import {
+		addChild,
+		deleteById,
+		findById,
+		findParentOfId,
+	} from "./utils/compdef"
 	import { nanoid } from "nanoid"
+	import { Divider, TestDiv } from "./lib/builtins"
 
+	const builtins = { Divider, TestDiv, Custom: { name: "Custom" } }
 	const selected = writable<string>()
 	const state = fsm("loading", {
 		loading: {
-			complete(root: ComponentDefinition) {
-				definition = root
-				$selected = definition.id
+			complete(stored: ComponentDefinition) {
+				root = stored
+				$selected = root.id
 				return "done"
 			},
 			error(err: Error) {
@@ -24,8 +31,8 @@
 		},
 		empty: {
 			add() {
-				definition = { id: nanoid(), type: "TestDiv" }
-				$selected = definition.id
+				root = { id: nanoid(), type: "TestDiv" }
+				$selected = root.id
 				save()
 				return "done"
 			},
@@ -38,12 +45,12 @@
 						type: "TestDiv",
 					})
 					save()
-					definition = definition // force svelte refresh
+					root = root // force svelte refresh
 				}
 			},
 			remove() {
 				if (
-					selectedDef == definition &&
+					selectedDef == root &&
 					confirm(
 						"Are you sure you want to delete ALL of the components?",
 					)
@@ -56,35 +63,44 @@
 						"Are you sure you want to delete this component and all of its children?",
 					)
 				) {
-					deleteById(definition, $selected)
+					let parent = findParentOfId(root, $selected)
+					deleteById(root, $selected)
+					if (parent) $selected = parent.id
 					save()
-					definition = definition // force svelte refresh
+					root = root // force svelte refresh
 				}
 			},
 		},
 		error: {},
 	})
 
-	let definition: ComponentDefinition
+	let root: ComponentDefinition
 	let error: Error
 
-	$: selectedDef = definition && findById(definition, $selected)
-	$: console.log(selectedDef)
+	let editorValues: { [prop: string]: any } = {}
 
-	function onClickAdd() {
-		state.add()
-	}
-
-	function onClickRemove() {
-		state.remove()
-	}
+	$: selectedDef = root && findById(root, $selected)
+	$: updateEditor($selected)
+	$: selectedComponent = (selectedDef &&
+		(builtins as any)[selectedDef.type]) as Component | undefined
+	$: placeholder = selectedComponent?.name ?? ""
 
 	function save() {
-		return browser.storage.local.set({ root: definition })
+		return browser.storage.local.set({
+			root,
+			[selectedDef?.id ?? ""]: editorValues,
+		})
 	}
 
 	function clear() {
 		return browser.storage.local.remove("root")
+	}
+
+	async function updateEditor(...dependencies: any[]) {
+		if (!selectedDef) return
+		const stored = await browser.storage.local.get(selectedDef.id)
+		if (stored[selectedDef.id]) editorValues = stored[selectedDef.id]
+		else editorValues = selectedComponent?.initState() ?? {}
 	}
 
 	onMount(async () => {
@@ -110,7 +126,7 @@
 			{#if $state == "loading"}
 				<p class="centered">Loading...</p>
 			{:else if $state == "done"}
-				<ComponentDefinitionTree {definition} {selected} />
+				<ComponentDefinitionTree definition={root} {selected} />
 			{:else if $state == "empty"}
 				<p class="centered">
 					You have no components yet, click the "+" button to add one!
@@ -123,12 +139,12 @@
 			<button
 				type="button"
 				title="Create component and add as child of selected"
-				on:click={onClickAdd}>+</button
+				on:click={state.add}>+</button
 			>
 			<button
 				type="button"
 				title="Delete component"
-				on:click={onClickRemove}>-</button
+				on:click={state.remove}>-</button
 			>
 			<button type="button" title="Make sibling of parent of selected">
 				⇤
@@ -143,9 +159,73 @@
 			<button type="button" title="Move seleted down">⇩</button>
 		</div>
 	</form>
-	<form id="props" on:submit|preventDefault>
+	<form id="props" on:submit|preventDefault on:change={save}>
 		<fieldset>
 			<legend>Properties</legend>
+			{#if $state == "done" && selectedDef}
+				<p id="id">ID: {selectedDef.id}</p>
+				<label for="ddl-type"> Type: </label>
+				<select id="ddl-type" name="type" bind:value={selectedDef.type}>
+					{#each Object.entries(builtins) as [type, { name }]}
+						<option value={type}>{name}</option>
+					{/each}
+				</select>
+				<label for="txb-name"> Name: </label>
+				<input
+					id="txb-name"
+					type="text"
+					name="name"
+					bind:value={selectedDef.name}
+					{placeholder}
+				/>
+				{#if selectedDef.type == "Custom"}
+					<label for="txb-url">URL:</label>
+					<input
+						type="url"
+						name="url"
+						id="txb-url"
+						bind:value={selectedDef.url}
+						style="grid-column: span 3"
+					/>
+				{/if}
+				<hr style="grid-column: span 4" />
+				{#each selectedComponent?.editorConfig ?? [] as field, i}
+					<label for="field-{i}">{field.label}</label>
+					{#if field.type == "text"}
+						<input
+							type="text"
+							style="grid-column: span 3"
+							bind:value={editorValues[field.prop]}
+						/>
+					{:else if field.type == "select"}
+						<select
+							style="grid-column: span 3"
+							bind:value={editorValues[field.prop]}
+						>
+							{#each field.options as { label, value }}
+								<option {value}>{label}</option>
+							{/each}
+						</select>
+					{:else if field.type == "number"}
+						<input
+							type="number"
+							style="grid-column: span 3"
+							min={field.min}
+							max={field.max}
+							step={field.step}
+							bind:value={editorValues[field.prop]}
+						/>
+					{:else if field.type == "boolean"}
+						<input
+							type="checkbox"
+							style="grid-column: span 3"
+							bind:value={editorValues[field.prop]}
+						/>
+					{/if}
+				{:else}
+					<p id="no-editorconfig">This component can't be edited.</p>
+				{/each}
+			{/if}
 		</fieldset>
 	</form>
 </div>
@@ -186,6 +266,27 @@
 	}
 
 	#props > fieldset {
+		display: grid;
+		grid-template-columns: auto 1fr auto 1fr;
+		grid-auto-rows: max-content;
+		align-items: center;
+		gap: 0.75rem;
 		height: 100%;
+	}
+	#id {
+		color: #a0a0a0;
+		grid-column: span 4;
+		font-size: 0.75rem;
+		text-align: right;
+	}
+	hr {
+		border-color: transparent;
+		border-top-color: #a0a0a0;
+		margin-right: 0;
+		margin-left: 0;
+	}
+	#no-editorconfig {
+		grid-column: span 4;
+		text-align: center;
 	}
 </style>
