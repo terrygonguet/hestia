@@ -63,9 +63,10 @@
 					return "empty"
 				} else if (
 					selectedDef &&
-					confirm(
-						"Are you sure you want to delete this component and all of its children?",
-					)
+					(!selectedDef.children?.length ||
+						confirm(
+							"Are you sure you want to delete this component and all of its children?",
+						))
 				) {
 					let parent = findParentOfId(root, $selected)
 					deleteById(root, $selected)
@@ -73,6 +74,56 @@
 					save()
 					root = root // force svelte refresh
 				}
+			},
+			moveLeft() {
+				if (!selectedDef) return
+				const parent = findParentOfId(root, $selected)
+				if (!parent) return
+				const i = parent.children?.indexOf(selectedDef) ?? -1
+				if (i <= 0) return
+				parent.children?.splice(i, 1)
+				parent.children?.splice(i - 1, 0, selectedDef)
+				save()
+				root = root // force svelte refresh
+			},
+			moveRight() {
+				if (!selectedDef) return
+				const parent = findParentOfId(root, $selected)
+				if (!parent) return
+				const i = parent.children?.indexOf(selectedDef) ?? -1
+				if (i == -1 || i == (parent.children?.length ?? 0) - 1) return
+				parent.children?.splice(i, 1)
+				parent.children?.splice(i + 1, 0, selectedDef)
+				save()
+				root = root // force svelte refresh
+			},
+			moveUp() {
+				if (!selectedDef) return
+				const parent = findParentOfId(root, $selected)
+				if (!parent) return
+				const grandparent = findParentOfId(root, parent.id)
+				if (!grandparent) return
+				const i = parent.children?.indexOf(selectedDef) ?? -1
+				const j = grandparent.children?.indexOf(parent) ?? -1
+				if (i == -1 || j == -1) return
+				parent.children?.splice(i, 1)
+				grandparent.children?.splice(j, 0, selectedDef)
+				save()
+				root = root // force svelte refresh
+			},
+			moveDown() {
+				if (!selectedDef) return
+				const parent = findParentOfId(root, $selected)
+				if (!parent) return
+				const i = parent.children?.indexOf(selectedDef) ?? -1
+				if (i == -1 || i == (parent.children?.length ?? 0) - 1) return
+				let sibling = parent.children?.[i + 1]
+				if (!sibling) return
+				parent.children?.splice(i, 1)
+				if (sibling.children) sibling.children.push(selectedDef)
+				else sibling.children = [selectedDef]
+				save()
+				root = root // force svelte refresh
 			},
 		},
 		error: {},
@@ -154,20 +205,29 @@
 			>
 			<button
 				type="button"
-				title="Delete component"
+				title="Delete selected component"
 				on:click={state.remove}>-</button
 			>
-			<button type="button" title="Make sibling of parent of selected">
-				⇤
-			</button>
 			<button
 				type="button"
-				title="Make child of next sibling of selected"
+				title="Move selected up the hierachy"
+				on:click={state.moveUp}>⇤</button
 			>
-				⇥
-			</button>
-			<button type="button" title="Move selected up">⇧</button>
-			<button type="button" title="Move seleted down">⇩</button>
+			<button
+				type="button"
+				title="Move selected down the hierarchy"
+				on:click={state.moveDown}>⇥</button
+			>
+			<button
+				type="button"
+				title="Move selected up"
+				on:click={state.moveLeft}>⇧</button
+			>
+			<button
+				type="button"
+				title="Move seleted down"
+				on:click={state.moveRight}>⇩</button
+			>
 		</div>
 	</form>
 	<form id="props" on:submit|preventDefault on:change={save}>
