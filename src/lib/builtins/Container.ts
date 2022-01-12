@@ -1,20 +1,33 @@
 import type { Context, EditorConfig } from "src/types"
 
+enum Direction {
+	Vertical,
+	Horizontal,
+}
+
 export function initState() {
 	return {
 		gap: 1,
+		direction: Direction.Vertical,
 	}
 }
 
 export const editorConfig: EditorConfig = [
 	{ type: "number", prop: "gap", label: "Gap size:", min: 0, max: 5 },
+	{
+		type: "select",
+		prop: "direction",
+		label: "Direction:",
+		options: [
+			{ label: "Vertical", value: Direction.Vertical },
+			{ label: "Horizontal", value: Direction.Horizontal },
+		],
+	},
 ]
 
 const css = String.raw
 const style = css`
-	display: grid;
-	grid-template-columns: 1fr;
-	grid-auto-rows: 1fr;
+	display: flex;
 `
 
 export async function render(
@@ -24,10 +37,12 @@ export async function render(
 	const el = document.createElement("div")
 	el.setAttribute("style", style)
 	el.style.gap = state.gap + "rem"
+	el.style.flexDirection =
+		state.direction == Direction.Vertical ? "column" : "row"
 
 	children.forEach(child => el.appendChild(child))
 
 	return el
 }
 
-export const name = "Vertical container"
+export const name = "Container"

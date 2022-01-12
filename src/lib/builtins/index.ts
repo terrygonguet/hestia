@@ -1,20 +1,16 @@
 import * as DefaultDisplay from "./DefaultDisplay"
-import * as VerticalContainer from "./VerticalContainer"
-import * as HorizontalContainer from "./HorizontalContainer"
+import * as Container from "./Container"
 import * as Spacer from "./Spacer"
 import * as Padding from "./Padding"
+import * as TextArea from "./TextArea"
+import * as Text from "./Text"
 
 export const builtins = {
-	VerticalContainer,
-	HorizontalContainer,
+	Container,
 	Spacer,
 	Padding,
+	TextArea,
+	Text,
 }
 
-export {
-	DefaultDisplay,
-	VerticalContainer,
-	HorizontalContainer,
-	Spacer,
-	Padding,
-}
+export { DefaultDisplay, Container, Spacer, Padding, TextArea, Text }

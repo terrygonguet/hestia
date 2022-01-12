@@ -36,7 +36,7 @@
 		},
 		empty: {
 			add() {
-				root = { id: nanoid(), type: "TestDiv" }
+				root = { id: nanoid(), type: "Spacer" }
 				$selected = root.id
 				save()
 				return "done"
@@ -47,7 +47,7 @@
 				if (selectedDef) {
 					addChild(selectedDef, {
 						id: nanoid(),
-						type: "TestDiv",
+						type: "Spacer",
 					})
 					save()
 					root = root // force svelte refresh
