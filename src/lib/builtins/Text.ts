@@ -15,13 +15,18 @@ export const editorConfig: EditorConfig = [
 ]
 
 const css = String.raw
-const style = css``
+const style = css`
+	display: flex;
+`
 
 export async function render(state: ReturnType<typeof initState>, _: Context) {
 	const el = document.createElement("div")
 	el.setAttribute("style", style)
 	el.innerText = state.text
-	if (state.center) el.style.textAlign = "center"
+	if (state.center) {
+		el.style.justifyContent = "center"
+		el.style.alignItems = "center"
+	}
 	el.style.fontSize = state.size + "rem"
 
 	return el

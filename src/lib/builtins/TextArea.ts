@@ -9,6 +9,7 @@ export function initState() {
 const css = String.raw
 const style = css`
 	resize: none;
+	padding: 0.5rem;
 `
 
 export async function render(
