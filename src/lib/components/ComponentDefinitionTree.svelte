@@ -1,12 +1,7 @@
 <script lang="ts">
+	import type { ComponentDefinition } from "src/types"
 	import type { Writable } from "svelte/store"
-	import { Divider, DefaultDisplay, TestDiv } from "../builtins"
-
-	const builtins = {
-		Divider,
-		TestDiv,
-		DefaultDisplay,
-	}
+	import { builtins } from "../builtins"
 
 	export let depth = 0
 	export let definition: ComponentDefinition

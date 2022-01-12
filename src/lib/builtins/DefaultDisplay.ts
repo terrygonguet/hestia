@@ -17,7 +17,9 @@ const styles = {
 export async function render() {
 	const el = document.createElement("div")
 	el.setAttribute("style", styles.wrapper)
-	el.innerHTML = html`<p>Todo: add some instructions</p>`
+	el.innerHTML = html`<p>
+		Click on the "✏" button on the top right to start adding components.
+	</p>`
 
 	return el
 }

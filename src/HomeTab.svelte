@@ -5,17 +5,19 @@
 	import { DefaultDisplay } from "./lib/builtins"
 
 	let container: HTMLDivElement
+	let allowFade = false
 
 	onMount(async () => {
 		const { root } = await browser.storage.local.get("root")
 		const el = await (root
 			? renderComponentTree(root)
 			: DefaultDisplay.render())
+		allowFade = !!root
 		container.appendChild(el)
 	})
 </script>
 
-<ConfigWidget current="home" />
+<ConfigWidget current="home" {allowFade} />
 <div id="container" bind:this={container} />
 
 <style>

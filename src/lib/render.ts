@@ -1,3 +1,4 @@
+import type { Component, ComponentDefinition } from "src/types"
 import { asyncMap, getCustomComponent } from "../utils"
 import { builtins } from "./builtins"
 

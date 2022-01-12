@@ -1,3 +1,5 @@
+import type { builtins } from "./lib/builtins"
+
 type Context = {
 	children: Node[]
 	setState(data: Object): Promise<void>
@@ -14,7 +16,7 @@ type ComponentDefinition =
 	| {
 			id: string
 			name?: string
-			type: "Divider" | "TestDiv"
+			type: keyof typeof builtins
 			children?: ComponentDefinition[]
 	  }
 	| {

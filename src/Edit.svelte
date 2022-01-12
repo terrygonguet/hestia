@@ -13,6 +13,7 @@
 	import { nanoid } from "nanoid"
 	import { builtins } from "./lib/builtins"
 	import { getCustomComponent } from "./utils"
+	import type { Component, ComponentDefinition } from "./types"
 
 	const availableComponents = {
 		...builtins,

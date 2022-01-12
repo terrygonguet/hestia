@@ -1,3 +1,5 @@
+import type { ComponentDefinition } from "src/types"
+
 export function flatten(root: ComponentDefinition): ComponentDefinition[] {
 	return [root].concat(root.children?.flatMap(flatten) ?? [])
 }

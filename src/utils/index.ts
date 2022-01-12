@@ -1,3 +1,5 @@
+import type { Component } from "src/types"
+
 export async function asyncMap<T, U>(
 	array: T[],
 	f: (el: T, i: number) => Promise<U>,

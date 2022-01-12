@@ -1,8 +1,9 @@
 <script lang="ts">
 	export let current: "edit" | "options" | "home"
+	export let allowFade = false
 </script>
 
-<aside>
+<aside class:fade={allowFade}>
 	{#if current != "home"}
 		<a href="/index.html" title="Home">⌂</a>
 	{/if}
@@ -22,8 +23,14 @@
 		background-color: #333;
 		display: flex;
 		border-bottom-left-radius: 0.5rem;
-		transition: background-color 0.4s ease-in-out;
+		transition: background-color 0.4s ease-in-out, opacity 0.3s ease-in-out;
 		overflow: hidden;
+	}
+	.fade {
+		opacity: 0;
+	}
+	aside:hover {
+		opacity: 1;
 	}
 
 	a {
