@@ -1,13 +1,13 @@
 import * as DefaultDisplay from "./DefaultDisplay"
 import * as VerticalContainer from "./VerticalContainer"
 import * as HorizontalContainer from "./HorizontalContainer"
-import * as TestDiv from "./TestDiv"
+import * as Spacer from "./Spacer"
 import * as Padding from "./Padding"
 
 export const builtins = {
 	VerticalContainer,
 	HorizontalContainer,
-	TestDiv,
+	Spacer,
 	Padding,
 }
 
@@ -15,6 +15,6 @@ export {
 	DefaultDisplay,
 	VerticalContainer,
 	HorizontalContainer,
-	TestDiv,
+	Spacer,
 	Padding,
 }
