@@ -9,7 +9,6 @@
 		deleteById,
 		findById,
 		findParentOfId,
-		forEach,
 	} from "./utils/compdef"
 	import { nanoid } from "nanoid"
 	import { builtins } from "./lib/builtins"

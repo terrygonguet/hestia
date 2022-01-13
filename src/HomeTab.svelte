@@ -10,6 +10,7 @@
 
 	onMount(async () => {
 		const { root } = await browser.storage.local.get("root")
+		onDestroyCallbacks.length = 0
 		if (root) {
 			allowFade = true
 			const { el, onDestroy } = await renderComponentTree(root)
