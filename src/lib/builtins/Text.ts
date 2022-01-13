@@ -22,7 +22,7 @@ const style = css`
 export async function render(state: ReturnType<typeof initState>, _: Context) {
 	const el = document.createElement("div")
 	el.setAttribute("style", style)
-	el.innerText = state.text
+	el.innerText = state.text ?? ""
 	if (state.center) {
 		el.style.justifyContent = "center"
 		el.style.alignItems = "center"

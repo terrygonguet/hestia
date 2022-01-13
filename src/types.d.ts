@@ -3,6 +3,7 @@ import type { builtins } from "./lib/builtins"
 type Context = {
 	children: Node[]
 	setState(data: Object): Promise<void>
+	onDestroy(f: () => void): void
 }
 
 type Component<Data = any> = {

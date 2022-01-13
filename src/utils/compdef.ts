@@ -31,3 +31,11 @@ export function deleteById(component: ComponentDefinition, id: string) {
 export function findParentOfId(component: ComponentDefinition, id: string) {
 	return flatten(component).find(c => c.children?.find(cc => cc.id == id))
 }
+
+export function forEach(
+	component: ComponentDefinition,
+	f: (comp: ComponentDefinition) => void,
+) {
+	component.children?.forEach(c => forEach(c, f))
+	f(component)
+}

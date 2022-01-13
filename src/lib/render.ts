@@ -2,7 +2,10 @@ import type { Component, ComponentDefinition } from "src/types"
 import { asyncMap, getCustomComponent } from "../utils"
 import { builtins } from "./builtins"
 
-export async function render(definition: ComponentDefinition): Promise<Node> {
+export async function render(
+	definition: ComponentDefinition,
+	onDestroyCallbacks: (() => void)[] = [],
+): Promise<{ el: Node; onDestroy: (() => void)[] }> {
 	const component: Component =
 		definition.type == "Custom"
 			? await getCustomComponent(definition.url)
@@ -12,17 +15,27 @@ export async function render(definition: ComponentDefinition): Promise<Node> {
 		throw new Error(`Unknown component type "${definition.type}"`)
 	}
 
-	const children = await asyncMap(definition.children ?? [], render)
+	const children = await asyncMap(definition.children ?? [], c =>
+		render(c, onDestroyCallbacks),
+	)
 	const state = await browser.storage.local.get(definition.id)
 
 	function setState(data: Object) {
 		return browser.storage.local.set({ [definition.id]: data })
 	}
 
-	const el = component.render(state[definition.id] ?? component.initState(), {
-		children,
-		setState,
-	})
+	function onDestroy(f: () => void) {
+		onDestroyCallbacks.push(f)
+	}
 
-	return el
+	const el = await component.render(
+		Object.assign(component.initState(), state[definition.id]),
+		{
+			children: children.map(c => c.el),
+			setState,
+			onDestroy,
+		},
+	)
+
+	return { el, onDestroy: onDestroyCallbacks }
 }
