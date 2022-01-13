@@ -9,12 +9,12 @@ import * as Grid from "./Grid"
 
 export const builtins = {
 	Container,
-	Spacer,
-	Padding,
-	TextArea,
-	Text,
-	Time,
 	Grid,
+	Padding,
+	Spacer,
+	Text,
+	TextArea,
+	Time,
 }
 
 export {

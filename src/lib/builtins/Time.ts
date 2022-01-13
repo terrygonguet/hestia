@@ -15,8 +15,18 @@ export function initState() {
 }
 
 export const editorConfig: EditorConfig = [
-	{ type: "text", prop: "locale", label: "Locale:" },
-	{ type: "text", prop: "text", label: "Text:" },
+	{
+		type: "text",
+		prop: "locale",
+		label: "Locale:",
+		info: "The ISO name of the locale to use. Leave blank to use the browser's default locale.",
+	},
+	{
+		type: "text",
+		prop: "text",
+		label: "Text:",
+		info: "<code>%s</code> will be replaced by the current date and time.",
+	},
 	{
 		type: "select",
 		prop: "dateStyle",

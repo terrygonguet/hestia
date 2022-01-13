@@ -35,17 +35,20 @@ type EditorFieldConfig =
 			type: "text"
 			prop: string
 			label: string
+			info?: string
 	  }
 	| {
 			type: "select"
 			prop: string
 			label: string
+			info?: string
 			options: { label: string; value: string | number }[]
 	  }
 	| {
 			type: "number"
 			prop: string
 			label: string
+			info?: string
 			min?: number
 			max?: number
 			step?: number
@@ -54,4 +57,5 @@ type EditorFieldConfig =
 			type: "boolean"
 			prop: string
 			label: string
+			info?: string
 	  }

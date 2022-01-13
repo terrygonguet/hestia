@@ -13,7 +13,14 @@ export function initState() {
 }
 
 export const editorConfig: EditorConfig = [
-	{ type: "number", prop: "gap", label: "Gap size:", min: 0, max: 5 },
+	{
+		type: "number",
+		prop: "gap",
+		label: "Gap size:",
+		min: 0,
+		step: 0.25,
+		info: "The size of the gutter between items.",
+	},
 	{
 		type: "select",
 		prop: "direction",

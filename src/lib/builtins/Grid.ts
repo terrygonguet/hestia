@@ -11,7 +11,14 @@ export function initState() {
 export const editorConfig: EditorConfig = [
 	{ type: "number", prop: "cols", label: "Columns:", min: 1 },
 	{ type: "number", prop: "rows", label: "Rows:", min: 1 },
-	{ type: "number", prop: "gap", label: "Gap:", min: 1, max: 5 },
+	{
+		type: "number",
+		prop: "gap",
+		label: "Gap size:",
+		min: 0,
+		step: 0.25,
+		info: "The size of the gutter between items.",
+	},
 ]
 
 const css = String.raw

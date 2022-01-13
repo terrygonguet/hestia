@@ -5,10 +5,26 @@ export function initState() {
 }
 
 export const editorConfig: EditorConfig = [
-	{ type: "boolean", prop: "border", label: "Red border:" },
-	{ type: "boolean", prop: "grow", label: "Grow:" },
-	{ type: "number", prop: "colspan", label: "Column span:", min: 1 },
+	{
+		type: "boolean",
+		prop: "grow",
+		label: "Grow:",
+		info: "Only used when direct child of a Container. Grow to take all available space when enabled.",
+	},
+	{
+		type: "number",
+		prop: "colspan",
+		label: "Column span:",
+		min: 1,
+		info: "Both options are only used when direct child of a Grid.",
+	},
 	{ type: "number", prop: "rowspan", label: "Row span:", min: 1 },
+	{
+		type: "boolean",
+		prop: "border",
+		label: "Red border:",
+		info: "Useful to visualize the available space.",
+	},
 ]
 
 const css = String.raw

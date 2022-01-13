@@ -14,6 +14,7 @@
 	import { builtins } from "./lib/builtins"
 	import { getCustomComponent } from "./utils"
 	import type { Component, ComponentDefinition } from "./types"
+	import EditorField from "./lib/components/EditorField.svelte"
 
 	const availableComponents = {
 		...builtins,
@@ -262,44 +263,11 @@
 					/>
 				{/if}
 				<hr style="grid-column: span 4" />
-				{#each selectedComponent?.editorConfig ?? [] as field, i}
-					<label for="field-{i}">{field.label}</label>
-					{#if field.type == "text"}
-						<input
-							id="field-{i}"
-							type="text"
-							style="grid-column: span 3"
-							bind:value={editorValues[field.prop]}
-						/>
-					{:else if field.type == "select"}
-						<select
-							id="field-{i}"
-							style="grid-column: span 3"
-							bind:value={editorValues[field.prop]}
-						>
-							{#each field.options as { label, value }}
-								<option {value}>{label}</option>
-							{/each}
-						</select>
-					{:else if field.type == "number"}
-						<input
-							id="field-{i}"
-							type="number"
-							style="grid-column: span 3"
-							min={field.min}
-							max={field.max}
-							step={field.step}
-							bind:value={editorValues[field.prop]}
-						/>
-					{:else if field.type == "boolean"}
-						<div style="grid-column: span 3">
-							<input
-								id="field-{i}"
-								type="checkbox"
-								bind:checked={editorValues[field.prop]}
-							/>
-						</div>
-					{/if}
+				{#each selectedComponent?.editorConfig ?? [] as field}
+					<EditorField
+						bind:value={editorValues[field.prop]}
+						{field}
+					/>
 				{:else}
 					<p id="no-editorconfig">This component can't be edited.</p>
 				{/each}

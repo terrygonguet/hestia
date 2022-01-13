@@ -7,7 +7,13 @@ export function initState() {
 }
 
 export const editorConfig: EditorConfig = [
-	{ type: "number", prop: "padding", label: "Padding size:", min: 0, max: 5 },
+	{
+		type: "number",
+		prop: "padding",
+		label: "Padding size:",
+		min: 0,
+		step: 0.25,
+	},
 ]
 
 const css = String.raw
