@@ -28,7 +28,11 @@ type ComponentDefinition =
 			children?: ComponentDefinition[]
 	  }
 
-type EditorConfig = EditorFieldConfig[]
+type EditorConfig = (
+	| EditorFieldConfig
+	| { type: "info"; html: string }
+	| { type: "divider" }
+)[]
 
 type EditorFieldConfig =
 	| {

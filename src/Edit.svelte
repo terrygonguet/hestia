@@ -264,10 +264,16 @@
 				{/if}
 				<hr style="grid-column: span 4" />
 				{#each selectedComponent?.editorConfig ?? [] as field}
-					<EditorField
-						bind:value={editorValues[field.prop]}
-						{field}
-					/>
+					{#if field.type == "info"}
+						<p class="info">{@html field.html}</p>
+					{:else if field.type == "divider"}
+						<hr />
+					{:else}
+						<EditorField
+							bind:value={editorValues[field.prop]}
+							{field}
+						/>
+					{/if}
 				{:else}
 					<p id="no-editorconfig">This component can't be edited.</p>
 				{/each}
@@ -330,6 +336,10 @@
 		border-top-color: #a0a0a0;
 		margin-right: 0;
 		margin-left: 0;
+		grid-column: span 4;
+	}
+	.info {
+		grid-column: span 4;
 	}
 	#no-editorconfig {
 		grid-column: span 4;

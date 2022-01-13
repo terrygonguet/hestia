@@ -12,14 +12,21 @@ export function initState() {
 	}
 }
 
+const html = String.raw
 export const editorConfig: EditorConfig = [
+	{
+		type: "info",
+		html: html`This component orders its children linearly, either
+			vertically or horizontally. Use the <code>Spacer</code> component to
+			control how much space the children take.`,
+	},
 	{
 		type: "number",
 		prop: "gap",
 		label: "Gap size:",
 		min: 0,
 		step: 0.25,
-		info: "The size of the gutter between items.",
+		info: "The size of the gutter between children.",
 	},
 	{
 		type: "select",

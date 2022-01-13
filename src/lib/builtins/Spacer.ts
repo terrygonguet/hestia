@@ -4,21 +4,31 @@ export function initState() {
 	return { border: false, grow: true, colspan: 1, rowspan: 1 }
 }
 
+const html = String.raw
 export const editorConfig: EditorConfig = [
+	{
+		type: "info",
+		html: html`Only used when direct child of a <code>Container</code>.`,
+	},
 	{
 		type: "boolean",
 		prop: "grow",
 		label: "Grow:",
-		info: "Only used when direct child of a Container. Grow to take all available space when enabled.",
+		info: html`Grow to take all available space when enabled.`,
+	},
+	{ type: "divider" },
+	{
+		type: "info",
+		html: html`Only used when direct child of a <code>Grid</code>.`,
 	},
 	{
 		type: "number",
 		prop: "colspan",
 		label: "Column span:",
 		min: 1,
-		info: "Both options are only used when direct child of a Grid.",
 	},
 	{ type: "number", prop: "rowspan", label: "Row span:", min: 1 },
+	{ type: "divider" },
 	{
 		type: "boolean",
 		prop: "border",

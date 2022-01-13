@@ -6,7 +6,13 @@ export function initState() {
 	}
 }
 
+const html = String.raw
 export const editorConfig: EditorConfig = [
+	{
+		type: "info",
+		html: html`This component adds some whitespace padding around its
+		contents. It only expects to have one child.`,
+	},
 	{
 		type: "number",
 		prop: "padding",
