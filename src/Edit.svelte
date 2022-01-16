@@ -62,10 +62,9 @@
 			create() {
 				state = mapResult(state, ({ root, selected }) => {
 					const definition = findById(root, selected)
-					const id = nanoid()
 					if (isSome(definition))
-						addChild(definition, { type: "Spacer", id })
-					return { root, selected: id }
+						addChild(definition, { type: "Spacer", id: nanoid() })
+					return { root, selected }
 				})
 			},
 			remove() {
