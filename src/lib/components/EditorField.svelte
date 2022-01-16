@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { nanoid } from "nanoid"
 	import type { EditorFieldConfig } from "src/types"
+	import ArrayField from "./ArrayField.svelte"
 
 	export let field: EditorFieldConfig
 	export let value: any
-
-	const id = nanoid()
+	export let id = nanoid()
 </script>
 
 {#if field.info}
@@ -13,9 +13,9 @@
 {/if}
 <label for="field-{id}">{field.label}</label>
 {#if field.type == "text"}
-	<input id="field-{id}" type="text" style="grid-column: span 3" bind:value />
+	<input id="field-{id}" type="text" class="span3" bind:value />
 {:else if field.type == "select"}
-	<select id="field-{id}" style="grid-column: span 3" bind:value>
+	<select id="field-{id}" class="span3" bind:value>
 		{#each field.options as { label, value }}
 			<option {value}>{label}</option>
 		{/each}
@@ -24,16 +24,19 @@
 	<input
 		id="field-{id}"
 		type="number"
-		style="grid-column: span 3"
+		class="span3"
 		min={field.min}
 		max={field.max}
 		step={field.step}
 		bind:value
 	/>
 {:else if field.type == "boolean"}
-	<div style="grid-column: span 3">
+	<div class="span3">
 		<input id="field-{id}" type="checkbox" bind:checked={value} />
 	</div>
+{:else if field.type == "array"}
+	<div class="span3" />
+	<ArrayField {field} {id} bind:value />
 {/if}
 
 <style>
@@ -42,5 +45,9 @@
 		font-size: 0.85rem;
 		color: #2a2a2a;
 		padding-top: 0.5rem;
+	}
+
+	.span3 {
+		grid-column: span 3;
 	}
 </style>

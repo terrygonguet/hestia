@@ -63,3 +63,12 @@ type EditorFieldConfig =
 			label: string
 			info?: string
 	  }
+	| ArrayEditorFieldConfig
+
+type ArrayEditorFieldConfig = {
+	type: "array"
+	prop: string
+	label: string
+	info?: string
+	subfields: EditorFieldConfig | EditorFieldConfig[]
+}

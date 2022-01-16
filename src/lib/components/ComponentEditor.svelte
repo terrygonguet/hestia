@@ -9,6 +9,7 @@
 	let editorValues = component.initState()
 	let loading = true
 
+	$: editorConfig = component.editorConfig ?? []
 	$: save(editorValues)
 
 	async function save(..._dependencies: any[]) {
@@ -25,7 +26,7 @@
 </script>
 
 <section on:change|stopPropagation>
-	{#each component.editorConfig ?? [] as field}
+	{#each editorConfig as field}
 		{#if field.type == "info"}
 			<p class="info">{@html field.html}</p>
 		{:else if field.type == "divider"}
