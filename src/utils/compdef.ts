@@ -1,10 +1,14 @@
 import type { ComponentDefinition } from "src/types"
+import type { Maybe } from "./maybe"
 
 export function flatten(root: ComponentDefinition): ComponentDefinition[] {
 	return [root].concat(root.children?.flatMap(flatten) ?? [])
 }
 
-export function findById(component: ComponentDefinition, id: string) {
+export function findById(
+	component: ComponentDefinition,
+	id: string,
+): Maybe<ComponentDefinition> {
 	return flatten(component).find(c => c.id == id)
 }
 
@@ -28,7 +32,10 @@ export function deleteById(component: ComponentDefinition, id: string) {
 	}
 }
 
-export function findParentOfId(component: ComponentDefinition, id: string) {
+export function findParentOfId(
+	component: ComponentDefinition,
+	id: string,
+): Maybe<ComponentDefinition> {
 	return flatten(component).find(c => c.children?.find(cc => cc.id == id))
 }
 
