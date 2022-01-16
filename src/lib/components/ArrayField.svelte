@@ -84,7 +84,7 @@
 		{/if}
 		<div class="divider" />
 	{/each}
-	<button id="add" on:click={add}>+</button>
+	<button id="add" on:click={add}>➕</button>
 </div>
 
 <style>

@@ -67,9 +67,26 @@
 					return { root, selected }
 				})
 			},
+			async clone() {
+				if (!isRight(state)) return
+				const {
+					value: { root, selected },
+				} = state
+
+				const definition = findById(root, selected)
+				const parent = findParentOfId(root, selected)
+				if (!definition || !parent || !parent.children?.length) return
+				const i = parent.children.indexOf(definition)
+				if (i == -1) return
+				const cloneDef = { ...definition, id: nanoid() }
+				const data = await browser.storage.local.get(definition.id)
+				const cloneData = { [cloneDef.id]: data[definition.id] }
+				await browser.storage.local.set(cloneData)
+				parent.children.splice(i + 1, 0, cloneDef)
+				state = Right({ root, selected })
+			},
 			remove() {
 				if (!isRight(state)) return
-
 				const {
 					value: { root, selected },
 				} = state
@@ -203,6 +220,7 @@
 		{state}
 		on:select={e => machine.select(e.detail)}
 		on:create={machine.create}
+		on:clone={machine.clone}
 		on:remove={machine.remove}
 		on:moveup={machine.moveUp}
 		on:movedown={machine.moveDown}

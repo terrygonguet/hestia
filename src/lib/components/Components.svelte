@@ -26,32 +26,37 @@
 		<button
 			type="button"
 			title="Create component and add as child of selected"
-			on:click={() => emit("create")}>+</button
+			on:click={() => emit("create")}>➕</button
 		>
 		<button
 			type="button"
 			title="Delete selected component"
-			on:click={() => emit("remove")}>-</button
+			on:click={() => emit("remove")}>➖</button
+		>
+		<button
+			type="button"
+			title="Clone selected component"
+			on:click={() => emit("clone")}>🔂</button
 		>
 		<button
 			type="button"
 			title="Move selected up the hierachy"
-			on:click={() => emit("moveup")}>⇤</button
+			on:click={() => emit("moveup")}>⏮️</button
 		>
 		<button
 			type="button"
 			title="Move selected down the hierarchy"
-			on:click={() => emit("movedown")}>⇥</button
+			on:click={() => emit("movedown")}>⏭️</button
 		>
 		<button
 			type="button"
 			title="Move selected up"
-			on:click={() => emit("moveleft")}>⇧</button
+			on:click={() => emit("moveleft")}>🔼</button
 		>
 		<button
 			type="button"
 			title="Move seleted down"
-			on:click={() => emit("moveright")}>⇩</button
+			on:click={() => emit("moveright")}>🔽</button
 		>
 	</div>
 </form>
