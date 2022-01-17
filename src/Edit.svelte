@@ -31,6 +31,7 @@
 		Result,
 		Right,
 	} from "./utils/result"
+	import { asyncMap } from "./utils"
 
 	const emptyState = Left<InvalidState, State>({ type: "Empty" })
 	const machine = fsm("loading", {
@@ -82,10 +83,7 @@
 				if (!definition || !parent || !parent.children?.length) return
 				const i = parent.children.indexOf(definition)
 				if (i == -1) return
-				const cloneDef = { ...definition, id: nanoid() }
-				const data = await browser.storage.local.get(definition.id)
-				const cloneData = { [cloneDef.id]: data[definition.id] }
-				await browser.storage.local.set(cloneData)
+				const cloneDef = await clone(definition)
 				parent.children.splice(i + 1, 0, cloneDef)
 				state = Right({ root, selected })
 			},
@@ -201,6 +199,20 @@
 			value: { root, selected },
 		} = state
 		return browser.storage.local.set({ root, selected })
+	}
+
+	async function clone(
+		definition: ComponentDefinition,
+	): Promise<ComponentDefinition> {
+		const { [definition.id]: data } = await browser.storage.local.get(
+			definition.id,
+		)
+		const cloneData = JSON.parse(JSON.stringify(data ?? {}))
+		const id = nanoid()
+		await browser.storage.local.set({ [id]: cloneData })
+		const children =
+			definition.children && (await asyncMap(definition.children, clone))
+		return { ...definition, id, children }
 	}
 
 	onMount(async () => {

@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid"
 import type { ComponentDefinition } from "src/types"
 import type { Maybe } from "./maybe"
 
@@ -45,4 +46,12 @@ export function forEach(
 ) {
 	component.children?.forEach(c => forEach(c, f))
 	f(component)
+}
+
+export function clone(definition: ComponentDefinition): ComponentDefinition {
+	return {
+		...definition,
+		id: nanoid(),
+		children: definition.children?.map(clone),
+	}
 }
