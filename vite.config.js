@@ -2,12 +2,12 @@ import { defineConfig } from "vite"
 import { svelte } from "@sveltejs/vite-plugin-svelte"
 
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(env => ({
 	plugins: [svelte()],
 	build: {
 		sourcemap: "inline",
 		emptyOutDir: true,
-		watch: {},
+		watch: env.mode == "development" ? {} : false,
 		rollupOptions: {
 			input: {
 				index: "index.html",
@@ -16,4 +16,4 @@ export default defineConfig({
 			},
 		},
 	},
-})
+}))
