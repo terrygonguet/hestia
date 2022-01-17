@@ -1,6 +1,7 @@
 import type { Component, ComponentDefinition } from "src/types"
 import { asyncMap, getCustomComponent } from "../utils"
 import { builtins } from "./builtins"
+import browser from "webextension-polyfill"
 
 export async function render(
 	definition: ComponentDefinition,

@@ -3,6 +3,7 @@
 	import { render as renderComponentTree } from "./lib/render"
 	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
 	import { DefaultDisplay } from "./lib/builtins"
+	import browser from "webextension-polyfill"
 
 	let container: HTMLDivElement
 	let allowFade = false

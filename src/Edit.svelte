@@ -33,6 +33,7 @@
 		Right,
 	} from "./utils/result"
 	import { asyncMap } from "./utils"
+	import browser from "webextension-polyfill"
 
 	const emptyState = Left<InvalidState, State>({ type: "Empty" })
 	const machine = fsm("loading", {
