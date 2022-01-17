@@ -1,4 +1,8 @@
 <script context="module" lang="ts">
+	export type InvalidState =
+		| { type: "Empty" }
+		| { type: "Loading" }
+		| { type: "Error"; message: string }
 	export type State = {
 		root: ComponentDefinition
 		selected: ComponentDefinition["id"]
@@ -28,7 +32,7 @@
 		Right,
 	} from "./utils/result"
 
-	const emptyState = Left<string, State>("Empty")
+	const emptyState = Left<InvalidState, State>({ type: "Empty" })
 	const machine = fsm("loading", {
 		loading: {
 			load(root?: ComponentDefinition, selected?: string) {
@@ -41,7 +45,7 @@
 				}
 			},
 			error(reason: string) {
-				state = Left(reason)
+				state = Left({ type: "Error", message: reason })
 				return "error"
 			},
 		},
@@ -188,7 +192,7 @@
 		error: {},
 	})
 
-	let state: Result<string, State> = Left("Loading...")
+	let state: Result<InvalidState, State> = Left({ type: "Loading" })
 	$: save(state)
 
 	async function save(..._dependencies: any[]) {
@@ -229,6 +233,10 @@
 	/>
 	{#if isRight(state)}
 		<Properties state={state.value} on:change={() => (state = state)} />
+	{:else}
+		<fieldset>
+			<legend>ℹ</legend>
+		</fieldset>
 	{/if}
 </div>
 
@@ -238,5 +246,11 @@
 		height: 100%;
 		padding: 1rem;
 		grid-template-columns: 1fr 3fr;
+	}
+
+	fieldset {
+		display: grid;
+		place-items: center;
+		height: 100%;
 	}
 </style>

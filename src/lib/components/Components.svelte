@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from "svelte"
-	import type { State } from "../../Edit.svelte"
+	import type { InvalidState, State } from "../../Edit.svelte"
 	import { isLeft, Result } from "../../utils/result"
 	import ComponentDefinitionTree2 from "./ComponentDefinitionTree.svelte"
 
-	export let state: Result<string, State>
+	export let state: Result<InvalidState, State>
 
 	const emit = createEventDispatcher()
 </script>
@@ -13,7 +13,15 @@
 	<fieldset>
 		<legend>Components</legend>
 		{#if isLeft(state)}
-			<p class="centered">{state.value}</p>
+			{#if state.value.type == "Empty"}
+				<p class="centered">
+					Start creating components by clicking the "➕" button below.
+				</p>
+			{:else if state.value.type == "Loading"}
+				<p class="centered">Loading...</p>
+			{:else if state.value.type == "Error"}
+				<p class="centered error">{state.value.message}</p>
+			{/if}
 		{:else}
 			<ComponentDefinitionTree2
 				definition={state.value.root}
@@ -73,7 +81,7 @@
 	}
 	#commands {
 		display: flex;
-		padding: 0.3rem;
+		padding: 0.25rem 3px 2px 2px;
 		gap: 0.3rem;
 	}
 	#commands > button {
@@ -84,5 +92,8 @@
 	.centered {
 		text-align: center;
 		margin: auto 1rem;
+	}
+	.error {
+		color: red;
 	}
 </style>
