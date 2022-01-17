@@ -2,7 +2,7 @@ import type { EditorConfig, Context } from "src/types"
 
 export function initState() {
 	return {
-		cols: 8,
+		cols: 6,
 		rows: 2,
 		gap: 1,
 	}
