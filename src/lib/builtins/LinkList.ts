@@ -1,12 +1,48 @@
 import type { Context, EditorConfig } from "src/types"
 
 export function initState() {
-	return {
-		title: "",
-		icon: "",
-		radius: "0",
-		links: [] as { label: string; url: string }[],
-	}
+	return import.meta.env.DEV
+		? {
+				title: "Procrastination",
+				icon: "🔋",
+				radius: "0",
+				links: [
+					{
+						label: "YT",
+						url: "https://www.youtube.com/feed/subscriptions",
+					},
+					{
+						label: "YT WL",
+						url: "https://www.youtube.com/playlist?list=WL",
+					},
+					{
+						label: "/b/",
+						url: "https://boards.4chan.org/b/",
+					},
+					{
+						label: "/wg/",
+						url: "https://boards.4chan.org/wg/",
+					},
+					{
+						label: "OWL schedule",
+						url: "https://overwatchleague.com/en-us/schedule",
+					},
+					{
+						label: "OWL FR",
+						url: "https://overwatchleague.com/fr-fr/",
+					},
+					{
+						label: "Comics",
+						url: "https://readcomiconline.to/",
+					},
+				],
+		  }
+		: {
+				title: "",
+				icon: "",
+				radius: "0",
+				links: [] as { label: string; url: string }[],
+		  }
 }
 
 export const editorConfig: EditorConfig = [
