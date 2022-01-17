@@ -59,30 +59,30 @@
 
 <div id="container">
 	{#each value as item, i}
-		{#if Array.isArray(field.subfields)}
-			{#each field.subfields as subfield, j}
+		<div class="group">
+			{#if Array.isArray(field.subfields)}
+				{#each field.subfields as subfield, j}
+					<EditorField
+						id="{id}-{i}-{subfield.prop}"
+						field={subfield}
+						bind:value={item[subfield.prop]}
+					/>
+				{/each}
+				<button
+					class="remove"
+					style="--height:{field.subfields.length}"
+					on:click={remove(i)}>❌</button
+				>
+			{:else}
 				<EditorField
-					id="{id}-{i}-{subfield.prop}"
-					field={subfield}
-					bind:value={item[subfield.prop]}
+					id="{id}-{i}"
+					field={field.subfields}
+					hideLabel={true}
+					bind:value={value[i]}
 				/>
-				{#if j == 0}
-					<button
-						class="remove"
-						style="--height:{field.subfields.length}"
-						on:click={remove(i)}>❌</button
-					>
-				{/if}
-			{/each}
-		{:else}
-			<EditorField
-				id="{id}-{i}"
-				field={field.subfields}
-				bind:value={value[i]}
-			/>
-			<button class="remove" on:click={remove(i)}>❌</button>
-		{/if}
-		<div class="divider" />
+				<button class="remove" on:click={remove(i)}>❌</button>
+			{/if}
+		</div>
 	{/each}
 	<button id="add" on:click={add}>➕</button>
 </div>
@@ -90,6 +90,12 @@
 <style>
 	#container {
 		grid-column: 2 / span 3;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.group {
 		display: grid;
 		grid-template-columns: auto repeat(3, 1fr) auto;
 		gap: 0.5rem;
@@ -98,13 +104,8 @@
 
 	.remove {
 		grid-column: -2 / -1;
-		grid-row: span var(--height, 1);
+		grid-row: 1 / span var(--height, 1);
 		align-self: stretch;
-	}
-
-	.divider {
-		grid-column: span 5;
-		margin-bottom: 0.5rem;
 	}
 
 	#add {
