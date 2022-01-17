@@ -22,6 +22,7 @@
 		deleteById,
 		findById,
 		findParentOfId,
+		flatten,
 	} from "./utils/compdef"
 	import { isSome } from "./utils/maybe"
 	import {
@@ -87,7 +88,7 @@
 				parent.children.splice(i + 1, 0, cloneDef)
 				state = Right({ root, selected })
 			},
-			remove() {
+			async remove() {
 				if (!isRight(state)) return
 				const {
 					value: { root, selected },
@@ -99,8 +100,13 @@
 						"Are you sure you want to delete ALL of the components?",
 					)
 				) {
+					const ids = flatten(root).map(c => c.id)
+					await browser.storage.local.remove([
+						"root",
+						"selected",
+						...ids,
+					])
 					state = emptyState
-					browser.storage.local.remove(["root", "selected"])
 					return "empty"
 				}
 
@@ -113,6 +119,11 @@
 						))
 				) {
 					let parent = findParentOfId(root, selected)
+					let definition = findById(root, selected)
+					const ids = definition
+						? flatten(definition).map(c => c.id)
+						: []
+					await browser.storage.local.remove(ids)
 					deleteById(root, selected)
 					state = Right({ root, selected: parent?.id ?? root.id })
 					return
