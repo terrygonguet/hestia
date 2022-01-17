@@ -73,11 +73,13 @@
 	form {
 		display: flex;
 		flex-direction: column;
+		min-height: 0;
 	}
 	fieldset {
 		flex-grow: 1;
 		display: flex;
 		flex-direction: column;
+		overflow-y: auto;
 	}
 	#commands {
 		display: flex;

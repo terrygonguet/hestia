@@ -13,7 +13,13 @@
 {/if}
 <label for="field-{id}">{field.label}</label>
 {#if field.type == "text"}
-	<input id="field-{id}" type="text" class="span3" bind:value />
+	<input
+		id="field-{id}"
+		type="text"
+		placeholder={field.placeholder ?? ""}
+		class="span3"
+		bind:value
+	/>
 {:else if field.type == "select"}
 	<select id="field-{id}" class="span3" bind:value>
 		{#each field.options as { label, value }}

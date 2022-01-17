@@ -40,6 +40,7 @@ type EditorFieldConfig =
 			prop: string
 			label: string
 			info?: string
+			placeholder?: string
 	  }
 	| {
 			type: "select"

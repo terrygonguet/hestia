@@ -37,8 +37,13 @@
 </form>
 
 <style>
+	form {
+		min-height: 0;
+	}
+
 	form > fieldset {
 		height: 100%;
+		overflow-y: auto;
 	}
 
 	hr {
