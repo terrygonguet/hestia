@@ -128,14 +128,18 @@
 
 	form {
 		height: 100%;
+		font-size: 115%;
 	}
 
 	fieldset {
 		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
 	}
 
 	h2 {
-		margin-bottom: 1rem;
+		margin: 2.5rem;
 	}
 
 	.fields {

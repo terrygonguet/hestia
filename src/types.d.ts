@@ -4,6 +4,7 @@ type Context = {
 	children: Node[]
 	setState(data: Object): Promise<void>
 	onDestroy(f: () => void): void
+	config: Config
 }
 
 type Component<Data = any> = {
