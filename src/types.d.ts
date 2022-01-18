@@ -77,10 +77,13 @@ type ArrayEditorFieldConfig = {
 type Config = {
 	baseColors: {
 		background: string
+		backgroundCode: string
+		textCode: string
+		borderCode: string
 		text: string
-		textLight: string
-		textLightest: string
+		textQuiet: string
 		accent: string
+		accentLight: string
 		borders: string
 	}
 	customColors: { name: string; value: string }[]

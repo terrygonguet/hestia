@@ -48,7 +48,7 @@
 
 	hr {
 		border-color: transparent;
-		border-top-color: #a0a0a0;
+		border-top-color: var(--color-borders, #000);
 		margin: 0.75rem 0;
 		grid-column: span 4;
 	}

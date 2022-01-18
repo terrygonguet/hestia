@@ -2,7 +2,7 @@
 	import { nanoid } from "nanoid"
 	import { onMount } from "svelte"
 	import browser from "webextension-polyfill"
-	import { baseConfig } from "src/Options.svelte"
+	import { baseConfig } from "../../Options.svelte"
 
 	const id = nanoid()
 
@@ -13,7 +13,7 @@
 		.map(([name, value]) => `--color-${name}: ${value};`)
 		.join("")
 	$: css = `:root { ${baseColorsProps} }`
-	$: updateStyle(css)
+	$: updateStyle(config)
 
 	function updateStyle(..._dependencies: any[]) {
 		const styleEl = document.getElementById(id)
@@ -24,7 +24,7 @@
 		changes: { [key: string]: browser.Storage.StorageChange },
 		areaName: string,
 	) {
-		if (areaName != "local") return
+		if (areaName != "local" || !changes.config) return
 		config = Object.assign(config, changes.config.newValue)
 	}
 

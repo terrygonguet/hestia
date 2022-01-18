@@ -2,10 +2,15 @@
 	export const baseConfig: Config = {
 		baseColors: {
 			background: "#ffffff",
+
+			backgroundCode: "#e3e3e3",
+			textCode: "#000000",
+			borderCode: "#555555",
+
 			text: "#000000",
-			textLight: "#2a2a2a",
-			textLightest: "#444444",
+			textQuiet: "#333333",
 			accent: "coral",
+			accentLight: "#f39f81",
 			borders: "#000000",
 		},
 		customColors: [],
@@ -13,7 +18,7 @@
 </script>
 
 <script lang="ts">
-	import { onMount } from "svelte"
+	import { onMount, tick } from "svelte"
 	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
 	import browser from "webextension-polyfill"
 	import ColorField from "./lib/components/ColorField.svelte"
@@ -22,9 +27,8 @@
 
 	let config = baseConfig
 
-	$: baseColors = config.baseColors
-
 	async function save() {
+		await tick()
 		return browser.storage.local.set({ config })
 	}
 
@@ -44,34 +48,71 @@
 			<div class="fields">
 				<ColorField
 					label="Background:"
-					bind:value={baseColors.background}
+					bind:value={config.baseColors.background}
 					name="base-background"
 				/>
+				<div />
 				<ColorField
 					label="Text:"
-					bind:value={baseColors.text}
+					bind:value={config.baseColors.text}
 					name="base-text"
 				/>
+				<p>Example</p>
 				<ColorField
 					label="Text light:"
-					bind:value={baseColors.textLight}
-					name="base-text-light"
+					bind:value={config.baseColors.textQuiet}
+					name="base-text-quiet"
 				/>
-				<ColorField
-					label="Text lightest:"
-					bind:value={baseColors.textLightest}
-					name="base-text-lightest"
-				/>
+				<p style="color: var(--color-textQuiet)">Example</p>
 				<ColorField
 					label="Accent color:"
-					bind:value={baseColors.accent}
+					bind:value={config.baseColors.accent}
 					name="base-accent"
 				/>
+				<p>
+					<span style="color: var(--color-accent)">Text</span>
+					<span
+						style="background: var(--color-accent); padding: 0 0.2rem;"
+						>Background</span
+					>
+				</p>
+				<ColorField
+					label="Lighter accent color:"
+					bind:value={config.baseColors.accentLight}
+					name="base-accent-light"
+				/>
+				<p>
+					<span style="color: var(--color-accentLight)">Text</span>
+					<span
+						style="background: var(--color-accentLight); padding: 0 0.2rem;"
+						>Background</span
+					>
+				</p>
 				<ColorField
 					label="Borders:"
-					bind:value={baseColors.borders}
+					bind:value={config.baseColors.borders}
 					name="base-borders"
 				/>
+				<p style="border: 1px solid var(--color-borders)">Example</p>
+				<hr class="span-all" />
+				<ColorField
+					label="Background code:"
+					bind:value={config.baseColors.backgroundCode}
+					name="base-background-code"
+				/>
+				<div />
+				<ColorField
+					label="Text code:"
+					bind:value={config.baseColors.textCode}
+					name="base-text-code"
+				/>
+				<p><code>Example</code></p>
+				<ColorField
+					label="Border code:"
+					bind:value={config.baseColors.borderCode}
+					name="base-border-code"
+				/>
+				<div />
 			</div>
 		</fieldset>
 	</form>
@@ -100,7 +141,19 @@
 	.fields {
 		display: inline-grid;
 		gap: 1rem;
-		grid-template-columns: auto auto auto;
+		grid-template-columns: repeat(4, auto);
 		align-items: center;
+	}
+	.span-all {
+		grid-column: span 4;
+		margin: 0;
+		border-color: transparent;
+		border-top: 1px solid var(--color-borders);
+	}
+
+	p {
+		display: flex;
+		justify-content: center;
+		gap: 0.5rem;
 	}
 </style>

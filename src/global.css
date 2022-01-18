@@ -1,7 +1,46 @@
 code {
 	font-size: 1rem;
 	padding: 0.1rem 0.2rem 0 0.2rem;
-	border: 1px solid #555;
-	background-color: #e3e3e3;
+	border: 1px solid var(--color-borderCode, #555);
+	background-color: var(--color-backgroundCode, #e3e3e3);
+	color: var(--color-textCode, #000);
 	border-radius: 0.2rem;
+}
+
+button {
+	border: none;
+	background-color: var(--color-accent, coral);
+	cursor: pointer;
+	transition: background-color 0.25s ease-in-out;
+}
+button:hover,
+button:active {
+	background-color: var(--color-accentLight, #f39f81);
+}
+
+input {
+	border: none;
+	border-bottom: 1px solid var(--color-accent, coral);
+	background-color: var(--color-background, #fff);
+	color: var(--color-text, #000);
+}
+input:focus {
+	border-color: transparent;
+	outline: solid 1px var(--color-accentLight, #f39f81);
+}
+
+select {
+	border-radius: 0;
+	border: 1px solid var(--color-accent, coral);
+	background-color: var(--color-background, #fff);
+	color: var(--color-textCode, #000);
+	padding: 0.2rem 0.5rem;
+}
+
+form {
+	accent-color: var(--color-accent, coral);
+}
+
+fieldset {
+	border: 1px solid var(--color-borders, #000);
 }
