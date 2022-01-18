@@ -67,3 +67,16 @@ export function colorValues(
 		}) as [number, number, number, number]
 	}
 }
+
+export function compareShape(source: any, target: any) {
+	if (source == target) return true
+	if (source == null || target == null) return false
+	if (typeof source == "object") {
+		// TODO: check deeper
+		if (Array.isArray(source)) return Array.isArray(target)
+		for (const key in source) {
+			if (!compareShape(source[key], target[key])) return false
+		}
+		return true
+	} else return typeof target == typeof source
+}

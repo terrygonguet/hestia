@@ -86,6 +86,9 @@ type Config = {
 		accent: string
 		accentLight: string
 		borders: string
+		backgroundButton: string
+		backgroundButtonHover: string
+		textButton: string
 	}
 	customColors: { name: string; value: string }[]
 }

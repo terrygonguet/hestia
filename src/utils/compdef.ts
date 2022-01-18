@@ -1,5 +1,6 @@
 import { nanoid } from "nanoid"
-import type { ComponentDefinition } from "src/types"
+import { builtins } from "../lib/builtins"
+import type { ComponentDefinition } from "../types"
 import type { Maybe } from "./maybe"
 
 export function flatten(root: ComponentDefinition): ComponentDefinition[] {
@@ -54,4 +55,19 @@ export function clone(definition: ComponentDefinition): ComponentDefinition {
 		id: nanoid(),
 		children: definition.children?.map(clone),
 	}
+}
+
+export function parse(value: any): Maybe<ComponentDefinition> {
+	if (!value) return
+	if (typeof value != "object" || Array.isArray(value)) return
+	if (typeof value.id != "string" || typeof value.type != "string") return
+	const types = Object.keys(builtins).concat("Custom")
+	if (!types.includes(value.type)) return
+	if (value.children && !Array.isArray(value.children)) return
+	if (value.name && typeof value.name != "string") return
+	if (value.type == "Custom" && typeof value.url != "string") return
+
+	value.children = value.children?.map(parse)?.filter(Boolean)
+
+	return value
 }
