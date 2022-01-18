@@ -10,6 +10,10 @@ const css = String.raw
 const style = css`
 	resize: none;
 	padding: 0.5rem;
+	background-color: var(--color-background, white);
+	color: var(--color-text, black);
+	border: none;
+	outline: solid 1px var(--color-borders, black);
 `
 
 export async function render(

@@ -80,7 +80,7 @@ const style = {
 	container: css`
 		display: flex;
 		flex-direction: column;
-		border: 1px solid black;
+		border: 1px solid var(--color-borders, black);
 		padding: 0.5rem;
 	`,
 	title: css`
@@ -93,7 +93,7 @@ const style = {
 	`,
 	link: css`
 		text-decoration: none;
-		color: black;
+		color: var(--color-text, black);
 	`,
 }
 

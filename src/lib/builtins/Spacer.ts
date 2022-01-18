@@ -32,7 +32,7 @@ export const editorConfig: EditorConfig = [
 	{
 		type: "boolean",
 		prop: "border",
-		label: "Red border:",
+		label: "Flashy border:",
 		info: "Useful to visualize the available space.",
 	},
 ]
@@ -50,7 +50,7 @@ export async function render(
 ) {
 	const el = document.createElement("div")
 	el.setAttribute("style", style)
-	if (state.border) el.style.border = "2px solid red"
+	if (state.border) el.style.border = "2px solid var(--color-accent, red)"
 	if (state.grow) el.style.flexGrow = "1"
 	el.style.gridColumn = "span " + state.colspan
 	el.style.gridRow = "span " + state.rowspan
