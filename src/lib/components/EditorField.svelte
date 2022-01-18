@@ -61,7 +61,7 @@
 	.info {
 		grid-column: span 4;
 		font-size: 0.85rem;
-		color: #2a2a2a;
+		color: var(--color-textLight, #2a2a2a);
 		padding-top: 0.5rem;
 	}
 

@@ -34,6 +34,7 @@
 	} from "./utils/result"
 	import { asyncMap } from "./utils"
 	import browser from "webextension-polyfill"
+	import GlobalStyles from "./lib/components/GlobalStyles.svelte"
 
 	const emptyState = Left<InvalidState, State>({ type: "Empty" })
 	const machine = fsm("loading", {
@@ -242,8 +243,9 @@
 	})
 </script>
 
+<GlobalStyles />
 <ConfigWidget current="edit" />
-<div id="container">
+<main id="container">
 	<Components
 		{state}
 		on:select={e => machine.select(e.detail)}
@@ -262,7 +264,7 @@
 			<legend>ℹ</legend>
 		</fieldset>
 	{/if}
-</div>
+</main>
 
 <style>
 	#container {
@@ -270,6 +272,8 @@
 		height: 100%;
 		padding: 1rem;
 		grid-template-columns: 1fr 3fr;
+		background-color: var(--color-background, #fff);
+		color: var(--color-text, #000);
 	}
 
 	fieldset {

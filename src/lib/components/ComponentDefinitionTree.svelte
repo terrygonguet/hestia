@@ -36,6 +36,6 @@
 		outline: none;
 	}
 	.selected {
-		background-color: coral;
+		background-color: var(--color-accent, coral);
 	}
 </style>

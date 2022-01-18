@@ -73,3 +73,15 @@ type ArrayEditorFieldConfig = {
 	info?: string
 	subfields: EditorFieldConfig | EditorFieldConfig[]
 }
+
+type Config = {
+	baseColors: {
+		background: string
+		text: string
+		textLight: string
+		textLightest: string
+		accent: string
+		borders: string
+	}
+	customColors: { name: string; value: string }[]
+}
