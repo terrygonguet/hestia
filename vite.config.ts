@@ -1,5 +1,6 @@
-import { defineConfig } from "vite"
-import { svelte } from "@sveltejs/vite-plugin-svelte"
+import { svelte } from "@sveltejs/vite-plugin-svelte";
+import { resolve } from "path"
+import { defineConfig } from "vite";
 
 // https://vitejs.dev/config/
 export default defineConfig(env => ({
@@ -7,8 +8,8 @@ export default defineConfig(env => ({
 	plugins: [svelte()],
 	resolve: {
 		alias: {
-			"$lib": "src/lib",
-			"$": "src",
+			"$lib": resolve(__dirname, "./src/lib"),
+			"$": resolve(__dirname, "./src"),
 		}
 	},
 	build: {

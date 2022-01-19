@@ -17,10 +17,10 @@
 		"strict": true,
 		"sourceMap": true,
 		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"],
-			"$": ["src"],
-			"$/*": ["src/*"]
+			"$lib": ["./src/lib"],
+			"$lib/*": ["./src/lib/*"],
+			"$": ["./src"],
+			"$/*": ["./src/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
