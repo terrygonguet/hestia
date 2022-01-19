@@ -1,8 +1,8 @@
-import type { Component, ComponentDefinition } from "src/types"
-import { asyncMap, getCustomComponent } from "../utils"
-import { builtins } from "./builtins"
+import { baseConfig } from "$/Options.svelte"
+import type { Component, ComponentDefinition } from "$/types"
+import { asyncMap, getCustomComponent } from "$/utils"
+import { builtins } from "$lib/builtins"
 import browser from "webextension-polyfill"
-import { baseConfig } from "../Options.svelte"
 
 export async function render(
 	definition: ComponentDefinition,
