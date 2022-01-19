@@ -6,14 +6,18 @@
 
 	const id = nanoid()
 
-	let config = baseConfig
+	let config = baseConfig()
 
 	$: baseColors = config.baseColors
+	$: customColors = config.customColors
 	$: baseColorsProps = Object.entries(baseColors)
 		.map(([name, value]) => `--color-${name}: ${value};`)
 		.join("")
-	$: css = `:root { ${baseColorsProps} }`
-	$: updateStyle(config)
+	$: customColorsProp = customColors
+		.map(({ name, value }) => `--customcolor-${name}: ${value};`)
+		.join("")
+	$: css = `:root { ${baseColorsProps}${customColorsProp} }`
+	$: updateStyle(css)
 
 	function updateStyle(..._dependencies: any[]) {
 		const styleEl = document.getElementById(id)
@@ -25,7 +29,9 @@
 		areaName: string,
 	) {
 		if (areaName != "local" || !changes.config) return
-		config = Object.assign(config, changes.config.newValue)
+		if (changes.config.newValue)
+			config = Object.assign(config, changes.config.newValue)
+		else config = baseConfig()
 	}
 
 	onMount(async () => {

@@ -5,23 +5,28 @@
 	export let name = ""
 	export let id = nanoid()
 	export let value: string
+	export let editableName = false
 
-	let input: HTMLInputElement
+	let colorInput: HTMLInputElement
 
 	function onClick() {
-		input.click()
+		colorInput.click()
 	}
 </script>
 
-<label for={id}>{label}</label>
+{#if editableName}
+	<input type="text" bind:value={label} placeholder="Name" on:change />
+{:else}
+	<label for={id}>{label}</label>
+{/if}
 <button
 	tabindex="0"
 	class="indicator"
 	style="--color:{value}"
 	on:click={onClick}
 />
-<input type="text" {name} {id} bind:value />
-<input type="color" bind:value bind:this={input} />
+<input type="text" {name} {id} bind:value on:change />
+<input type="color" bind:value bind:this={colorInput} />
 
 <style>
 	.indicator {
@@ -37,6 +42,10 @@
 		position: absolute;
 		inset: 1px;
 		background-color: var(--color, #000000);
+	}
+
+	input[type="text"] {
+		max-width: 16ch;
 	}
 
 	input[type="color"] {

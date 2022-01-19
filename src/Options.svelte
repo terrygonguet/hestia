@@ -1,23 +1,25 @@
 <script context="module" lang="ts">
-	export const baseConfig: Config = {
-		baseColors: {
-			background: "#ffffff",
+	export function baseConfig(): Config {
+		return {
+			baseColors: {
+				background: "#ffffff",
 
-			backgroundCode: "#e3e3e3",
-			textCode: "#000000",
-			borderCode: "#555555",
+				backgroundCode: "#e3e3e3",
+				textCode: "#000000",
+				borderCode: "#555555",
 
-			backgroundButton: "coral",
-			backgroundButtonHover: "#f39f81",
-			textButton: "#000000",
+				backgroundButton: "coral",
+				backgroundButtonHover: "#f39f81",
+				textButton: "#000000",
 
-			text: "#000000",
-			textQuiet: "#333333",
-			accent: "coral",
-			accentLight: "#f39f81",
-			borders: "#000000",
-		},
-		customColors: [],
+				text: "#000000",
+				textQuiet: "#333333",
+				accent: "coral",
+				accentLight: "#f39f81",
+				borders: "#000000",
+			},
+			customColors: [],
+		}
 	}
 </script>
 
@@ -25,6 +27,7 @@
 	import type { Config } from "$/types"
 	import { compareShape } from "$/utils"
 	import { forEach, parse } from "$/utils/compdef"
+	import { isLeft } from "$/utils/result"
 	import ColorField from "$lib/components/ColorField.svelte"
 	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
 	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
@@ -32,7 +35,7 @@
 	import { onMount, tick } from "svelte"
 	import browser from "webextension-polyfill"
 
-	let config = baseConfig
+	let config = baseConfig()
 
 	async function save() {
 		await tick()
@@ -44,7 +47,7 @@
 		const file = JSON.stringify(data, null, 2)
 		const blob = new Blob([file], { type: "application/json" })
 		const a = document.createElement("a")
-		a.download = "backup.json"
+		a.download = `backup-${import.meta.env.VERSION}.json`
 		a.href = URL.createObjectURL(blob)
 		a.click()
 	}
@@ -71,13 +74,14 @@
 				const raw = JSON.parse(text)
 
 				const root = parse(raw.root)
-				if (!root) throw new Error("Invalid component tree.")
+				if (isLeft(root))
+					throw new Error("Invalid component tree: " + root.value)
 
-				if (!compareShape(baseConfig, raw.config))
+				if (!compareShape(baseConfig(), raw.config))
 					throw new Error("Invalid config shape.")
 
-				const data: any = { root, config: raw.config }
-				forEach(root, comp => (data[comp.id] = raw[comp.id]))
+				const data: any = { root: root.value, config: raw.config }
+				forEach(root.value, comp => (data[comp.id] = raw[comp.id]))
 
 				await browser.storage.local.set(data)
 				config = Object.assign(config, data.config)
@@ -92,6 +96,31 @@
 						"An unknown error happened while importing the backup data.",
 					)
 			}
+		}
+	}
+
+	async function clear() {
+		if (
+			prompt(
+				'This will delete ALL of your data! To continue, type "clear everything".',
+			) == "clear everything"
+		) {
+			config = baseConfig()
+			return browser.storage.local.clear()
+		}
+	}
+
+	async function addCustomColor() {
+		config.customColors.push({ name: "", value: "#000000" })
+		config = config
+		return save()
+	}
+
+	function removeCustomColor(i: number) {
+		return async function () {
+			config.customColors.splice(i, 1)
+			config = config
+			return save()
 		}
 	}
 
@@ -196,17 +225,38 @@
 				/>
 				<div />
 			</div>
-			<h2>Sync & backups</h2>
-			<div id="sync-n-backups">
-				<div>
+			<h2>Custom colors</h2>
+			<div class="fields">
+				{#each config.customColors as color, i}
+					<ColorField
+						bind:label={color.name}
+						bind:value={color.value}
+						editableName={true}
+					/>
+					<button type="button" on:click={removeCustomColor(i)}
+						>❌</button
+					>
+				{/each}
+				<button type="button" class="span-all" on:click={addCustomColor}
+					>➕</button
+				>
+			</div>
+			<h2>Sync & backup</h2>
+			<div id="sync-n-backup">
+				<!-- <div>
 					<SyncButton />
-				</div>
+				</div> -->
 				<div>
 					<button type="button" on:click={download}
 						>Save backup</button
 					>
 					<button type="button" on:click={restore}
 						>Restore backup</button
+					>
+				</div>
+				<div>
+					<button type="button" on:click={clear}
+						>Clear all data</button
 					>
 				</div>
 			</div>
@@ -236,7 +286,7 @@
 	}
 
 	h2 {
-		margin: 2.5rem;
+		margin: 2rem;
 	}
 
 	.fields {
@@ -244,10 +294,14 @@
 		gap: 1rem;
 		grid-template-columns: repeat(4, auto);
 		align-items: center;
+		min-width: 50ch;
 	}
 	.span-all {
 		grid-column: span 4;
 		margin: 0;
+	}
+
+	hr {
 		border-color: transparent;
 		border-top: 1px solid var(--color-borders);
 	}
@@ -258,12 +312,12 @@
 		gap: 0.5rem;
 	}
 
-	#sync-n-backups {
+	#sync-n-backup {
 		display: flex;
 		gap: 2rem;
 		flex-direction: column;
 	}
-	#sync-n-backups > div {
+	#sync-n-backup > div {
 		display: flex;
 		gap: 1rem;
 		justify-content: center;

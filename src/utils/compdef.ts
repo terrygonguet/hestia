@@ -1,5 +1,7 @@
 import type { ComponentDefinition } from "$/types"
 import type { Maybe } from "$/utils/maybe"
+import { Left, Right, isLeft } from "$/utils/result"
+import type { Result } from "$/utils/result"
 import { builtins } from "$lib/builtins"
 import { nanoid } from "nanoid"
 
@@ -57,17 +59,25 @@ export function clone(definition: ComponentDefinition): ComponentDefinition {
 	}
 }
 
-export function parse(value: any): Maybe<ComponentDefinition> {
-	if (!value) return
-	if (typeof value != "object" || Array.isArray(value)) return
-	if (typeof value.id != "string" || typeof value.type != "string") return
+export function parse(value: any): Result<string, ComponentDefinition> {
+	if (!value || typeof value != "object" || Array.isArray(value))
+		return Left("Value is not an object.")
+	if (typeof value.id != "string" || typeof value.type != "string")
+		return Left("Missing 'id' or 'type' property.")
 	const types = Object.keys(builtins).concat("Custom")
-	if (!types.includes(value.type)) return
-	if (value.children && !Array.isArray(value.children)) return
-	if (value.name && typeof value.name != "string") return
-	if (value.type == "Custom" && typeof value.url != "string") return
+	if (!types.includes(value.type))
+		return Left("Invalid value for property 'type': " + value.type + ".")
+	if (value.children && !Array.isArray(value.children))
+		return Left("Property 'children' is present but is not an array.")
+	if (value.name && typeof value.name != "string")
+		return Left("Property 'name' is present but is not a string.")
+	if (value.type == "Custom" && typeof value.url != "string")
+		return Left("Missing property 'url' on a custom component.")
 
-	value.children = value.children?.map(parse)?.filter(Boolean)
+	const children = value.children?.map(parse)
+	const left = children?.find(isLeft)
+	if (left) return left
+	else value.children = children?.map((c: any) => c.value)
 
-	return value
+	return Right(value)
 }

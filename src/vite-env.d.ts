@@ -3,6 +3,7 @@
 
 interface ImportMetaEnv {
 	readonly ENV_BROWSER?: "firefox" | "chrome"
+	readonly VERSION: string
 }
 
 interface ImportMeta {
