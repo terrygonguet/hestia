@@ -1,4 +1,4 @@
-import type { Component } from "../../types"
+import type { Component } from "$/types"
 import * as DefaultDisplay from "./DefaultDisplay"
 import * as Container from "./Container"
 import * as Spacer from "./Spacer"

@@ -1,4 +1,4 @@
-import type { Context, EditorConfig } from "src/types"
+import type { Context, EditorConfig } from "$/types"
 
 export function initState() {
 	return { border: false, grow: true, colspan: 1, rowspan: 1 }

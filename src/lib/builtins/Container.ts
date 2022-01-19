@@ -1,4 +1,4 @@
-import type { Context, EditorConfig } from "src/types"
+import type { Context, EditorConfig } from "$/types"
 
 enum Direction {
 	Vertical,

@@ -22,15 +22,15 @@
 </script>
 
 <script lang="ts">
+	import type { Config } from "$/types"
+	import { compareShape } from "$/utils"
+	import { forEach, parse } from "$/utils/compdef"
+	import ColorField from "$lib/components/ColorField.svelte"
+	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
+	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
+	import SyncButton from "$lib/components/SyncButton.svelte"
 	import { onMount, tick } from "svelte"
 	import browser from "webextension-polyfill"
-	import ColorField from "./lib/components/ColorField.svelte"
-	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
-	import GlobalStyles from "./lib/components/GlobalStyles.svelte"
-	import SyncButton from "./lib/components/SyncButton.svelte"
-	import type { Config } from "./types"
-	import { compareShape } from "./utils"
-	import { forEach, parse } from "./utils/compdef"
 
 	let config = baseConfig
 

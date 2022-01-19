@@ -1,4 +1,4 @@
-import type { Context, EditorConfig } from "src/types"
+import type { Context, EditorConfig } from "$/types"
 
 type DateStyle = "full" | "long" | "medium" | "short" | "none"
 type TimeStyle = "full" | "long" | "medium" | "short" | "none"

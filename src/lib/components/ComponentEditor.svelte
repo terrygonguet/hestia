@@ -1,7 +1,7 @@
 <script lang="ts">
+	import type { Component, ComponentDefinition } from "$/types"
+	import EditorField from "$lib/components/EditorField.svelte"
 	import { onMount, tick } from "svelte"
-	import type { Component, ComponentDefinition } from "../../types"
-	import EditorField from "./EditorField.svelte"
 	import browser from "webextension-polyfill"
 
 	export let component: Component

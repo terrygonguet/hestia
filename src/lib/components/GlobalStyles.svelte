@@ -1,8 +1,8 @@
 <script lang="ts">
+	import { baseConfig } from "$/Options.svelte"
 	import { nanoid } from "nanoid"
 	import { onMount } from "svelte"
 	import browser from "webextension-polyfill"
-	import { baseConfig } from "../../Options.svelte"
 
 	const id = nanoid()
 

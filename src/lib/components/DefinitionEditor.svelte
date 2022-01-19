@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ComponentDefinition } from "../../types"
-	import { builtins } from "../builtins"
+	import type { ComponentDefinition } from "$/types"
+	import { builtins } from "$lib/builtins"
 
 	const availableComponents = {
 		...builtins,

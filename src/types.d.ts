@@ -1,4 +1,4 @@
-import type { builtins } from "./lib/builtins"
+import type { builtins } from "$lib/builtins"
 
 type Context = {
 	children: Node[]

@@ -5,6 +5,12 @@ import { svelte } from "@sveltejs/vite-plugin-svelte"
 export default defineConfig(env => ({
 	envPrefix: "ENV_",
 	plugins: [svelte()],
+	resolve: {
+		alias: {
+			"$lib": "src/lib",
+			"$": "src",
+		}
+	},
 	build: {
 		sourcemap: "inline",
 		emptyOutDir: true,

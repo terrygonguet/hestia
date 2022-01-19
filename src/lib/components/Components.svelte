@@ -1,8 +1,8 @@
 <script lang="ts">
+	import type { InvalidState, State } from "$/Edit.svelte"
+	import { isLeft, Result } from "$/utils/result"
+	import ComponentDefinitionTree2 from "$lib/components/ComponentDefinitionTree.svelte"
 	import { createEventDispatcher } from "svelte"
-	import type { InvalidState, State } from "../../Edit.svelte"
-	import { isLeft, Result } from "../../utils/result"
-	import ComponentDefinitionTree2 from "./ComponentDefinitionTree.svelte"
 
 	export let state: Result<InvalidState, State>
 

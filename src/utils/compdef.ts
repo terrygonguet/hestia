@@ -1,7 +1,7 @@
+import type { ComponentDefinition } from "$/types"
+import type { Maybe } from "$/utils/maybe"
+import { builtins } from "$lib/builtins"
 import { nanoid } from "nanoid"
-import { builtins } from "../lib/builtins"
-import type { ComponentDefinition } from "../types"
-import type { Maybe } from "./maybe"
 
 export function flatten(root: ComponentDefinition): ComponentDefinition[] {
 	return [root].concat(root.children?.flatMap(flatten) ?? [])

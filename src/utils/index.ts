@@ -1,5 +1,5 @@
-import type { Component } from "src/types"
-import type { Maybe } from "./maybe"
+import type { Component } from "$/types"
+import type { Maybe } from "$/utils/maybe"
 
 export async function asyncMap<T, U>(
 	array: T[],

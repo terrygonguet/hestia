@@ -1,4 +1,4 @@
-import type { Context } from "src/types"
+import type { Context } from "$/types"
 
 export function initState() {
 	return {

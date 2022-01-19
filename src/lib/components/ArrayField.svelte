@@ -1,7 +1,7 @@
 <script lang="ts">
+	import type { ArrayEditorFieldConfig } from "$/types"
+	import EditorField from "$lib/components/EditorField.svelte"
 	import { nanoid } from "nanoid"
-	import type { ArrayEditorFieldConfig } from "../../types"
-	import EditorField from "./EditorField.svelte"
 
 	export let field: ArrayEditorFieldConfig
 	export let id = nanoid()

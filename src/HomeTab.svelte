@@ -1,10 +1,10 @@
 <script lang="ts">
+	import { DefaultDisplay } from "$lib/builtins"
+	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
+	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
+	import { render as renderComponentTree } from "$lib/render"
 	import { onDestroy, onMount } from "svelte"
-	import { render as renderComponentTree } from "./lib/render"
-	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
-	import { DefaultDisplay } from "./lib/builtins"
 	import browser from "webextension-polyfill"
-	import GlobalStyles from "./lib/components/GlobalStyles.svelte"
 
 	let container: HTMLDivElement
 	let allowFade = false

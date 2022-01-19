@@ -1,12 +1,12 @@
 <script lang="ts">
-	import type { State } from "../../Edit.svelte"
-	import type { ComponentDefinition } from "../../types"
-	import { getCustomComponent } from "../../utils"
-	import { findById } from "../../utils/compdef"
-	import { isSome } from "../../utils/maybe"
-	import { builtins } from "../builtins"
-	import ComponentEditor from "./ComponentEditor.svelte"
-	import DefinitionEditor from "./DefinitionEditor.svelte"
+	import type { State } from "$/Edit.svelte"
+	import type { ComponentDefinition } from "$/types"
+	import { getCustomComponent } from "$/utils"
+	import { findById } from "$/utils/compdef"
+	import { isSome } from "$/utils/maybe"
+	import { builtins } from "$lib/builtins"
+	import ComponentEditor from "$lib/components/ComponentEditor.svelte"
+	import DefinitionEditor from "$lib/components/DefinitionEditor.svelte"
 
 	export let state: State
 

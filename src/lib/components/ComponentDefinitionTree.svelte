@@ -1,7 +1,7 @@
 <script lang="ts">
-	import type { ComponentDefinition } from "src/types"
+	import type { ComponentDefinition } from "$/types"
+	import { builtins } from "$lib/builtins"
 	import { createEventDispatcher } from "svelte"
-	import { builtins } from "../builtins"
 
 	export let depth = 0
 	export let definition: ComponentDefinition

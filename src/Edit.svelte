@@ -10,31 +10,31 @@
 </script>
 
 <script lang="ts">
-	import { nanoid } from "nanoid"
-	import { onMount } from "svelte"
-	import fsm from "svelte-fsm"
-	import Properties from "./lib/components/Properties.svelte"
-	import Components from "./lib/components/Components.svelte"
-	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
-	import type { ComponentDefinition } from "./types"
+	import type { ComponentDefinition } from "$/types"
+	import { asyncMap } from "$/utils"
 	import {
 		addChild,
 		deleteById,
 		findById,
 		findParentOfId,
 		flatten,
-	} from "./utils/compdef"
-	import { isSome } from "./utils/maybe"
+	} from "$/utils/compdef"
+	import { isSome } from "$/utils/maybe"
 	import {
 		isRight,
 		Left,
 		map as mapResult,
 		Result,
 		Right,
-	} from "./utils/result"
-	import { asyncMap } from "./utils"
+	} from "$/utils/result"
+	import Components from "$lib/components/Components.svelte"
+	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
+	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
+	import Properties from "$lib/components/Properties.svelte"
+	import { nanoid } from "nanoid"
+	import { onMount } from "svelte"
+	import fsm from "svelte-fsm"
 	import browser from "webextension-polyfill"
-	import GlobalStyles from "./lib/components/GlobalStyles.svelte"
 
 	const emptyState = Left<InvalidState, State>({ type: "Empty" })
 	const machine = fsm("loading", {
