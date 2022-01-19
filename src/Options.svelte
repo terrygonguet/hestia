@@ -23,13 +23,14 @@
 
 <script lang="ts">
 	import { onMount, tick } from "svelte"
-	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
 	import browser from "webextension-polyfill"
 	import ColorField from "./lib/components/ColorField.svelte"
+	import ConfigWidget from "./lib/components/ConfigWidget.svelte"
 	import GlobalStyles from "./lib/components/GlobalStyles.svelte"
+	import SyncButton from "./lib/components/SyncButton.svelte"
 	import type { Config } from "./types"
-	import { forEach, parse } from "./utils/compdef"
 	import { compareShape } from "./utils"
+	import { forEach, parse } from "./utils/compdef"
 
 	let config = baseConfig
 
@@ -187,7 +188,7 @@
 					bind:value={config.baseColors.backgroundButtonHover}
 					name="base-background-hover-button"
 				/>
-				<p><button type="button">Example</button></p>
+				<p><button type="button" tabindex="-1">Example</button></p>
 				<ColorField
 					label="Button text:"
 					bind:value={config.baseColors.textButton}
@@ -196,11 +197,18 @@
 				<div />
 			</div>
 			<h2>Sync & backups</h2>
-			<div id="sync">
-				<button type="button" on:click={download}
-					>Download backup</button
-				>
-				<button type="button" on:click={restore}>Restore backup</button>
+			<div id="sync-n-backups">
+				<div>
+					<SyncButton />
+				</div>
+				<div>
+					<button type="button" on:click={download}
+						>Save backup</button
+					>
+					<button type="button" on:click={restore}
+						>Restore backup</button
+					>
+				</div>
 			</div>
 		</fieldset>
 	</form>
@@ -250,8 +258,15 @@
 		gap: 0.5rem;
 	}
 
-	#sync {
+	#sync-n-backups {
+		display: flex;
+		gap: 2rem;
+		flex-direction: column;
+	}
+	#sync-n-backups > div {
 		display: flex;
 		gap: 1rem;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
