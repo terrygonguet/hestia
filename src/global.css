@@ -21,6 +21,10 @@ button:hover,
 button:active {
 	background-color: var(--color-backgroundButtonHover, #f39f81);
 }
+button:focus {
+	outline: 2px solid var(--color-accentLight, #f39f81);
+	outline-offset: 2px;
+}
 
 input {
 	border: none;
