@@ -3,8 +3,7 @@ import type { Context, EditorConfig } from "$/types"
 export function initState() {
 	return import.meta.env.DEV
 		? {
-				title: "Procrastination",
-				icon: "🔋",
+				title: "🔋 Procrastination",
 				radius: "0",
 				links: [
 					{
@@ -39,19 +38,17 @@ export function initState() {
 		  }
 		: {
 				title: "",
-				icon: "",
 				radius: "0",
 				links: [] as { label: string; url: string }[],
 		  }
 }
 
 export const editorConfig: EditorConfig = [
-	{ type: "text", prop: "title", label: "Title:" },
 	{
 		type: "text",
-		prop: "icon",
-		label: "Icon:",
-		placeholder: "Should probably be an emoji",
+		prop: "title",
+		label: "Title:",
+		placeholder: "No title will be shown if blank",
 	},
 	{
 		type: "select",
@@ -102,15 +99,12 @@ export async function render(state: ReturnType<typeof initState>, _: Context) {
 	el.setAttribute("style", style.container)
 	el.style.borderRadius = state.radius
 
-	const title = document.createElement("h2")
-	title.setAttribute("style", style.title)
-	title.innerText = state.title
-	el.appendChild(title)
-
-	const icon = document.createElement("span")
-	icon.setAttribute("style", style.icon)
-	icon.textContent = state.icon
-	title.prepend(icon)
+	if (state.title) {
+		const title = document.createElement("h2")
+		title.setAttribute("style", style.title)
+		title.innerText = state.title
+		el.appendChild(title)
+	}
 
 	for (const link of state.links) {
 		const a = document.createElement("a")
