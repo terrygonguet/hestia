@@ -31,11 +31,11 @@
 	import ColorField from "$lib/components/ColorField.svelte"
 	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
 	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
-	import SyncButton from "$lib/components/SyncButton.svelte"
 	import { onMount, tick } from "svelte"
 	import browser from "webextension-polyfill"
 
 	let config = baseConfig()
+	let showCustomColorsInfo = false
 
 	async function save() {
 		await tick()
@@ -225,7 +225,23 @@
 				/>
 				<div />
 			</div>
-			<h2>Custom colors</h2>
+			<h2>
+				Custom colors<button
+					type="button"
+					class="info"
+					on:click={() =>
+						(showCustomColorsInfo = !showCustomColorsInfo)}
+					>?</button
+				>
+			</h2>
+			{#if showCustomColorsInfo}
+				<p class="info-text">
+					You can add any number of colors that custom components can
+					use via the <code style="white-space: nowrap;"
+						>--customcolor-(name)</code
+					> css variables.
+				</p>
+			{/if}
 			<div class="fields">
 				{#each config.customColors as color, i}
 					<ColorField
@@ -306,7 +322,7 @@
 		border-top: 1px solid var(--color-borders);
 	}
 
-	p {
+	.fields > p {
 		display: flex;
 		justify-content: center;
 		gap: 0.5rem;
@@ -322,5 +338,22 @@
 		gap: 1rem;
 		justify-content: center;
 		align-items: center;
+	}
+
+	.info {
+		width: 2.3rem;
+		height: 2.3rem;
+		border-radius: 100%;
+		display: inline-grid;
+		place-items: center;
+		line-height: 1;
+		font-size: 1.3rem;
+		margin: 0 1rem;
+	}
+
+	.info-text {
+		max-width: 80ch;
+		margin-bottom: 2rem;
+		text-align: center;
 	}
 </style>

@@ -14,7 +14,10 @@
 		.map(([name, value]) => `--color-${name}: ${value};`)
 		.join("")
 	$: customColorsProp = customColors
-		.map(({ name, value }) => `--customcolor-${name}: ${value};`)
+		.map(
+			({ name, value }) =>
+				`--customcolor-${name.replaceAll(/\s/g, "")}: ${value};`,
+		)
 		.join("")
 	$: css = `:root { ${baseColorsProps}${customColorsProp} }`
 	$: updateStyle(css)
