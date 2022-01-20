@@ -39,6 +39,11 @@
 			bind:value={selected.url}
 			style="grid-column: span 3"
 		/>
+		<p id="custom-warning">
+			Custom components execute untrusted code with special extension
+			capabilities, we highly recommend that you read thoroughly any
+			component that you want to use.
+		</p>
 	{/if}
 </section>
 
@@ -56,5 +61,14 @@
 		grid-column: span 4;
 		font-size: 0.75rem;
 		text-align: right;
+	}
+
+	#custom-warning {
+		grid-column: span 4;
+		color: var(--color-accent, red);
+		font-size: 1.3rem;
+		font-weight: bold;
+		text-align: center;
+		margin-top: 1rem;
 	}
 </style>

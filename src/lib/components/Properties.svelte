@@ -12,11 +12,6 @@
 
 	$: root = state.root
 	$: selected = findById(root, state.selected)
-
-	async function getComponent(selected: ComponentDefinition) {
-		if (selected.type == "Custom") return getCustomComponent(selected.url)
-		else return builtins[selected.type]
-	}
 </script>
 
 <form on:submit|preventDefault on:change>
@@ -25,13 +20,22 @@
 		{#if isSome(selected)}
 			<DefinitionEditor {selected} />
 			<hr class="separator" />
-			{#await getComponent(selected)}
-				<p>Loading editor...</p>
-			{:then component}
-				<ComponentEditor {component} {selected} />
-			{:catch error}
-				<p>An error happened</p>
-			{/await}
+			{#if selected.type == "Custom"}
+				{#await getCustomComponent(selected.url)}
+					<p class="centered">Loading editor...</p>
+				{:then component}
+					<ComponentEditor {component} {selected} />
+				{:catch error}
+					<p class="centered">
+						{error.message ?? "An error happened"}
+					</p>
+				{/await}
+			{:else}
+				<ComponentEditor
+					component={builtins[selected.type]}
+					{selected}
+				/>
+			{/if}
 		{/if}
 	</fieldset>
 </form>
@@ -55,5 +59,10 @@
 
 	.separator {
 		margin: 2rem 0;
+	}
+
+	.centered {
+		text-align: center;
+		padding: 3rem;
 	}
 </style>

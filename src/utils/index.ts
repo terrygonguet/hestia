@@ -9,6 +9,8 @@ export async function asyncMap<T, U>(
 }
 
 export async function getCustomComponent(url: string): Promise<Component> {
+	if (!url) throw new Error("Missing URL")
+	new URL(url) // throws if invalid URL is passed
 	const res = await fetch(url)
 	const code = await res.text()
 	const fn = new Function("module", code)

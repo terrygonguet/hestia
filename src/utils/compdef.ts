@@ -72,7 +72,7 @@ export function parse(value: any): Result<string, ComponentDefinition> {
 	if (value.name && typeof value.name != "string")
 		return Left("Property 'name' is present but is not a string.")
 	if (value.type == "Custom" && typeof value.url != "string")
-		return Left("Missing property 'url' on a custom component.")
+		return Left("Property 'url' is not a string for a custom component.")
 
 	const children = value.children?.map(parse)
 	const left = children?.find(isLeft)
