@@ -18,12 +18,23 @@ const style = css`
 
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ setState }: Context,
+	{ setState, id, onDestroy }: Context,
 ) {
 	const el = document.createElement("textarea")
 	el.setAttribute("style", style)
 	el.addEventListener("change", e => setState({ text: el.value }))
 	el.value = state.text ?? ""
+
+	function onStateChange(
+		changes: { [key: string]: browser.storage.StorageChange },
+		areaName: string,
+	) {
+		if (areaName != "local" || !changes[id]) return
+		el.value = changes[id].newValue?.text ?? ""
+	}
+	browser.storage.onChanged.addListener(onStateChange)
+
+	onDestroy(() => browser.storage.onChanged.removeListener(onStateChange))
 
 	return el
 }
