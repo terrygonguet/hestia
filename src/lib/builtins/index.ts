@@ -9,6 +9,7 @@ import * as Spacer from "./Spacer"
 import * as Text from "./Text"
 import * as TextArea from "./TextArea"
 import * as Time from "./Time"
+import * as TODOList from "./TODOList"
 
 export const builtins = {
 	Container: Container as Component,
@@ -20,6 +21,7 @@ export const builtins = {
 	Text: Text as Component,
 	TextArea: TextArea as Component,
 	Time: Time as Component,
+	TODOList: TODOList as Component,
 }
 
 export {
