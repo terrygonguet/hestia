@@ -45,6 +45,7 @@
 		const styleEl = document.createElement("style")
 		styleEl.id = id
 		document.head.appendChild(styleEl)
+		updateStyle()
 
 		return () => {
 			styleEl.remove()
