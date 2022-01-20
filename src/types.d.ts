@@ -5,6 +5,7 @@ type Context = {
 	setState(data: Object): Promise<void>
 	onDestroy(f: () => void): void
 	config: Config
+	id: string
 }
 
 type Component<Data = any> = {

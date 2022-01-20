@@ -38,6 +38,7 @@ export async function render(
 				setState,
 				onDestroy,
 				config: state.config ?? baseConfig,
+				id: definition.id,
 			},
 		)
 
