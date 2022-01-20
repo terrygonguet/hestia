@@ -1,10 +1,15 @@
-import type { Context } from "$/types"
+import type { Context, EditorConfig } from "$/types"
 
 export function initState() {
 	return {
+		placeholder: "Type here...",
 		text: "",
 	}
 }
+
+export const editorConfig: EditorConfig = [
+	{ type: "text", prop: "placeholder", label: "Placeholder" },
+]
 
 const css = String.raw
 const style = css`
@@ -22,6 +27,7 @@ export async function render(
 ) {
 	const el = document.createElement("textarea")
 	el.setAttribute("style", style)
+	el.setAttribute("placeholder", state.placeholder)
 	el.addEventListener("change", e => setState({ text: el.value }))
 	el.value = state.text ?? ""
 
