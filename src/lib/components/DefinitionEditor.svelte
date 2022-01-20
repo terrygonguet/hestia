@@ -42,7 +42,7 @@
 		<p id="custom-warning">
 			Custom components execute untrusted code with special extension
 			capabilities, we highly recommend that you read thoroughly any
-			component that you want to use.
+			component code that you want to use.
 		</p>
 	{/if}
 </section>
