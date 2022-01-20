@@ -2,6 +2,8 @@
 	import type { ArrayEditorFieldConfig } from "$/types"
 	import EditorField from "$lib/components/EditorField.svelte"
 	import { nanoid } from "nanoid"
+	import IconAdd from "virtual:icons/ion/md-add"
+	import IconTrash from "virtual:icons/ion/trash-sharp"
 
 	export let field: ArrayEditorFieldConfig
 	export let id = nanoid()
@@ -71,7 +73,7 @@
 				<button
 					class="remove"
 					style="--height:{field.subfields.length}"
-					on:click={remove(i)}>❌</button
+					on:click={remove(i)}><IconTrash /></button
 				>
 			{:else}
 				<EditorField
@@ -80,11 +82,15 @@
 					hideLabel={true}
 					bind:value={value[i]}
 				/>
-				<button class="remove" on:click={remove(i)}>❌</button>
+				<button class="remove" on:click={remove(i)}
+					><IconTrash /></button
+				>
 			{/if}
 		</div>
 	{/each}
-	<button id="add" on:click={add}>➕</button>
+	<button id="add" on:click={add}
+		><IconAdd width="1.5rem" height="1.5rem" /></button
+	>
 </div>
 
 <style>

@@ -32,6 +32,9 @@
 	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
 	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
 	import { onMount, tick } from "svelte"
+	import IconAdd from "virtual:icons/ion/md-add"
+	import IconRefresh from "virtual:icons/ion/md-refresh"
+	import IconTrash from "virtual:icons/ion/trash-sharp"
 	import browser from "webextension-polyfill"
 
 	let config = baseConfig()
@@ -122,6 +125,11 @@
 			config = config
 			return save()
 		}
+	}
+
+	async function reset() {
+		config.baseColors = baseConfig().baseColors
+		return save()
 	}
 
 	onMount(async () => {
@@ -224,11 +232,21 @@
 					name="base-text-button"
 				/>
 				<div />
+				<button
+					type="button"
+					title="Restore all colors to default"
+					class="span-all"
+					on:click={reset}
+				>
+					<IconRefresh />
+					Restore default values
+				</button>
 			</div>
 			<h2>
 				Custom colors<button
 					type="button"
 					class="info"
+					title="What are custom colors?"
 					on:click={() =>
 						(showCustomColorsInfo = !showCustomColorsInfo)}
 					>?</button
@@ -249,12 +267,18 @@
 						bind:value={color.value}
 						editableName={true}
 					/>
-					<button type="button" on:click={removeCustomColor(i)}
-						>❌</button
+					<button
+						type="button"
+						title="Remove this custom color"
+						on:click={removeCustomColor(i)}><IconTrash /></button
 					>
 				{/each}
-				<button type="button" class="span-all" on:click={addCustomColor}
-					>➕</button
+				<button
+					type="button"
+					title="Add new custom color"
+					class="span-all"
+					on:click={addCustomColor}
+					><IconAdd width="1.5rem" height="1.5rem" /></button
 				>
 			</div>
 			<h2>Sync & backup</h2>
@@ -263,16 +287,22 @@
 					<SyncButton />
 				</div> -->
 				<div>
-					<button type="button" on:click={download}
-						>Save backup</button
+					<button
+						type="button"
+						title="Download a backup file"
+						on:click={download}>Save backup</button
 					>
-					<button type="button" on:click={restore}
-						>Restore backup</button
+					<button
+						type="button"
+						title="Restore from a backup file"
+						on:click={restore}>Restore backup</button
 					>
 				</div>
 				<div>
-					<button type="button" on:click={clear}
-						>Clear all data</button
+					<button
+						type="button"
+						title="Clear all config and components"
+						on:click={clear}>Clear all data</button
 					>
 				</div>
 			</div>

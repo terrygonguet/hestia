@@ -3,8 +3,20 @@
 	import { isLeft, Result } from "$/utils/result"
 	import ComponentDefinitionTree2 from "$lib/components/ComponentDefinitionTree.svelte"
 	import { createEventDispatcher } from "svelte"
+	import IconArrowLeft from "virtual:icons/ion/arrow-back-sharp"
+	import IconArrowDown from "virtual:icons/ion/arrow-down-b"
+	import IconArrowRight from "virtual:icons/ion/arrow-forward-sharp"
+	import IconArrowUp from "virtual:icons/ion/arrow-up-b"
+	import IconDuplicate from "virtual:icons/ion/duplicate-sharp"
+	import IconAdd from "virtual:icons/ion/md-add"
+	import IconRemove from "virtual:icons/ion/trash-sharp"
 
 	export let state: Result<InvalidState, State>
+
+	const iconProps = {
+		width: "1.5rem",
+		height: "1.5rem",
+	}
 
 	const emit = createEventDispatcher()
 </script>
@@ -15,7 +27,10 @@
 		{#if isLeft(state)}
 			{#if state.value.type == "Empty"}
 				<p class="centered">
-					Start creating components by clicking the "➕" button below.
+					Start creating components by clicking the "<IconAdd
+						width="1.5rem"
+						height="1.5rem"
+					/>" button below.
 				</p>
 			{:else if state.value.type == "Loading"}
 				<p class="centered">Loading...</p>
@@ -34,37 +49,43 @@
 		<button
 			type="button"
 			title="Create component and add as child of selected"
-			on:click={() => emit("create")}>➕</button
+			on:click={() => emit("create")}><IconAdd {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Delete selected component"
-			on:click={() => emit("remove")}>➖</button
+			on:click={() => emit("remove")}
+			><IconRemove {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Clone selected component"
-			on:click={() => emit("clone")}>🔂</button
+			on:click={() => emit("clone")}
+			><IconDuplicate {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Move selected up the hierachy"
-			on:click={() => emit("moveup")}>⏮️</button
+			on:click={() => emit("moveup")}
+			><IconArrowLeft {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Move selected down the hierarchy"
-			on:click={() => emit("movedown")}>⏭️</button
+			on:click={() => emit("movedown")}
+			><IconArrowRight {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Move selected up"
-			on:click={() => emit("moveleft")}>🔼</button
+			on:click={() => emit("moveleft")}
+			><IconArrowUp {...iconProps} /></button
 		>
 		<button
 			type="button"
 			title="Move seleted down"
-			on:click={() => emit("moveright")}>🔽</button
+			on:click={() => emit("moveright")}
+			><IconArrowDown {...iconProps} /></button
 		>
 	</div>
 </form>

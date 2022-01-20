@@ -1,3 +1,5 @@
+import EditIcon from "virtual:icons/ion/edit"
+
 export function initState() {
 	return {}
 }
@@ -18,8 +20,11 @@ export async function render() {
 	const el = document.createElement("div")
 	el.setAttribute("style", styles.wrapper)
 	el.innerHTML = html`<p>
-		Click on the "✏" button on the top right to start adding components.
+		Click on the "<span id="icon"></span>" button on the top right to start
+		adding components.
 	</p>`
+	const span = el.querySelector("#icon")
+	if (span) new EditIcon({ target: span })
 
 	return el
 }
