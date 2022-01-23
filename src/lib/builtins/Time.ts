@@ -84,7 +84,7 @@ export async function render(
 	const id = setInterval(() => {
 		const inner = state.text.replace("%s", formatter.format(new Date()))
 		el.innerText = inner
-	})
+	}, 1000)
 	onDestroy(() => clearInterval(id))
 
 	return el

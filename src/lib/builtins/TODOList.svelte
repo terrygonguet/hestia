@@ -126,7 +126,7 @@
 	input[type="text"] {
 		background: transparent;
 		border: none;
-		border-bottom: 1px solid var(--color-text);
+		border-bottom: 1px solid var(--color-borders);
 		color: var(--color-text);
 		min-width: 0;
 		margin-bottom: 0.5rem;
@@ -134,7 +134,7 @@
 
 	#all-done {
 		text-align: center;
-		opacity: 0.7;
+		color: var(--color-textQuiet);
 	}
 
 	#todos {
