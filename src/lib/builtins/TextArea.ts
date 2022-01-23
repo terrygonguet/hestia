@@ -1,4 +1,5 @@
 import type { Context, EditorConfig } from "$/types"
+import browser from "webextension-polyfill"
 
 export function initState() {
 	return {
@@ -19,6 +20,8 @@ const style = css`
 	color: var(--color-text, black);
 	border: none;
 	outline: solid 1px var(--color-borders, black);
+	min-width: 0;
+	min-height: 0;
 `
 
 export async function render(
@@ -32,7 +35,7 @@ export async function render(
 	el.value = state.text ?? ""
 
 	function onStateChange(
-		changes: { [key: string]: browser.storage.StorageChange },
+		changes: { [key: string]: browser.Storage.StorageChange },
 		areaName: string,
 	) {
 		if (areaName != "local" || !changes[id]) return

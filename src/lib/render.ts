@@ -23,8 +23,14 @@ export async function render(
 		)
 		const state = await browser.storage.local.get([definition.id, "config"])
 
-		function setState(data: Object) {
-			return browser.storage.local.set({ [definition.id]: data })
+		async function setState(data: Object) {
+			const state = await browser.storage.local.get(definition.id)
+			const newState = Object.assign({}, state[definition.id], data)
+			console.log(newState)
+
+			return browser.storage.local.set({
+				[definition.id]: newState,
+			})
 		}
 
 		function onDestroy(f: () => void) {

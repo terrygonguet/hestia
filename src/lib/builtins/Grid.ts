@@ -24,6 +24,7 @@ export const editorConfig: EditorConfig = [
 const css = String.raw
 const style = css`
 	display: grid;
+	min-height: 0;
 `
 
 export async function render(

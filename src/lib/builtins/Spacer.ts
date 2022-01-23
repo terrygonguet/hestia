@@ -42,6 +42,8 @@ const style = css`
 	display: grid;
 	grid-template-columns: 1fr;
 	grid-auto-rows: 1fr;
+	min-height: 0;
+	overflow: hidden;
 `
 
 export async function render(

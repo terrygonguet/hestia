@@ -42,6 +42,7 @@ export const editorConfig: EditorConfig = [
 const css = String.raw
 const style = css`
 	display: flex;
+	min-height: 0;
 `
 
 export async function render(

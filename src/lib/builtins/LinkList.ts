@@ -79,6 +79,7 @@ const style = {
 		flex-direction: column;
 		border: 1px solid var(--color-borders, black);
 		padding: 0.5rem;
+		min-height: 0;
 	`,
 	title: css`
 		font-size: 1.3rem;
