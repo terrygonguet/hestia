@@ -2,7 +2,9 @@
 	import type { TODO } from "$lib/builtins/TODOList"
 	import partition from "just-partition"
 	import { createEventDispatcher } from "svelte"
-	import Icontrash from "virtual:icons/ion/trash-sharp"
+	import { flip } from "svelte/animate"
+	import { crossfade } from "svelte/transition"
+	import IconTrash from "virtual:icons/ion/trash-sharp"
 
 	export let todos: TODO[]
 	export let title = ""
@@ -13,13 +15,16 @@
 		toggle: string
 		remove: string
 	}>()
+	const [send, receive] = crossfade({
+		duration: d => Math.sqrt(d * 200),
+	})
 
 	let name = ""
 
 	$: [done, notdone] = partition(todos, ({ done }) => done)
 
 	function onKeydown(e: KeyboardEvent) {
-		if (e.key == "Enter") {
+		if (e.key == "Enter" && name) {
 			emit("create", name)
 			name = ""
 		}
@@ -39,7 +44,12 @@
 	<div id="todos">
 		<ul>
 			{#each notdone as todo (todo.id)}
-				<li class="notdone">
+				<li
+					class="notdone"
+					animate:flip={{ duration: 200 }}
+					in:receive={{ key: todo.id }}
+					out:send={{ key: todo.id }}
+				>
 					<label>
 						<input
 							type="checkbox"
@@ -52,17 +62,24 @@
 							class="trash"
 							title="Delete todo"
 							on:click={() => emit("remove", todo.id)}
-							><Icontrash /></button
+							><IconTrash /></button
 						>
 					</label>
 				</li>
 			{:else}
-				<p>You're all done!</p>
+				<li>
+					<p id="all-done">You're all done!</p>
+				</li>
 			{/each}
 		</ul>
 		<ul>
 			{#each done as todo (todo.id)}
-				<li class="done">
+				<li
+					class="done"
+					animate:flip={{ duration: 200 }}
+					in:receive={{ key: todo.id }}
+					out:send={{ key: todo.id }}
+				>
 					<label>
 						<input
 							type="checkbox"
@@ -76,7 +93,7 @@
 							class="trash"
 							title="Delete todo"
 							on:click={() => emit("remove", todo.id)}
-							><Icontrash /></button
+							><IconTrash /></button
 						>
 					</label>
 				</li>
@@ -109,16 +126,26 @@
 		border-bottom: 1px solid var(--color-accent);
 		color: var(--color-text);
 		min-width: 0;
+		margin-bottom: 0.5rem;
+	}
+
+	#all-done {
+		text-align: center;
+		opacity: 0.7;
 	}
 
 	#todos {
 		min-height: 0;
 		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
 	}
 
 	ul {
 		list-style-type: none;
 		padding: 0;
+		margin: 0;
 	}
 
 	.done {

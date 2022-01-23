@@ -65,8 +65,12 @@ export async function render(
 		props: state,
 	})
 	const removeToggle = comp.$on("toggle", ({ detail: id }) => {
-		const todo = state.todos.find(t => t.id == id)
-		if (todo) todo.done = !todo.done
+		const i = state.todos.findIndex(t => t.id == id)
+		if (i == -1) return
+		const [todo] = state.todos.splice(i, 1)
+		if (!todo) return
+		todo.done = !todo.done
+		state.todos.push(todo)
 		setState({ todos: state.todos })
 	})
 	const removeCreate = comp.$on("create", ({ detail: name }) =>
