@@ -9,6 +9,7 @@
 	export let todos: TODO[]
 	export let title = ""
 	export let radius = "0"
+	export let border = true
 
 	const emit = createEventDispatcher<{
 		create: string
@@ -31,7 +32,7 @@
 	}
 </script>
 
-<div id="container" style="border-radius: {radius};">
+<div id="container" style="border-radius: {radius};" class:border>
 	{#if title}
 		<h2>{title}</h2>
 	{/if}
@@ -106,11 +107,13 @@
 	#container {
 		display: grid;
 		grid-template-rows: auto auto 1fr;
-		border: 1px solid var(--color-borders, black);
 		padding: 0.5rem;
 		accent-color: var(--color-accent);
 		min-height: 0;
 		height: 100%;
+	}
+	.border {
+		border: 1px solid var(--color-borders, black);
 	}
 
 	h2 {
@@ -123,7 +126,7 @@
 	input[type="text"] {
 		background: transparent;
 		border: none;
-		border-bottom: 1px solid var(--color-accent);
+		border-bottom: 1px solid var(--color-text);
 		color: var(--color-text);
 		min-width: 0;
 		margin-bottom: 0.5rem;

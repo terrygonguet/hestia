@@ -1,46 +1,12 @@
 import type { Context, EditorConfig } from "$/types"
 
 export function initState() {
-	return import.meta.env.DEV
-		? {
-				title: "🔋 Procrastination",
-				radius: "0",
-				links: [
-					{
-						label: "YT",
-						url: "https://www.youtube.com/feed/subscriptions",
-					},
-					{
-						label: "YT WL",
-						url: "https://www.youtube.com/playlist?list=WL",
-					},
-					{
-						label: "/b/",
-						url: "https://boards.4chan.org/b/",
-					},
-					{
-						label: "/wg/",
-						url: "https://boards.4chan.org/wg/",
-					},
-					{
-						label: "OWL schedule",
-						url: "https://overwatchleague.com/en-us/schedule",
-					},
-					{
-						label: "OWL FR",
-						url: "https://overwatchleague.com/fr-fr/",
-					},
-					{
-						label: "Comics",
-						url: "https://readcomiconline.to/",
-					},
-				],
-		  }
-		: {
-				title: "",
-				radius: "0",
-				links: [] as { label: string; url: string }[],
-		  }
+	return {
+		title: "",
+		radius: "0",
+		border: true,
+		links: [] as { label: string; url: string }[],
+	}
 }
 
 export const editorConfig: EditorConfig = [
@@ -49,6 +15,11 @@ export const editorConfig: EditorConfig = [
 		prop: "title",
 		label: "Title:",
 		placeholder: "No title will be shown if blank",
+	},
+	{
+		type: "boolean",
+		prop: "border",
+		label: "Border:",
 	},
 	{
 		type: "select",
@@ -77,7 +48,6 @@ const style = {
 	container: css`
 		display: flex;
 		flex-direction: column;
-		border: 1px solid var(--color-borders, black);
 		padding: 0.5rem;
 		min-height: 0;
 	`,
@@ -98,6 +68,7 @@ const style = {
 export async function render(state: ReturnType<typeof initState>, _: Context) {
 	const el = document.createElement("div")
 	el.setAttribute("style", style.container)
+	if (state.border) el.style.border = "1px solid var(--color-borders, black)"
 	el.style.borderRadius = state.radius
 
 	if (state.title) {

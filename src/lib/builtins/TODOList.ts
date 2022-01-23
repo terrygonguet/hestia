@@ -13,6 +13,7 @@ export function initState() {
 	return {
 		title: "",
 		radius: "0",
+		border: true,
 		todos: [] as TODO[],
 	}
 }
@@ -25,6 +26,11 @@ export const editorConfig: EditorConfig = [
 		placeholder: "No title will be shown if blank",
 	},
 	{
+		type: "boolean",
+		prop: "border",
+		label: "Border:",
+	},
+	{
 		type: "select",
 		prop: "radius",
 		label: "Corners:",
@@ -35,15 +41,6 @@ export const editorConfig: EditorConfig = [
 			{ label: "Very rounded", value: "1rem" },
 		],
 	},
-	// {
-	// 	type: "array",
-	// 	prop: "todos",
-	// 	label: "TODOs:",
-	// 	subfields: [
-	// 		{ type: "text", prop: "name", label: "Label:" },
-	// 		{ type: "boolean", prop: "done", label: "Done:" },
-	// 	],
-	// },
 ]
 
 const css = String.raw
