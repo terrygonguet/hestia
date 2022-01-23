@@ -6,7 +6,9 @@
 		"dev": "vite build --mode development",
 		"build": "vite build",
 		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json"
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"bundle": "web-ext build -s ./dist",
+		"lint": "web-ext lint -s ./dist"
 	},
 	"dependencies": {
 		"@types/firefox-webext-browser": "^67.0.1",
@@ -26,6 +28,7 @@
 		"typescript": "^4.4.4",
 		"unplugin-icons": "^0.13.0",
 		"vite": "^2.7.2",
+		"web-ext": "^6.6.0",
 		"webextension-polyfill": "^0.8.0"
 	},
 	"prettier": {
