@@ -1,5 +1,6 @@
 import type { Component } from "$/types"
 import type { Maybe } from "$/utils/maybe"
+import browser from "webextension-polyfill"
 
 export async function asyncMap<T, U>(
 	array: T[],
@@ -81,4 +82,15 @@ export function compareShape(source: any, target: any) {
 		}
 		return true
 	} else return typeof target == typeof source
+}
+
+export function getAs<T>(key: string): Promise<Maybe<T>>
+export function getAs<T extends Object>(keys: (keyof T)[]): Promise<Partial<T>>
+export function getAs<T>(key: string | (keyof T)[]) {
+	if (Array.isArray(key)) return browser.storage.local.get(key)
+	else return browser.storage.local.get(key).then(stored => stored[key])
+}
+
+export function setAs<T extends Object>(values: T): Promise<void> {
+	return browser.storage.local.set(values)
 }
