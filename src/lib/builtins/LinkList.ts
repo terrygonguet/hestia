@@ -50,11 +50,15 @@ const style = {
 		flex-direction: column;
 		padding: 0.5rem;
 		min-height: 0;
+		overflow: auto;
 	`,
 	title: css`
 		font-size: 1.3rem;
 		font-weight: 600;
 		word-break: keep-all;
+		position: sticky;
+		top: 0;
+		background: var(--color-background, white);
 	`,
 	icon: css`
 		display: inline;
