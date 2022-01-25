@@ -28,11 +28,12 @@ export default defineConfig(env => ({
 		emptyOutDir: true,
 		watch: env.mode == "development" ? {} : false,
 		rollupOptions: {
-			input: {
-				index: "index.html",
-				edit: "edit.html",
-				options: "options.html",
-			},
+			input: [
+				"index.html",
+				"edit.html",
+				"options.html",
+				"background.html",
+			],
 		},
 	},
 }))

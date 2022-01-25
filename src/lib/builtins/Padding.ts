@@ -8,8 +8,8 @@ enum Overflow {
 
 export function initState() {
 	return {
-		padding: 1,
 		overflow: Overflow.Hidden,
+		paddings: [1],
 	}
 }
 
@@ -21,11 +21,23 @@ export const editorConfig: EditorConfig = [
 		contents. It only expects to have one child.`,
 	},
 	{
-		type: "number",
-		prop: "padding",
-		label: "Padding size:",
-		min: 0,
-		step: 0.25,
+		type: "array",
+		prop: "paddings",
+		label: "Padding:",
+		info: `
+			When one value is specified, it applies the same padding to all four sides.
+			When two values are specified, the first padding applies to the top and bottom, the second to the left and right.
+			When three values are specified, the first padding applies to the top, the second to the right and left, the third to the bottom.
+			When four values are specified, the paddings apply to the top, right, bottom, and left in that order (clockwise).
+			Any values after the fourth are ignored.
+		`,
+		subfields: {
+			type: "number",
+			prop: "",
+			label: "",
+			min: 0,
+			step: 0.25,
+		},
 	},
 	{
 		type: "select",
@@ -54,7 +66,10 @@ export async function render(
 ) {
 	const el = document.createElement("div")
 	el.setAttribute("style", style)
-	el.style.padding = state.padding + "rem"
+	el.style.padding = state.paddings
+		.slice(0, 4)
+		.map(n => n + "rem")
+		.join(" ")
 	switch (state.overflow) {
 		case Overflow.Hidden:
 			el.style.overflow = "hidden"

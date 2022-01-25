@@ -24,8 +24,9 @@
 </script>
 
 <script lang="ts">
+	import { applyMigrations } from "$/background"
 	import type { Config } from "$/types"
-	import { compareShape } from "$/utils"
+	import { compareShape, getAs } from "$/utils"
 	import { forEach, parse } from "$/utils/compdef"
 	import { isLeft } from "$/utils/result"
 	import ColorField from "$lib/components/ColorField.svelte"
@@ -83,11 +84,30 @@
 				if (!compareShape(baseConfig(), raw.config))
 					throw new Error("Invalid config shape.")
 
-				const data: any = { root: root.value, config: raw.config }
+				if (raw.migrations && !Array.isArray(raw.migrations))
+					throw new Error("Invalid migrations object.")
+				const migrations = raw.migrations?.map(
+					({ name, time }: any) => {
+						if (typeof name != "string")
+							throw new Error("Invalid migrations object.")
+						const date = new Date(time)
+						if (date.toString() == "Invalid Date")
+							throw new Error("Invalid migrations object.")
+						return { name, time: date }
+					},
+				)
+
+				const data: any = {
+					root: root.value,
+					config: raw.config,
+					migrations,
+				}
 				forEach(root.value, comp => (data[comp.id] = raw[comp.id]))
 
 				await browser.storage.local.set(data)
-				config = Object.assign(config, data.config)
+				await applyMigrations()
+				const fresh = await getAs<Config>("config")
+				config = Object.assign(config, fresh)
 			} catch (error) {
 				console.error(error)
 				if (error instanceof SyntaxError)
