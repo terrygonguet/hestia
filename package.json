@@ -9,7 +9,7 @@
 		"check": "svelte-check --tsconfig ./tsconfig.json",
 		"bundle": "web-ext build -s ./dist",
 		"lint": "web-ext lint -s ./dist",
-		"browser": "web-ext run -s ./dist --no-reload"
+		"browser": "web-ext run -s ./dist --no-reload --bc"
 	},
 	"dependencies": {
 		"@types/firefox-webext-browser": "^67.0.1",
