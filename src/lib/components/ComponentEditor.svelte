@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Component, ComponentDefinition } from "$/types"
 	import EditorField from "$lib/components/EditorField.svelte"
-	import { beforeUpdate, onMount, tick } from "svelte"
+	import { afterUpdate, onMount, tick } from "svelte"
 	import browser from "webextension-polyfill"
 
 	export let component: Component
@@ -25,15 +25,11 @@
 		loading = false
 	})
 
-	beforeUpdate(async () => {
+	afterUpdate(async () => {
 		if (loading) return
 		loading = true
 		const data = await browser.storage.local.get(selected.id)
-		editorValues = Object.assign(
-			component.initState(),
-			editorValues,
-			data[selected.id],
-		)
+		editorValues = Object.assign(component.initState(), data[selected.id])
 		await tick()
 		loading = false
 	})
