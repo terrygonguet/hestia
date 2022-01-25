@@ -5,12 +5,14 @@ export function initState() {
 		texts: [] as string[],
 		center: true,
 		size: 1,
+		bold: false,
 	}
 }
 
 export const editorConfig: EditorConfig = [
 	{ type: "boolean", prop: "center", label: "Centered:" },
 	{ type: "number", prop: "size", label: "Text size:", min: 0.1, step: 0.1 },
+	{ type: "boolean", prop: "bold", label: "Bold:" },
 	{
 		type: "array",
 		prop: "texts",
@@ -37,6 +39,7 @@ export async function render(state: ReturnType<typeof initState>, _: Context) {
 		el.style.alignItems = "center"
 	}
 	el.style.fontSize = state.size + "rem"
+	if (state.bold) el.style.fontWeight = "bold"
 
 	return el
 }
