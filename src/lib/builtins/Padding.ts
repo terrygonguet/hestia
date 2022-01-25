@@ -21,16 +21,37 @@ export const editorConfig: EditorConfig = [
 		contents. It only expects to have one child.`,
 	},
 	{
+		type: "divider",
+	},
+	{
+		type: "info",
+		html: html`When <strong>one</strong> value is specified, it applies the
+			same padding to all four sides.`,
+	},
+	{
+		type: "info",
+		html: html`When <strong>two</strong> values are specified, the first
+			padding applies to the <strong>top and bottom</strong>, the second
+			to the <strong>left and right</strong>.`,
+	},
+	{
+		type: "info",
+		html: html`When <strong>three</strong> values are specified, the first
+			padding applies to the <strong>top</strong>, the second to the
+			<strong>right and left</strong>, the third to the
+			<strong>bottom</strong>.`,
+	},
+	{
+		type: "info",
+		html: html`When <strong>four</strong> values are specified, the paddings
+			apply to the <strong>top, right, bottom, and left</strong> in that
+			order (clockwise).`,
+	},
+	{
 		type: "array",
 		prop: "paddings",
 		label: "Padding:",
-		info: `
-			When one value is specified, it applies the same padding to all four sides.
-			When two values are specified, the first padding applies to the top and bottom, the second to the left and right.
-			When three values are specified, the first padding applies to the top, the second to the right and left, the third to the bottom.
-			When four values are specified, the paddings apply to the top, right, bottom, and left in that order (clockwise).
-			Any values after the fourth are ignored.
-		`,
+		info: html`Any values after the fourth are ignored.`,
 		subfields: {
 			type: "number",
 			prop: "",
@@ -40,10 +61,18 @@ export const editorConfig: EditorConfig = [
 		},
 	},
 	{
+		type: "divider",
+	},
+	{
+		type: "info",
+		html: html`Overflow defines how the component behaves with regards to
+		its contents and other "shrinking pressures" put on it. Try changing
+		this setting when weird size changes occur.`,
+	},
+	{
 		type: "select",
 		prop: "overflow",
 		label: "Overflow:",
-		info: 'Overflow defines how the component behaves with regards to its contents and other "shrinking pressures" put on it. Try changing this setting when weird size changes occur.',
 		options: [
 			{ label: "Hidden", value: Overflow.Hidden },
 			{ label: "Auto", value: Overflow.Auto },
