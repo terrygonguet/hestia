@@ -35,6 +35,9 @@
 <div id="container" style="border-radius: {radius};" class:border>
 	{#if title}
 		<h2>{title}</h2>
+	{:else}
+		<!-- To conserve grid cell sizes -->
+		<div />
 	{/if}
 	<input
 		type="text"
