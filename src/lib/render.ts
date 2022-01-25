@@ -7,21 +7,22 @@ import browser from "webextension-polyfill"
 export async function render(
 	definition: ComponentDefinition,
 	onDestroyCallbacks: (() => void)[] = [],
+	cache?: { [id: string]: any },
 ): Promise<{ el: Node; onDestroy: (() => void)[] }> {
 	try {
 		const component: Component =
 			definition.type == "Custom"
 				? await getCustomComponent(definition.url)
 				: builtins[definition.type]
+		const stateCache = cache ?? (await browser.storage.local.get())
 
 		if (!component) {
 			throw new Error(`Unknown component type "${definition.type}"`)
 		}
 
-		const children = await asyncMap(definition.children ?? [], c =>
-			render(c, onDestroyCallbacks),
+		const children = await asyncMap(definition.children ?? [], child =>
+			render(child, onDestroyCallbacks, stateCache),
 		)
-		const state = await browser.storage.local.get([definition.id, "config"])
 
 		async function setState(data: Object) {
 			const state = await browser.storage.local.get(definition.id)
@@ -36,12 +37,12 @@ export async function render(
 		}
 
 		const el = await component.render(
-			Object.assign(component.initState(), state[definition.id]),
+			Object.assign(component.initState(), stateCache[definition.id]),
 			{
 				children: children.map(c => c.el),
 				setState,
 				onDestroy,
-				config: state.config ?? baseConfig,
+				config: stateCache.config ?? baseConfig(),
 				id: definition.id,
 			},
 		)
