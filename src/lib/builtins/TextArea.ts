@@ -5,11 +5,17 @@ export function initState() {
 	return {
 		placeholder: "Type here...",
 		text: "",
+		border: true,
 	}
 }
 
 export const editorConfig: EditorConfig = [
 	{ type: "text", prop: "placeholder", label: "Placeholder" },
+	{
+		type: "boolean",
+		prop: "border",
+		label: "Border:",
+	},
 ]
 
 const css = String.raw
@@ -18,10 +24,10 @@ const style = css`
 	padding: 0.5rem;
 	background-color: var(--color-background, white);
 	color: var(--color-text, black);
-	border: none;
-	outline: solid 1px var(--color-borders, black);
+	outline: none;
 	min-width: 0;
 	min-height: 0;
+	margin: 0;
 `
 
 export async function render(
@@ -33,6 +39,9 @@ export async function render(
 	el.setAttribute("placeholder", state.placeholder)
 	el.addEventListener("change", e => setState({ text: el.value }))
 	el.value = state.text ?? ""
+	el.style.border = state.border
+		? "1px solid var(--color-borders, black)"
+		: "none"
 
 	function onStateChange(
 		changes: { [key: string]: browser.Storage.StorageChange },
