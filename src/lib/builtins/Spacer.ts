@@ -37,25 +37,23 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-const style = css`
-	display: grid;
-	grid-template-columns: 1fr;
-	grid-auto-rows: 1fr;
-	min-height: 0;
-	overflow: hidden;
-`
-
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ children }: Context,
+	{ children, id, css }: Context,
 ) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.id = id
 	if (state.border) el.style.border = "2px solid var(--color-accent, red)"
 	if (state.grow) el.style.flexGrow = "1"
 	el.style.gridColumn = "span " + state.colspan
 	el.style.gridRow = "span " + state.rowspan
+	css[`#${id}`] = `
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-auto-rows: 1fr;
+		min-height: 0;
+		overflow: hidden;
+	`
 
 	children.forEach(child => el.appendChild(child))
 

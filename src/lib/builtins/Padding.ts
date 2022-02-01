@@ -91,14 +91,20 @@ const style = css`
 
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ children }: Context,
+	{ children, id, css }: Context,
 ) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.id = id
 	el.style.padding = state.paddings
 		.slice(0, 4)
 		.map(n => n + "rem")
 		.join(" ")
+	css[`#${id}`] = `
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr;
+		display: grid;
+		overflow: hidden;
+	`
 	switch (state.overflow) {
 		case Overflow.Hidden:
 			el.style.overflow = "hidden"

@@ -16,14 +16,9 @@ export const editorConfig: EditorConfig = [
 	{ type: "boolean", prop: "bold", label: "Bold:" },
 ]
 
-const css = String.raw
-const style = css`
-	display: flex;
-`
-
 export async function render(state: ReturnType<typeof initState>, _: Context) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.style.display = "flex"
 	el.innerText = state.text ?? ""
 	if (state.center) {
 		el.style.justifyContent = "center"

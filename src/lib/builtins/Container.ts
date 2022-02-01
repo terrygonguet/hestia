@@ -39,18 +39,15 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-const style = css`
-	display: flex;
-	min-height: 0;
-`
-
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ children }: Context,
+	{ children, id, css }: Context,
 ) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.id = id
+	css["#" + id] = `
+		display: flex;
+		min-height: 0;`
 	el.style.gap = state.gap + "rem"
 	el.style.flexDirection =
 		state.direction == Direction.Vertical ? "column" : "row"

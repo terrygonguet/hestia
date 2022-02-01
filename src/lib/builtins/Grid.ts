@@ -35,22 +35,20 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-const style = css`
-	display: grid;
-	min-height: 0;
-`
-
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ children }: Context,
+	{ children, css, id }: Context,
 ) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.id = id
 	el.style.gap = state.gap + "rem"
 	el.style.gridTemplateColumns = `repeat(${state.cols}, 1fr)`
 	el.style.gridTemplateRows = `repeat(${state.rows}, 1fr)`
 	if (state.grow) el.style.flexGrow = "1"
+	css["#" + id] = `
+		display: grid;
+		min-height: 0;
+	`
 
 	children.forEach(child => el.appendChild(child))
 

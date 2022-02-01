@@ -43,20 +43,15 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ onDestroy, id, setState }: Context,
+	{ onDestroy, id, setState, css }: Context,
 ) {
 	const el = document.createElement("div")
-	el.setAttribute(
-		"style",
-		css`
-			min-height: 0;
-			overflow: hidden;
-		`,
-	)
+	el.id = id
+	css["#" + id] = `
+		min-height: 0;
+		overflow: hidden;`
 	const comp = new TODOList({
 		target: el,
 		props: state,

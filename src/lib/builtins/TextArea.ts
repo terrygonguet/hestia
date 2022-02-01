@@ -18,30 +18,29 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-const style = css`
-	resize: none;
-	padding: 0.5rem;
-	background-color: var(--color-background, white);
-	color: var(--color-text, black);
-	outline: none;
-	min-width: 0;
-	min-height: 0;
-	margin: 0;
-`
-
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ setState, id, onDestroy }: Context,
+	{ setState, id, onDestroy, css }: Context,
 ) {
 	const el = document.createElement("textarea")
-	el.setAttribute("style", style)
+	el.id = id
 	el.setAttribute("placeholder", state.placeholder)
 	el.addEventListener("change", e => setState({ text: el.value }))
 	el.value = state.text ?? ""
 	el.style.border = state.border
 		? "1px solid var(--color-borders, black)"
 		: "none"
+
+	css[`#${id}`] = `
+		resize: none;
+		padding: 0.5rem;
+		background-color: var(--color-background, white);
+		color: var(--color-text, black);
+		outline: none;
+		min-width: 0;
+		min-height: 0;
+		margin: 0;
+	`
 
 	function onStateChange(
 		changes: { [key: string]: browser.Storage.StorageChange },

@@ -1,28 +1,26 @@
+import type { Context } from "$/types"
 import EditIcon from "virtual:icons/ion/edit"
 
 export function initState() {
 	return {}
 }
 
-const css = String.raw,
-	html = String.raw
-const styles = {
-	wrapper: css`
+const html = String.raw
+
+export async function render(_: never, { css, id }: Context) {
+	const el = document.createElement("div")
+	el.id = id
+	el.innerHTML = html`<p>
+		Click on the "<span id="icon"></span>" button on the top right to start
+		adding components.
+	</p>`
+	css["#" + id] = `
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		text-align: center;
-	`,
-}
-
-export async function render() {
-	const el = document.createElement("div")
-	el.setAttribute("style", styles.wrapper)
-	el.innerHTML = html`<p>
-		Click on the "<span id="icon"></span>" button on the top right to start
-		adding components.
-	</p>`
+	`
 	const span = el.querySelector("#icon")
 	if (span) new EditIcon({ target: span })
 

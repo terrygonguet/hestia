@@ -25,14 +25,9 @@ export const editorConfig: EditorConfig = [
 	},
 ]
 
-const css = String.raw
-const style = css`
-	display: flex;
-`
-
 export async function render(state: ReturnType<typeof initState>, _: Context) {
 	const el = document.createElement("div")
-	el.setAttribute("style", style)
+	el.style.display = "flex"
 	el.innerText = state.texts[Math.floor(Math.random() * state.texts.length)]
 	if (state.center) {
 		el.style.justifyContent = "center"

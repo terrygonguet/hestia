@@ -6,6 +6,7 @@ type Context = {
 	onDestroy(f: () => void): void
 	config: Config
 	id: string
+	css: { [selector: string]: string }
 }
 
 type Component<Data = any> = {
