@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { InvalidState, State } from "$/Edit.svelte"
 	import { isLeft, Result } from "$/utils/result"
-	import ComponentDefinitionTree2 from "$lib/components/ComponentDefinitionTree.svelte"
+	import ComponentDefinitionTree from "$lib/components/ComponentDefinitionTree.svelte"
 	import { createEventDispatcher } from "svelte"
 	import IconArrowLeft from "virtual:icons/ion/arrow-back-sharp"
 	import IconArrowDown from "virtual:icons/ion/arrow-down-b"
@@ -38,7 +38,7 @@
 				<p class="centered error">{state.value.message}</p>
 			{/if}
 		{:else}
-			<ComponentDefinitionTree2
+			<ComponentDefinitionTree
 				definition={state.value.root}
 				selected={state.value.selected}
 				on:select

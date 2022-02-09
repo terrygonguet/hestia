@@ -57,7 +57,7 @@
 			create() {
 				const id = nanoid()
 				state = Right({
-					root: { type: "Padding", id },
+					root: { type: "Box", id },
 					selected: id,
 				})
 				return "done"

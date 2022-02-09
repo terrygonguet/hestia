@@ -25,7 +25,7 @@ export const editorConfig: EditorConfig = [
 		type: "boolean",
 		prop: "grow",
 		label: "Grow:",
-		info: "Grow to take all available space when child of <code>Container</code>.",
+		info: "Grow to take all available space when child of <code>Stack</code>.",
 	},
 	{
 		type: "boolean",

@@ -10,6 +10,10 @@ export function initState() {
 	return {
 		overflow: Overflow.Hidden,
 		paddings: [1],
+		border: false,
+		grow: true,
+		colspan: 1,
+		rowspan: 1,
 	}
 }
 
@@ -17,8 +21,9 @@ const html = String.raw
 export const editorConfig: EditorConfig = [
 	{
 		type: "info",
-		html: html`This component adds some whitespace padding around its
-		contents. It only expects to have one child.`,
+		html: html`This component controls the space taken inside its container
+		and the whitespace padding around its contents. It only expects to have
+		one child.`,
 	},
 	{
 		type: "divider",
@@ -60,6 +65,36 @@ export const editorConfig: EditorConfig = [
 			step: 0.25,
 		},
 	},
+	{ type: "divider" },
+	{
+		type: "info",
+		html: html`Only used when direct child of a <code>Stack</code>.`,
+	},
+	{
+		type: "boolean",
+		prop: "grow",
+		label: "Grow:",
+		info: html`Grow to take all available space when enabled.`,
+	},
+	{ type: "divider" },
+	{
+		type: "info",
+		html: html`Only used when direct child of a <code>Grid</code>.`,
+	},
+	{
+		type: "number",
+		prop: "colspan",
+		label: "Column span:",
+		min: 1,
+	},
+	{ type: "number", prop: "rowspan", label: "Row span:", min: 1 },
+	{ type: "divider" },
+	{
+		type: "boolean",
+		prop: "border",
+		label: "Flashy border:",
+		info: "Useful to visualize the available space.",
+	},
 	{
 		type: "divider",
 	},
@@ -99,11 +134,15 @@ export async function render(
 		.slice(0, 4)
 		.map(n => n + "rem")
 		.join(" ")
+	if (state.border) el.style.border = "2px solid var(--color-accent, red)"
+	if (state.grow) el.style.flexGrow = "1"
+	el.style.gridColumn = "span " + state.colspan
+	el.style.gridRow = "span " + state.rowspan
 	css[`#${id}`] = `
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr;
 		display: grid;
-		overflow: hidden;
+		grid-template-columns: 1fr;
+		grid-auto-rows: 1fr;
+		min-height: 0;
 	`
 	switch (state.overflow) {
 		case Overflow.Hidden:
@@ -122,4 +161,4 @@ export async function render(
 	return el
 }
 
-export const name = "Padding"
+export const name = "Box"

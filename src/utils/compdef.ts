@@ -59,12 +59,16 @@ export function clone(definition: ComponentDefinition): ComponentDefinition {
 	}
 }
 
+const legacyComponentTypes = ["Container", "Padding", "Spacer"]
+const types = Object.keys(builtins)
+	.concat("Custom")
+	.concat(legacyComponentTypes)
+
 export function parse(value: any): Result<string, ComponentDefinition> {
 	if (!value || typeof value != "object" || Array.isArray(value))
 		return Left("Value is not an object.")
 	if (typeof value.id != "string" || typeof value.type != "string")
 		return Left("Missing 'id' or 'type' property.")
-	const types = Object.keys(builtins).concat("Custom")
 	if (!types.includes(value.type))
 		return Left("Invalid value for property 'type': " + value.type + ".")
 	if (value.children && !Array.isArray(value.children))

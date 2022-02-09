@@ -8,7 +8,7 @@ const html = String.raw
 export const editorConfig: EditorConfig = [
 	{
 		type: "info",
-		html: html`Only used when direct child of a <code>Container</code>.`,
+		html: html`Only used when direct child of a <code>Stack</code>.`,
 	},
 	{
 		type: "boolean",

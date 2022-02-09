@@ -57,4 +57,4 @@ export async function render(
 	return el
 }
 
-export const name = "Container"
+export const name = "Stack"

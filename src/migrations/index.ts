@@ -17,7 +17,7 @@ const migrations = new Map<string, Migration>([
 				if (isNone(root)) return
 				const defs = flatten(root)
 				for (const def of defs) {
-					if (def.type != "Padding") continue
+					if ((def.type as any) != "Padding") continue
 					const { [def.id]: data } = await browser.storage.local.get(
 						def.id,
 					)
@@ -25,6 +25,30 @@ const migrations = new Map<string, Migration>([
 					data.paddings = [data.padding]
 					await browser.storage.local.set({ [def.id]: data })
 				}
+			},
+			async down() {},
+		},
+	],
+	[
+		"1.2.0",
+		{
+			async up() {
+				const root = await getAs<ComponentDefinition>("root")
+				if (isNone(root)) return
+				const defs = flatten(root)
+				for (const def of defs) {
+					if ((def.type as any) == "Container") def.type = "Stack"
+					if ((def.type as any) == "Padding") def.type = "Box"
+					if ((def.type as any) == "Spacer") {
+						def.type = "Box"
+						const { [def.id]: data } =
+							await browser.storage.local.get(def.id)
+						if (!data) continue
+						data.paddings = [0]
+						await browser.storage.local.set({ [def.id]: data })
+					}
+				}
+				await browser.storage.local.set({ root })
 			},
 			async down() {},
 		},
