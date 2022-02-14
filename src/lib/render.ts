@@ -4,6 +4,7 @@ import { asyncMap, getCustomComponent } from "$/utils"
 import { builtins } from "$lib/builtins"
 import browser from "webextension-polyfill"
 import parser from "postcss-selector-parser"
+import hotkeys from "hotkeys-js"
 
 export async function render(
 	definition: ComponentDefinition,
@@ -46,6 +47,7 @@ export async function render(
 				config: stateCache.config ?? baseConfig(),
 				id: definition.id,
 				css: createCSSProxy(definition.id),
+				hotkeys,
 			},
 		)
 

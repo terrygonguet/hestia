@@ -7,6 +7,7 @@ type Context = {
 	config: Config
 	id: string
 	css: { [selector: string]: string }
+	hotkeys: typeof import("hotkeys-js")["default"]
 }
 
 type Component<Data = any> = {

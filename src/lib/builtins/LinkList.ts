@@ -5,7 +5,8 @@ export function initState() {
 		title: "",
 		radius: "0",
 		border: true,
-		links: [] as { label: string; url: string }[],
+		hover: false,
+		links: [] as { label: string; url: string; hotkey?: string }[],
 	}
 }
 
@@ -20,6 +21,12 @@ export const editorConfig: EditorConfig = [
 		type: "boolean",
 		prop: "border",
 		label: "Border:",
+	},
+	{
+		type: "boolean",
+		prop: "hover",
+		label: "Underline:",
+		info: "Underline links on hover",
 	},
 	{
 		type: "select",
@@ -39,27 +46,30 @@ export const editorConfig: EditorConfig = [
 		subfields: [
 			{ type: "text", prop: "label", label: "Label:" },
 			{ type: "text", prop: "url", label: "URL:" },
+			{ type: "text", prop: "hotkey", label: "Hotkey:" },
 		],
 	},
 ]
 
+const css = String.raw
 export async function render(
 	state: ReturnType<typeof initState>,
-	{ id, css }: Context,
+	{ id, css: styles, hotkeys, onDestroy }: Context,
 ) {
 	const el = document.createElement("div")
 	el.id = id
 	if (state.border) el.style.border = "1px solid var(--color-borders, black)"
 	el.style.borderRadius = state.radius
 
-	css[`#${id}`] = `
+	styles[`#${id}`] = css`
 		display: flex;
 		flex-direction: column;
 		padding: 0.5rem;
 		min-height: 0;
 		overflow: auto;
+		gap: 0.5rem;
 	`
-	css[`#${id} > h2`] = `
+	styles[`#${id} > h2`] = css`
 		font-size: 1.3rem;
 		font-weight: 600;
 		word-break: keep-all;
@@ -67,9 +77,32 @@ export async function render(
 		top: 0;
 		background: var(--color-background, white);
 	`
-	css[`#${id} > a`] = `
+
+	styles[`#${id} > a`] = css`
 		text-decoration: none;
 		color: var(--color-text, black);
+		display: grid;
+		grid-template-columns: 1fr auto;
+		line-height: 1;
+	`
+	if (state.hover) {
+		styles[`#${id} > a:hover`] = css`
+			text-decoration: underline;
+		`
+	}
+
+	styles[`#${id} .label`] = css`
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	`
+	styles[`#${id} .hotkey`] = css`
+		border: 1px solid var(--color-borderCode);
+		background: var(--color-backgroundCode);
+		color: var(--color-textCode);
+		padding: 0 0.25rem;
+		border-radius: 0.25rem;
+		font-family: monospace;
 	`
 
 	if (state.title) {
@@ -81,9 +114,27 @@ export async function render(
 	for (const link of state.links) {
 		const a = document.createElement("a")
 		a.href = link.url
-		a.textContent = link.label
 		el.appendChild(a)
+
+		const label = document.createElement("span")
+		label.classList.add("label")
+		label.textContent = link.label
+		a.appendChild(label)
+
+		if (link.hotkey) {
+			hotkeys(link.hotkey, () => window.location.assign(link.url))
+			const hk = document.createElement("code")
+			hk.textContent = link.hotkey
+			hk.classList.add("hotkey")
+			a.appendChild(hk)
+		}
 	}
+
+	onDestroy(() => {
+		for (const link of state.links) {
+			if (link.hotkey) hotkeys.unbind(link.hotkey)
+		}
+	})
 
 	return el
 }
