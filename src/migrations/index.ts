@@ -25,6 +25,7 @@ const migrations = new Map<string, Migration>([
 					data.paddings = [data.padding]
 					await browser.storage.local.set({ [def.id]: data })
 				}
+				await browser.storage.local.set({ updatedAt: Date.now() })
 			},
 			async down() {},
 		},
@@ -48,7 +49,7 @@ const migrations = new Map<string, Migration>([
 						await browser.storage.local.set({ [def.id]: data })
 					}
 				}
-				await browser.storage.local.set({ root })
+				await browser.storage.local.set({ root, updatedAt: Date.now() })
 			},
 			async down() {},
 		},
