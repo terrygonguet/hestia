@@ -85,12 +85,20 @@ export function compareShape(source: any, target: any) {
 }
 
 export function getAs<T>(key: string): Promise<Maybe<T>>
-export function getAs<T extends Object>(keys: (keyof T)[]): Promise<Partial<T>>
+export function getAs<T extends { [key: string]: any }>(
+	keys: (keyof T)[],
+): Promise<Partial<T>>
 export function getAs<T>(key: string | (keyof T)[]) {
 	if (Array.isArray(key)) return browser.storage.local.get(key)
 	else return browser.storage.local.get(key).then(stored => stored[key])
 }
 
-export function setAs<T extends Object>(values: T): Promise<void> {
-	return browser.storage.local.set(values)
+export function setAs<T extends { [key: string]: any }>(
+	values: T,
+): Promise<void> {
+	return persist(values)
+}
+
+export function persist<T extends { [key: string]: any }>(data: T) {
+	return browser.storage.local.set({ ...data, updatedAt: Date.now() })
 }

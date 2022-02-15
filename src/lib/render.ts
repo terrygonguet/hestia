@@ -1,6 +1,6 @@
 import { baseConfig } from "$/Options.svelte"
 import type { Component, ComponentDefinition } from "$/types"
-import { asyncMap, getCustomComponent } from "$/utils"
+import { asyncMap, getCustomComponent, persist } from "$/utils"
 import { builtins } from "$lib/builtins"
 import browser from "webextension-polyfill"
 import parser from "postcss-selector-parser"
@@ -30,9 +30,7 @@ export async function render(
 		async function setState(data: Object) {
 			const state = await browser.storage.local.get(definition.id)
 			const newState = Object.assign({}, state[definition.id], data)
-			return browser.storage.local.set({
-				[definition.id]: newState,
-			})
+			return persist({ [definition.id]: newState })
 		}
 
 		function onDestroy(f: () => void) {

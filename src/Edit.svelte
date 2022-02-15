@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import type { ComponentDefinition } from "$/types"
-	import { asyncMap } from "$/utils"
+	import { asyncMap, persist } from "$/utils"
 	import {
 		addChild,
 		deleteById,
@@ -211,7 +211,7 @@
 		const {
 			value: { root, selected },
 		} = state
-		return browser.storage.local.set({ root, selected })
+		return persist({ root, selected })
 	}
 
 	async function clone(
@@ -222,7 +222,7 @@
 		)
 		const cloneData = JSON.parse(JSON.stringify(data ?? {}))
 		const id = nanoid()
-		await browser.storage.local.set({ [id]: cloneData })
+		await persist({ [id]: cloneData })
 		const children =
 			definition.children && (await asyncMap(definition.children, clone))
 		return { ...definition, id, children }

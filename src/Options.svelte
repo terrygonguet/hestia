@@ -26,7 +26,7 @@
 <script lang="ts">
 	import { applyMigrations } from "$/background"
 	import type { Config } from "$/types"
-	import { compareShape, getAs } from "$/utils"
+	import { compareShape, getAs, persist } from "$/utils"
 	import { forEach, parse } from "$/utils/compdef"
 	import { isLeft } from "$/utils/result"
 	import ColorField from "$lib/components/ColorField.svelte"
@@ -43,7 +43,7 @@
 
 	async function save() {
 		await tick()
-		return browser.storage.local.set({ config })
+		return persist({ config })
 	}
 
 	async function download() {
@@ -104,7 +104,7 @@
 				}
 				forEach(root.value, comp => (data[comp.id] = raw[comp.id]))
 
-				await browser.storage.local.set(data)
+				await persist(data)
 				await applyMigrations()
 				const fresh = await getAs<Config>("config")
 				config = Object.assign(config, fresh)

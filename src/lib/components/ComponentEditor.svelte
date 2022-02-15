@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Component, ComponentDefinition } from "$/types"
+	import { persist } from "$/utils"
 	import EditorField from "$lib/components/EditorField.svelte"
 	import { afterUpdate, onMount, tick } from "svelte"
 	import browser from "webextension-polyfill"
@@ -15,7 +16,7 @@
 
 	async function save(..._dependencies: any[]) {
 		if (loading) return
-		return browser.storage.local.set({ [selected.id]: editorValues })
+		return persist({ [selected.id]: editorValues })
 	}
 
 	onMount(async () => {
