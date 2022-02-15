@@ -32,6 +32,7 @@
 	import ColorField from "$lib/components/ColorField.svelte"
 	import ConfigWidget from "$lib/components/ConfigWidget.svelte"
 	import GlobalStyles from "$lib/components/GlobalStyles.svelte"
+	import SyncButton from "$lib/components/SyncButton.svelte"
 	import { onMount, tick } from "svelte"
 	import IconAdd from "virtual:icons/ion/md-add"
 	import IconRefresh from "virtual:icons/ion/md-refresh"
@@ -40,6 +41,7 @@
 
 	let config = baseConfig()
 	let showCustomColorsInfo = false
+	let showSyncInfo = false
 
 	async function save() {
 		await tick()
@@ -150,6 +152,11 @@
 	async function reset() {
 		config.baseColors = baseConfig().baseColors
 		return save()
+	}
+
+	async function onSync() {
+		const stored = await browser.storage.local.get("config")
+		config = Object.assign(config, stored.config)
 	}
 
 	onMount(async () => {
@@ -303,14 +310,31 @@
 			</div>
 			<h2>Sync & backup</h2>
 			<div id="sync-n-backup">
-				<!-- <div>
-					<SyncButton />
-				</div> -->
+				<div>
+					<SyncButton
+						title="Sync data using browser account"
+						on:sync={onSync}
+					/>
+					<button
+						type="button"
+						class="info"
+						style="margin: 0;"
+						on:click={() => (showSyncInfo = !showSyncInfo)}
+						>?</button
+					>
+				</div>
+				{#if showSyncInfo}
+					<p class="info-text">
+						Some browsers like Firefox and Chrome allow users to
+						sync data between their devices. You usually need to be
+						logged in their respective accounts to use the feature.
+					</p>
+				{/if}
 				<div>
 					<button
 						type="button"
 						title="Download a backup file"
-						on:click={download}>Save backup</button
+						on:click={download}>Download backup</button
 					>
 					<button
 						type="button"

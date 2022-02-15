@@ -84,13 +84,18 @@ export function compareShape(source: any, target: any) {
 	} else return typeof target == typeof source
 }
 
-export function getAs<T>(key: string): Promise<Maybe<T>>
+type AreaName = "local" | "sync"
+export function getAs<T>(key: string, area?: AreaName): Promise<Maybe<T>>
 export function getAs<T extends { [key: string]: any }>(
 	keys: (keyof T)[],
+	area?: AreaName,
 ): Promise<Partial<T>>
-export function getAs<T>(key: string | (keyof T)[]) {
+export function getAs<T>(
+	key: string | (keyof T)[],
+	area = "local" as AreaName,
+) {
 	if (Array.isArray(key)) return browser.storage.local.get(key)
-	else return browser.storage.local.get(key).then(stored => stored[key])
+	else return browser.storage[area].get(key).then(stored => stored[key])
 }
 
 export function setAs<T extends { [key: string]: any }>(

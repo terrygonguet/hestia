@@ -54,6 +54,16 @@ const migrations = new Map<string, Migration>([
 			async down() {},
 		},
 	],
+	[
+		"1.3.0",
+		{
+			async up() {
+				// to be sure
+				await browser.storage.local.set({ updatedAt: Date.now() })
+			},
+			async down() {},
+		},
+	],
 ])
 
 export const names = Array.from(migrations.keys())
