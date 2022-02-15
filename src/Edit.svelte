@@ -71,7 +71,7 @@
 				state = mapResult(state, ({ root, selected }) => {
 					const definition = findById(root, selected)
 					if (isSome(definition))
-						addChild(definition, { type: "Spacer", id: nanoid() })
+						addChild(definition, { type: "Box", id: nanoid() })
 					return { root, selected }
 				})
 			},
