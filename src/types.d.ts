@@ -6,8 +6,9 @@ type Context = {
 	onDestroy(f: () => void): void
 	config: Config
 	id: string
+	componentId: string
 	css: { [selector: string]: string }
-	hotkeys: typeof import("hotkeys-js")["default"]
+	hotkeys(key: string, handler: (e: KeyboardEvent) => void): () => void
 }
 
 type Component<Data = any> = {

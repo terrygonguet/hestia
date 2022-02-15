@@ -122,7 +122,6 @@ export async function render(
 		a.appendChild(label)
 
 		if (link.hotkey) {
-			hotkeys(link.hotkey, () => window.location.assign(link.url))
 			const hk = document.createElement("code")
 			hk.textContent = link.hotkey
 			hk.classList.add("hotkey")
@@ -130,11 +129,13 @@ export async function render(
 		}
 	}
 
-	onDestroy(() => {
-		for (const link of state.links) {
-			if (link.hotkey) hotkeys.unbind(link.hotkey)
-		}
-	})
+	const unbinds = state.links
+		.filter(link => link.hotkey)
+		.map(link =>
+			hotkeys(link.hotkey!, () => window.location.assign(link.url)),
+		)
+
+	onDestroy(() => unbinds.forEach(unbind => unbind()))
 
 	return el
 }

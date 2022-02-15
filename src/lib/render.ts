@@ -4,8 +4,9 @@ import { asyncMap, getCustomComponent } from "$/utils"
 import { builtins } from "$lib/builtins"
 import browser from "webextension-polyfill"
 import parser from "postcss-selector-parser"
-import hotkeys from "hotkeys-js"
+import { nanoid } from "nanoid"
 
+const hotkeys = createHotkeysFunction()
 export async function render(
 	definition: ComponentDefinition,
 	onDestroyCallbacks: (() => void)[] = [],
@@ -46,6 +47,7 @@ export async function render(
 				onDestroy,
 				config: stateCache.config ?? baseConfig(),
 				id: definition.id,
+				componentId: getComponentId(component),
 				css: createCSSProxy(definition.id),
 				hotkeys,
 			},
@@ -57,6 +59,27 @@ export async function render(
 		return {
 			el: document.createElement("div"),
 			onDestroy: onDestroyCallbacks,
+		}
+	}
+}
+
+function createHotkeysFunction() {
+	window.addEventListener("keydown", function (e) {
+		handlersMap.get(e.key)?.forEach(h => h.call(this, e))
+	})
+	const handlersMap = new Map<string, ((e: KeyboardEvent) => void)[]>()
+
+	return function hotkeys(key: string, handler: (e: KeyboardEvent) => void) {
+		const handlers = handlersMap.get(key) ?? []
+		handlers.push(handler)
+		handlersMap.set(key, handlers)
+
+		return function unbind() {
+			const handlers = handlersMap.get(key) ?? []
+			handlersMap.set(
+				key,
+				handlers.filter(h => h != handler),
+			)
 		}
 	}
 }
@@ -113,3 +136,10 @@ const processor = parser(nodes => {
 	nodes.walkIds(node => void (node.value = CSS.escape(node.value)))
 	nodes.walkClasses(node => void (node.value = CSS.escape(node.value)))
 })
+
+const componentIdMap = new Map<Component, string>()
+function getComponentId(component: Component) {
+	const id = componentIdMap.get(component) ?? nanoid()
+	componentIdMap.set(component, id)
+	return id
+}
