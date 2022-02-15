@@ -8,7 +8,7 @@
 	"author": "Terry Gonguet",
 	"manifest_version": 2,
 	"name": "Hestia",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"description": "A customizable new tab extension.",
 	"icons": {
 		"32": "resources/icon-32.png",
