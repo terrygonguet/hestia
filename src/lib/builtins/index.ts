@@ -1,6 +1,5 @@
 import type { Component } from "$/types"
 import * as Stack from "./Stack"
-import * as DefaultDisplay from "./DefaultDisplay"
 import * as Grid from "./Grid"
 import * as LinkList from "./LinkList"
 import * as MultiText from "./MultiText"
@@ -23,14 +22,4 @@ export const builtins = {
 	TODOList: TODOList as Component,
 }
 
-export {
-	DefaultDisplay,
-	Stack,
-	Spacer,
-	Box,
-	TextArea,
-	Text,
-	Time,
-	LinkList,
-	Grid,
-}
+export { Stack, Spacer, Box, TextArea, Text, Time, LinkList, Grid }
