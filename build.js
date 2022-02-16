@@ -7,7 +7,7 @@ const { version } = JSON.parse(await fs.readFile("./manifest-firefox.json"))
 // Build default version
 await $`VERSION=${version} ENV_BROWSER=firefox npx vite build`
 await $`cp ./manifest-firefox.json ./dist/manifest.json`
-await $`npx web-ext build -s ./dist --overwrite-dest`
+await $`npx web-ext build -s ./dist`
 
 // Build chrome version
 await $`VERSION=${version} ENV_BROWSER=chrome npx vite build`
@@ -21,4 +21,4 @@ await fs.writeFile(
 	"./dist/manifest.json",
 	JSON.stringify(chromeManifest, null, 2),
 )
-await $`npx web-ext build -s ./dist -n hestia-${version}-chrome.zip --overwrite-dest`
+await $`npx web-ext build -s ./dist -n hestia-${version}-chrome.zip`
