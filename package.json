@@ -6,11 +6,7 @@
 		"dev": "run-p -r dev:**",
 		"dev:vite": "vite build --mode development",
 		"dev:browser": "web-ext run -s ./dist --no-reload",
-		"build": "vite build",
-		"preview": "vite preview",
-		"check": "svelte-check --tsconfig ./tsconfig.json",
-		"bundle": "web-ext build -s ./dist",
-		"lint": "web-ext lint -s ./dist"
+		"build": "zx build.js"
 	},
 	"dependencies": {
 		"@types/firefox-webext-browser": "^67.0.1",
@@ -33,7 +29,8 @@
 		"unplugin-icons": "^0.13.0",
 		"vite": "^2.7.2",
 		"web-ext": "^6.6.0",
-		"webextension-polyfill": "^0.8.0"
+		"webextension-polyfill": "^0.8.0",
+		"zx": "^5.0.0"
 	},
 	"prettier": {
 		"semi": false,
