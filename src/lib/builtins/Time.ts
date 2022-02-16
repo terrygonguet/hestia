@@ -70,7 +70,7 @@ export async function render(
 	)
 
 	const el = document.createElement("div")
-	el.style.display = "display"
+	el.style.display = "flex"
 	el.innerText = state.text.replace("%s", formatter.format(new Date()))
 	if (state.center) {
 		el.style.justifyContent = "center"
