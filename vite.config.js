@@ -15,8 +15,8 @@ export default defineConfig(env => ({
 	],
 	resolve: {
 		alias: {
-			$lib: resolve(__dirname, "./src/lib"),
-			$: resolve(__dirname, "./src"),
+			$lib: resolve("./src/lib"),
+			$: resolve("./src"),
 		},
 	},
 	build: {
