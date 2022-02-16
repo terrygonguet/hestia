@@ -53,7 +53,8 @@
 		const file = JSON.stringify(data, null, 2)
 		const blob = new Blob([file], { type: "application/json" })
 		const a = document.createElement("a")
-		a.download = `backup-${import.meta.env.VERSION}.json`
+		const parts = ["backup", "hestia", import.meta.env.ENV_VERSION]
+		a.download = parts.filter(Boolean).join("-") + ".json"
 		a.href = URL.createObjectURL(blob)
 		a.click()
 	}
