@@ -64,21 +64,29 @@ export async function render(
 	styles[`#${id}`] = css`
 		display: flex;
 		flex-direction: column;
-		padding: 0.5rem;
 		min-height: 0;
 		overflow: auto;
-		gap: 0.5rem;
 	`
-	styles[`#${id} > h2`] = css`
+	styles[`#${id} h2`] = css`
 		font-size: 1.3rem;
 		font-weight: 600;
 		word-break: keep-all;
 		position: sticky;
 		top: 0;
 		background: var(--color-background, white);
+		padding: 0 0.5rem;
 	`
 
-	styles[`#${id} > a`] = css`
+	styles[`#${id} ul`] = css`
+		padding: 0.5rem;
+		margin: 0;
+		list-style-type: none;
+	`
+	styles[`#${id} li`] = css`
+		margin: 0.35rem 0;
+	`
+
+	styles[`#${id} a`] = css`
 		text-decoration: none;
 		color: var(--color-text, black);
 		display: grid;
@@ -86,7 +94,7 @@ export async function render(
 		line-height: 1;
 	`
 	if (state.hover) {
-		styles[`#${id} > a:hover`] = css`
+		styles[`#${id} a:hover`] = css`
 			text-decoration: underline;
 		`
 	}
@@ -111,10 +119,16 @@ export async function render(
 		el.appendChild(title)
 	}
 
+	const ul = document.createElement("ul")
+	el.appendChild(ul)
+
 	for (const link of state.links) {
+		const li = document.createElement("li")
+		ul.appendChild(li)
+
 		const a = document.createElement("a")
 		a.href = link.url
-		el.appendChild(a)
+		li.appendChild(a)
 
 		const label = document.createElement("span")
 		label.classList.add("label")
