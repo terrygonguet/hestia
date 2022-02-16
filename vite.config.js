@@ -22,7 +22,6 @@ export default defineConfig(env => ({
 	build: {
 		sourcemap: true,
 		emptyOutDir: true,
-		watch: env.mode == "development" ? {} : false,
 		rollupOptions: {
 			input: [
 				"index.html",
