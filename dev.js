@@ -5,18 +5,14 @@ import { build } from "vite"
 import chokidar from "chokidar"
 
 let isBuilding = false
-let timeoutID
 async function buildApp() {
 	if (isBuilding) return
-	clearTimeout(timeoutID)
-	timeoutID = setTimeout(async () => {
-		isBuilding = true
-		await build({
-			mode: "development",
-		})
-		await $`cp ./manifest-firefox.json ./dist/manifest.json`
-		isBuilding = false
-	}, 250)
+	isBuilding = true
+	await build({
+		mode: "development",
+	})
+	await $`cp ./manifest-firefox.json ./dist/manifest.json`
+	isBuilding = false
 }
 
 await buildApp()
