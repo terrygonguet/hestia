@@ -20,7 +20,7 @@ export default defineConfig(env => ({
 		},
 	},
 	build: {
-		sourcemap: "inline",
+		sourcemap: true,
 		emptyOutDir: true,
 		watch: env.mode == "development" ? {} : false,
 		rollupOptions: {
@@ -29,6 +29,7 @@ export default defineConfig(env => ({
 				"edit.html",
 				"options.html",
 				"background.html",
+				"src/background.ts",
 			],
 		},
 	},

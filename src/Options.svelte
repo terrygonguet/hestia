@@ -24,9 +24,8 @@
 </script>
 
 <script lang="ts">
-	import { applyMigrations } from "$/background"
 	import type { Config } from "$/types"
-	import { compareShape, getAs, persist } from "$/utils"
+	import { applyMigrations, compareShape, getAs, persist } from "$/utils"
 	import { forEach, parse } from "$/utils/compdef"
 	import { isLeft } from "$/utils/result"
 	import ColorField from "$lib/components/ColorField.svelte"

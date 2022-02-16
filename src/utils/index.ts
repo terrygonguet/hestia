@@ -1,3 +1,4 @@
+import migrations from "$/migrations"
 import type { Component } from "$/types"
 import type { Maybe } from "$/utils/maybe"
 import browser from "webextension-polyfill"
@@ -108,4 +109,22 @@ export function setAs<T extends { [key: string]: any }>(
 
 export function persist<T extends { [key: string]: any }>(data: T) {
 	return browser.storage.local.set({ ...data, updatedAt: Date.now() })
+}
+
+export type AppliedMigration = {
+	name: string
+	time: Date
+}
+
+export async function applyMigrations() {
+	const applied = (await getAs<AppliedMigration[]>("migrations")) ?? []
+	for (const [name, { up }] of migrations) {
+		if (applied.find(am => am.name == name)) continue
+		console.log(`Applying migration "${name}"...`)
+		await up()
+		applied.push({ name, time: new Date() })
+	}
+	await setAs<{
+		migrations: AppliedMigration[]
+	}>({ migrations: applied })
 }

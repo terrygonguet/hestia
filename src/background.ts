@@ -1,11 +1,6 @@
-import migrations, { names as migrationNames } from "$/migrations"
-import { getAs, setAs } from "$/utils"
+import { names as migrationNames } from "$/migrations"
+import { AppliedMigration, applyMigrations, persist } from "$/utils"
 import browser from "webextension-polyfill"
-
-type AppliedMigration = {
-	name: string
-	time: Date
-}
 
 browser.runtime.onInstalled.addListener(async function (e) {
 	const { reason, previousVersion } = e
@@ -16,7 +11,7 @@ browser.runtime.onInstalled.addListener(async function (e) {
 				name,
 				time: new Date(),
 			}))
-			await setAs<{
+			await persist<{
 				migrations: AppliedMigration[]
 			}>({ migrations: applied })
 			break
@@ -25,16 +20,3 @@ browser.runtime.onInstalled.addListener(async function (e) {
 			break
 	}
 })
-
-export async function applyMigrations() {
-	const applied = (await getAs<AppliedMigration[]>("migrations")) ?? []
-	for (const [name, { up }] of migrations) {
-		if (applied.find(am => am.name == name)) continue
-		console.log(`Applying migration "${name}"...`)
-		await up()
-		applied.push({ name, time: new Date() })
-	}
-	await setAs<{
-		migrations: AppliedMigration[]
-	}>({ migrations: applied })
-}
