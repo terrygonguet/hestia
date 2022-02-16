@@ -10,6 +10,8 @@ export async function asyncMap<T, U>(
 }
 
 export async function getCustomComponent(url: string): Promise<Component> {
+	if (import.meta.env.ENV_BROWSER == "chrome")
+		throw new Error("Custom components aren't supported on Chrome")
 	if (!url) throw new Error("Missing URL")
 	new URL(url) // throws if invalid URL is passed
 	const res = await fetch(url)

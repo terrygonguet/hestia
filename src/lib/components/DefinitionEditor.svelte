@@ -12,14 +12,21 @@
 	$: placeholder = selected
 		? availableComponents[selected.type].name
 		: "Unknown component"
+
+	type Entry = [ComponentDefinition["type"], { name: string }]
+	$: entries = Object.entries(availableComponents) as Entry[]
+
+	function isTypeDisabled(type: ComponentDefinition["type"]) {
+		return import.meta.env.ENV_BROWSER == "chrome" && type == "Custom"
+	}
 </script>
 
 <section>
 	<p id="id">ID: {selected.id}</p>
 	<label for="ddl-type"> Type: </label>
 	<select id="ddl-type" name="type" bind:value={selected.type}>
-		{#each Object.entries(availableComponents) as [type, { name }]}
-			<option value={type}>{name}</option>
+		{#each entries as [type, { name }]}
+			<option value={type} disabled={isTypeDisabled(type)}>{name}</option>
 		{/each}
 	</select>
 	<label for="txb-name"> Name: </label>
