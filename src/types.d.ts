@@ -8,7 +8,8 @@ type Context = {
 	id: string
 	componentId: string
 	css: { [selector: string]: string }
-	hotkeys(key: string, handler: (e: KeyboardEvent) => void): () => void
+	hotkeys(key: string, handler: HotkeysHandler): () => void
+	hotkeys(key: string, options: HotkeysOptions): () => void
 }
 
 type Component<Data = any> = {
@@ -16,6 +17,13 @@ type Component<Data = any> = {
 	render(state: Data, context: Context): Promise<Node>
 	name: string
 	editorConfig?: EditorConfig
+}
+
+type HotkeysHandler = (e: KeyboardEvent) => void
+
+type HotkeysOptions = {
+	handler: HotkeysHandler
+	triggerWhentyping?: boolean
 }
 
 type ComponentDefinition =

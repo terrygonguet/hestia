@@ -1,5 +1,10 @@
 import { baseConfig } from "$/Options.svelte"
-import type { Component, ComponentDefinition } from "$/types"
+import type {
+	Component,
+	ComponentDefinition,
+	HotkeysHandler,
+	HotkeysOptions,
+} from "$/types"
 import { asyncMap, getCustomComponent, persist } from "$/utils"
 import { builtins } from "$lib/builtins"
 import browser from "webextension-polyfill"
@@ -62,24 +67,48 @@ export async function render(
 }
 
 function createHotkeysFunction() {
+	// Some logic lifted from the hotkeys-js package
+	const typingTagnames = ["INPUT", "TEXTAREA", "SELECT"]
 	window.addEventListener("keydown", function (e) {
-		handlersMap.get(e.key)?.forEach(h => h.call(this, e))
+		const target = (e.target ?? e.srcElement) as HTMLElement | null
+		let isTyping = false
+		if (
+			target &&
+			(typingTagnames.includes(target.tagName) ||
+				target.isContentEditable)
+		)
+			isTyping = true
+		handlersMap.get(e.key)?.forEach(({ handler, triggerWhentyping }) => {
+			if (!isTyping || triggerWhentyping) handler.call(this, e)
+		})
 	})
-	const handlersMap = new Map<string, ((e: KeyboardEvent) => void)[]>()
 
-	return function hotkeys(key: string, handler: (e: KeyboardEvent) => void) {
+	const handlersMap = new Map<string, HotkeysOptions[]>()
+
+	function hotkeys(key: string, handler: HotkeysHandler): () => void
+	function hotkeys(key: string, options: HotkeysOptions): () => void
+	function hotkeys(
+		key: string,
+		handlerOrOptions: HotkeysHandler | HotkeysOptions,
+	) {
+		const passedAFunction = handlerOrOptions instanceof Function
+		const handlerObj = passedAFunction
+			? { handler: handlerOrOptions, triggerWhentyping: false }
+			: handlerOrOptions
 		const handlers = handlersMap.get(key) ?? []
-		handlers.push(handler)
+		handlers.push(handlerObj)
 		handlersMap.set(key, handlers)
 
 		return function unbind() {
 			const handlers = handlersMap.get(key) ?? []
 			handlersMap.set(
 				key,
-				handlers.filter(h => h != handler),
+				handlers.filter(h => h != handlerObj),
 			)
 		}
 	}
+
+	return hotkeys
 }
 
 function createCSSProxy(id: string) {
